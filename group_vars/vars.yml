@@ -1,9 +1,5 @@
 ---
 
-############################
-# Used in parts 1, 2 and 3 #
-############################
-
 # AWS Credentials
 aws_access_key: "AKIAJOQNJBLZ2TOPBPAQ"
 aws_secret_key: "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"
@@ -19,16 +15,8 @@ my_ip:          "121.244.62.198"
 # Subnets
 public_subnet_1_cidr:  "172.42.0.0/24"
 
-############################
-# Used in parts 2 and 3    #
-############################
-
 # Subnets
 private_subnet_1_cidr: "172.42.1.0/24"
-
-############################
-# Used in part 3 only      #
-############################
 
 # Subnets
 Dev_Qa_subnet_2_cidr:  "172.42.2.0/24"
