@@ -1,0 +1,35 @@
+---
+
+############################
+# Used in parts 1, 2 and 3 #
+############################
+
+# AWS Credentials
+aws_access_key: "AKIAJOQNJBLZ2TOPBPAQ"
+aws_secret_key: "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"
+aws_region:     "ap-southeast-1"
+
+# VPC Information
+vpc_name:       "Bahmni_VPC"
+vpc_cidr_block: "172.42.0.0/16"
+
+# For Security Group Rule
+my_ip:          "121.244.62.198"
+
+# Subnets
+public_subnet_1_cidr:  "172.42.0.0/24"
+
+############################
+# Used in parts 2 and 3    #
+############################
+
+# Subnets
+private_subnet_1_cidr: "172.42.1.0/24"
+
+############################
+# Used in part 3 only      #
+############################
+
+# Subnets
+Dev_Qa_subnet_2_cidr:  "172.42.2.0/24"
+Build_subnet_2_cidr: "172.42.3.0/24"
