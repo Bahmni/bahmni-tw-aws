@@ -5,4 +5,4 @@
     - vpc
 
   vars_files:
-        - "group_vars/vars.yml"
+        - "group_vars/secure_vars.yml"

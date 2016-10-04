@@ -1,0 +1,87 @@
+- name:               Create Public Subnet
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpc_id }}"
+    cidr:             "{{ public_subnet_1_cidr }}"
+    az:               "{{ aws_region }}a"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource_tags:
+      Name:           "public"
+  register: public_subnet
+
+- name:               Create assets Subnet
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpc_id }}"
+    cidr:             "{{ assets_subnet_1_cidr }}"
+    az:               "{{ aws_region }}a"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource_tags:
+      Name:           "assets"
+  register: assets_subnet
+
+
+- name:               Create Build_Agents Subnet
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpc_id }}"
+    cidr:             "{{ build_agents_subnet_1_cidr }}"
+    az:               "{{ aws_region }}a"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource_tags:
+      Name:           "build"
+  register: build_agents_subnet
+
+
+- name:               Create Qa Subnet
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpc_id }}"
+    cidr:             "{{ qa_subnet_1_cidr }}"
+    az:               "{{ aws_region }}a"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource_tags:
+      Name:           "qa"
+  register: qa_subnet
+
+- name:               Create Showcase Subnet
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpc_id }}"
+    cidr:             "{{ showcase_subnet_1_cidr }}"
+    az:               "{{ aws_region }}a"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource_tags:
+      Name:           "showcase"
+  register: showcase_subnet
+
+- name:               Set Public Subnet ID in variable
+  set_fact:
+    public_subnet_id: "{{ public_subnet.subnet.id }}"
+
+- name:               Set assets Subnet ID in variable
+  set_fact:
+    assets_subnet_id: "{{ assets_subnet.subnet.id }}"
+
+- name:               Set Qa Subnet ID in variable
+  set_fact:
+    qa_subnet_id: "{{ qa_subnet.subnet.id }}"
+
+- name:               Set Build_Agents ID in variable
+  set_fact:
+    build_agents_subnet_id: "{{ build_agents_subnet.subnet.id }}"
+
+- name:               Set Showcase ID in variable
+  set_fact:
+    showcase_subnet_id: "{{ showcase_subnet.subnet.id }}"
+

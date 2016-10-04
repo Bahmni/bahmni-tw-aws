@@ -1,0 +1,30 @@
+- name:               Set up public subnet route table
+  ec2_vpc_route_table:
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    tags:
+      Name:           "Public"
+    subnets:
+      - "{{ public_subnet_id }}"
+    routes:
+      - dest:         "0.0.0.0/0"
+        gateway_id:   "{{ igw_id }}"
+
+- name:               Set up Nat route table
+  ec2_vpc_route_table:
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    tags:
+      Name:           "Outbound from Assets"
+    subnets:
+      - "{{ assets_subnet_id }}"
+      - "{{ qa_subnet_id }}"
+      - "{{ build_agents_subnet_id }}"
+      - "{{ showcase_subnet_id }}"
+    routes:
+        - dest:        "0.0.0.0/0"
+          gateway_id: "{{nat_output['NatGateway']['NatGatewayId']}}"

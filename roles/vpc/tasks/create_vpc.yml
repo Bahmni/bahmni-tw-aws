@@ -1,0 +1,13 @@
+- name:               Create VPC
+  ec2_vpc_net:
+    name:             "{{ vpc_name }}"
+    cidr_block:       "{{ vpc_cidr_block }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    state:            "present"
+  register: bahmni_dev_infra_vpc
+
+- name:               Set VPC ID in variable
+  set_fact:
+    vpc_id:           "{{ bahmni_dev_infra_vpc.vpc.id }}"

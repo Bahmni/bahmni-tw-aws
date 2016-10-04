@@ -1,0 +1,20 @@
+- name: NETWORK | allocate a new elastic IP without associating it to anything - 1
+  environment:
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+  ec2_eip: in_vpc=yes reuse_existing_ip_allowed=yes state=present region="{{aws_region}}"
+  register: eip
+
+
+- name: Create NAT and associate eip
+  environment:
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+  shell: "aws ec2 create-nat-gateway --region {{aws_region}} --subnet-id {{public_subnet_id}} --allocation-id {{ eip.allocation_id }}"
+  register: nat
+
+- debug: msg={{nat.stdout}}
+
+- set_fact: nat_output={{nat.stdout |from_json}}
+
+- debug: msg={{nat_output['NatGateway']['NatGatewayId']}}
