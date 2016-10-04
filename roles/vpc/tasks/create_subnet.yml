@@ -2,7 +2,7 @@
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
-    cidr:             "{{ infra_cidr_blocks.public_subnet_1 }}"
+    cidr:             "{{ public_subnet_1_cidr }}"
     az:               "{{ aws_region }}a"
     region:           "{{ aws_region }}"
     aws_access_key:   "{{ aws_access_key }}"
@@ -15,7 +15,7 @@
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
-    cidr:             "{{ cidr_blocks.assets_subnet_1 }}"
+    cidr:             "{{ assets_subnet_1_cidr }}"
     az:               "{{ aws_region }}a"
     region:           "{{ aws_region }}"
     aws_access_key:   "{{ aws_access_key }}"
@@ -29,7 +29,7 @@
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
-    cidr:             "{{ cidr_blocks.build_agents_subnet_1 }}"
+    cidr:             "{{ build_agents_subnet_1_cidr }}"
     az:               "{{ aws_region }}a"
     region:           "{{ aws_region }}"
     aws_access_key:   "{{ aws_access_key }}"
@@ -43,7 +43,7 @@
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
-    cidr:             "{{ cidr_blocks.qa_subnet_1 }}"
+    cidr:             "{{ qa_subnet_1_cidr }}"
     az:               "{{ aws_region }}a"
     region:           "{{ aws_region }}"
     aws_access_key:   "{{ aws_access_key }}"
@@ -56,7 +56,7 @@
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
-    cidr:             "{{ cidr_blocks.showcase_subnet_1 }}"
+    cidr:             "{{ showcase_subnet_1_cidr }}"
     az:               "{{ aws_region }}a"
     region:           "{{ aws_region }}"
     aws_access_key:   "{{ aws_access_key }}"
@@ -65,10 +65,23 @@
       Name:           "showcase"
   register: showcase_subnet
 
-- name:               Set Subnet ID in variable
+- name:               Set Public Subnet ID in variable
   set_fact:
     public_subnet_id: "{{ public_subnet.subnet.id }}"
+
+- name:               Set assets Subnet ID in variable
+  set_fact:
     assets_subnet_id: "{{ assets_subnet.subnet.id }}"
+
+- name:               Set Qa Subnet ID in variable
+  set_fact:
     qa_subnet_id: "{{ qa_subnet.subnet.id }}"
+
+- name:               Set Build_Agents ID in variable
+  set_fact:
     build_agents_subnet_id: "{{ build_agents_subnet.subnet.id }}"
+
+- name:               Set Showcase ID in variable
+  set_fact:
     showcase_subnet_id: "{{ showcase_subnet.subnet.id }}"
+

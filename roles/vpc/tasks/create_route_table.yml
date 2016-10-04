@@ -6,9 +6,10 @@
     aws_secret_key:   "{{ aws_secret_key }}"
     tags:
       Name:           "Public"
-    subnets: "{{infra_cidr_blocks.public_subnet_1}}"
+    subnets:
+      - "{{ public_subnet_id }}"
     routes:
-      - dest:         "{{infra_cidr_blocks.all}}"
+      - dest:         "0.0.0.0/0"
         gateway_id:   "{{ igw_id }}"
 
 - name:               Setup Nat route table
@@ -26,7 +27,7 @@
       - "{{ build_agents_subnet_id }}"
       - "{{ showcase_subnet_id }}"
     routes:
-        - dest:        "{{infra_cidr_blocks.all}}"
+        - dest:        "0.0.0.0/0"
           gateway_id: "{{nat_output['NatGateway']['NatGatewayId']}}"
   register: route_table
 
@@ -34,7 +35,7 @@
   environment:
       AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
       AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
-  shell: "aws ec2 replace-route --route-table-id {{route_table['route_table']['id']}} --destination-cidr-block {{infra_cidr_blocks.all}} --nat-gateway-id {{nat_output['NatGateway']['NatGatewayId']}}"
+  shell: "aws ec2 replace-route --route-table-id {{route_table['route_table']['id']}} --destination-cidr-block 0.0.0.0/0 --nat-gateway-id {{nat_output['NatGateway']['NatGatewayId']}}"
 
 
 
