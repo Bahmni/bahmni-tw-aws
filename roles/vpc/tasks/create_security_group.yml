@@ -1,9 +1,54 @@
-- name:               Create Security Group
+- name:               Create VPC Default Group
   ec2_group:
-    name:             "My Security Group"
-    description:      "My Security Group"
+    name:             "vpc_default"
+    description:      "Default permissions for every machine in this VPC"
     vpc_id:           "{{ vpc_id }}"
     region:           "{{ aws_region }}"
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"
-    rules:            "{{ rules }}"
+    rules:            "{{ vpc_default_rules }}"
+    rules_egress:     "{{ vpc_default_rules_egress }}"
+
+- name:               Create Bahmni Security Group
+  ec2_group:
+    name:             "bahmni"
+    description:      "Permissions for a machine that runs Bahmni software"
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    rules:            "{{ bahmni_rules }}"
+    rules_egress:     "{{ bahmni_rules_egress }}"
+
+- name:               Create Bastion Security Group
+  ec2_group:
+    name:             "bastion"
+    description:      "Permissions for the bastion box"
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    rules:            "{{ bastion_rules }}"
+    rules_egress:     "{{ bastion_rules_egress }}"
+
+- name:               Create Public proxy Security Group
+  ec2_group:
+    name:             "public_proxy"
+    description:      "Permissions for http proxies available to public"
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    rules:            "{{ public_proxy_rules }}"
+    rules_egress:     "{{ public_proxy_rules_egress }}"
+
+- name:               Create TW proxy Security Group
+  ec2_group:
+    name:             "tw_proxy"
+    description:      "Permissions for the http proxies available only internally"
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    rules:            "{{ tw_proxy_rules }}"
+    rules_egress:     "{{tw_proxy_rules_egress }}"
