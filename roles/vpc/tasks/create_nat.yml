@@ -25,7 +25,7 @@
   environment:
       AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
       AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
-  shell: "aws ec2 create-nat-gateway --region {{aws_region}} --subnet-id {{public_subnet_id}} --allocation-id {{ eip.allocation_id }}"
+  shell: "aws ec2 create-nat-gateway --region {{aws_region}} --subnet-id {{ public_subnet_id }} --allocation-id {{ eip.allocation_id }}"
   register: nat
 
 - set_fact: nat_output={{nat.stdout |from_json}}
