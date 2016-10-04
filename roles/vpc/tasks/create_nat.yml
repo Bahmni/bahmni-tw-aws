@@ -13,8 +13,4 @@
   shell: "aws ec2 create-nat-gateway --region {{aws_region}} --subnet-id {{public_subnet_id}} --allocation-id {{ eip.allocation_id }}"
   register: nat
 
-- debug: msg={{nat.stdout}}
-
 - set_fact: nat_output={{nat.stdout |from_json}}
-
-- debug: msg={{nat_output['NatGateway']['NatGatewayId']}}
