@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f6b1d6e-1608-4749-a86a-2c473b984de2" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/group_vars/bahmni_launch_key.pem" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/roles/vpc/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/roles/vpc/README.md" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/all.yml" afterPath="$PROJECT_DIR$/all.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group_vars/secure_vars.yml" afterPath="$PROJECT_DIR$/group_vars/secure_vars.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roles/vpc/tasks/create_nat.yml" afterPath="$PROJECT_DIR$/roles/vpc/tasks/create_nat.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roles/vpc/tasks/create_route_table.yml" afterPath="$PROJECT_DIR$/roles/vpc/tasks/create_route_table.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roles/vpc/tasks/create_security_group.yml" afterPath="$PROJECT_DIR$/roles/vpc/tasks/create_security_group.yml" />
     </list>
     <ignored path="bahmni-tw-aws.iws" />
@@ -27,11 +30,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="secure_vars.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="secure_vars.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+            <state relative-caret-position="492">
+              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bahmni_launch_key.pem" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -92,16 +105,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="18">
               <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="create_security_group.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/roles/vpc/tasks/create_security_group.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -678,12 +681,12 @@
       <option name="presentableId" value="Default" />
       <updated>1475588232039</updated>
       <workItem from="1475588233555" duration="10127000" />
-      <workItem from="1475665821317" duration="3197000" />
+      <workItem from="1475665821317" duration="3375000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13324000" />
+    <option name="totallyTimeSpent" value="13502000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="720" extended-state="0" />
@@ -828,8 +831,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/roles/vpc/tasks/create_security_group.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="9" />
+        <state relative-caret-position="550">
+          <caret line="60" column="4" selection-start-line="60" selection-start-column="4" selection-end-line="60" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -900,8 +903,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+        <state relative-caret-position="492">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
           <folding />
         </state>
       </provider>
