@@ -1,0 +1,6 @@
+---
+# defaults file for instance-spinup
+instance_ami: "ami-8ec9faed"
+instance_key: "bahmni_launch_key"
+instance_source_destination_check: yes
+

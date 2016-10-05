@@ -9,7 +9,7 @@
   environment:
       AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
       AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
-  shell: "aws ec2 describe-nat-gateways --filter Name=vpc-id,Values={{vpc_id}},Name=state,Values=pending,available"
+  shell: "aws ec2 describe-nat-gateways --region {{aws_region}} --filter Name=vpc-id,Values={{vpc_id}},Name=state,Values=pending,available"
   register: fetch_nat
 
 - set_fact: nats_to_be_deleted={{fetch_nat.stdout |from_json}}
@@ -18,7 +18,7 @@
   environment:
       AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
       AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
-  shell: "aws ec2 delete-nat-gateway --nat-gateway-id {{item.NatGatewayId}}"
+  shell: "aws ec2 delete-nat-gateway --region {{aws_region}} --nat-gateway-id {{item.NatGatewayId}}"
   with_items: "{{ nats_to_be_deleted.NatGateways }}"
 
 - name: Create NAT and associate eip

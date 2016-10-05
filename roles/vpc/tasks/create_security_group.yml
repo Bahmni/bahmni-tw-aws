@@ -19,7 +19,7 @@
     aws_secret_key:   "{{ aws_secret_key }}"
     rules:            "{{ bahmni_rules }}"
     rules_egress:     "{{ bahmni_rules_egress }}"
-
+  register: sg_bahmni
 - name:               Create Bastion Security Group
   ec2_group:
     name:             "bastion"
@@ -52,3 +52,7 @@
     aws_secret_key:   "{{ aws_secret_key }}"
     rules:            "{{ tw_proxy_rules }}"
     rules_egress:     "{{tw_proxy_rules_egress }}"
+
+- name:               Set Security group id in variable
+  set_fact:
+    sg_id: "{{ sg_bahmni.group_id }}"
