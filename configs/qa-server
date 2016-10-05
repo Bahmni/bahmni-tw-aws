@@ -1,0 +1,19 @@
+CountTags: {"Environment": "qa", "Role": "qa-server", "ServerName": "qa-server"}
+
+ExactCount: 1
+
+SecurityGroupName: "bahmni"
+
+InstanceType: m4.large
+
+useLocalhostToProvision: yes
+
+InstanceVolumes:
+ - VolumeSpecifications:
+    - volume_size: 40
+      volume_type: gp2
+      device_name: /dev/sda1
+      delete_on_termination: yes
+   FilesystemSpecifications:
+     volume_label: ""
+     mountpoint: /

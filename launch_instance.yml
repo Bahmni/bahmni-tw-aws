@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  roles:
+    - instance-spinup
+
+  vars_files:
+        - "group_vars/secure_vars.yml"
+        - "configs/qa-server"

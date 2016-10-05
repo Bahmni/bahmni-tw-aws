@@ -34,7 +34,7 @@
   environment:
       AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
       AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
-  shell: "aws ec2 replace-route --route-table-id {{route_table['route_table']['id']}} --destination-cidr-block {{infra_cidr_blocks.all}} --nat-gateway-id {{nat_output['NatGateway']['NatGatewayId']}}"
+  shell: "aws ec2 replace-route --region {{aws_region}} --route-table-id {{route_table['route_table']['id']}} --destination-cidr-block {{infra_cidr_blocks.all}} --nat-gateway-id {{nat_output['NatGateway']['NatGatewayId']}}"
 
 
 
