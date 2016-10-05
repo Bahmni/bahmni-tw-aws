@@ -52,7 +52,10 @@
     aws_secret_key:   "{{ aws_secret_key }}"
     rules:            "{{ tw_proxy_rules }}"
     rules_egress:     "{{tw_proxy_rules_egress }}"
+<<<<<<< HEAD
 
 - name:               Set Security group id in variable
   set_fact:
     sg_id: "{{ sg_bahmni.group_id }}"
+=======
+>>>>>>> a998801e5f947f87a6e30e57160b0250ac0ffcf9

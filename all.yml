@@ -1,8 +1,7 @@
 ---
 
-- hosts: local
+- hosts: all
   roles:
-    - vpc
-
+    - { role: vpc }
   vars_files:
-        - "group_vars/secure_vars.yml"
+    - "group_vars/secure_vars.yml"
