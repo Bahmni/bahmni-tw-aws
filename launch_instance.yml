@@ -7,3 +7,5 @@
   vars_files:
         - "group_vars/secure_vars.yml"
         - "configs/qa-server"
+        - "configs/bastion-server"
+        - "configs/proxy-server"

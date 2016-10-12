@@ -1,0 +1,20 @@
+---
+
+- name: Spin up instance
+  ec2:
+   region: "{{aws_region}}"
+   aws_access_key:   "{{ aws_access_key }}"
+   aws_secret_key:   "{{ aws_secret_key }}"
+   image: "{{instance_ami}}"
+   instance_type: "{{InstanceType}}"
+   tenancy: "{{VpcInstanceTenancy}}"
+   key_name: "{{instance_key}}"
+   source_dest_check: "{{instance_source_destination_check}}"
+   vpc_subnet_id: "{{qa_subnet_id}}"
+   group_id: "{{sg_id}}"
+   instance_tags: "{{CountTags}}"
+   count_tag: "{{CountTags}}"
+   exact_count: "{{ExactCount}}"
+   volumes: "{{ InstanceVolumes[0].VolumeSpecifications }}"
+   wait: yes
+  register: qa_instances

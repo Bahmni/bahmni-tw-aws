@@ -15,9 +15,9 @@
   ec2_vpc_route_table:
     vpc_id:           "{{ vpc_id }}"
     region:           "{{ aws_region }}"
-    state: present
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"
+    state: present
     tags:
       Name:           "Outbound from vpc_default"
     subnets:

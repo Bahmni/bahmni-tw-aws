@@ -24,7 +24,6 @@
       Name:           "assets"
   register: assets_subnet
 
-
 - name:               Create Build_Agents Subnet
   ec2_vpc_subnet:
     state:            "present"
@@ -37,7 +36,6 @@
     resource_tags:
       Name:           "build"
   register: build_agents_subnet
-
 
 - name:               Create Qa Subnet
   ec2_vpc_subnet:

@@ -1,0 +1,21 @@
+---
+
+- name: Spin up bastion instance
+  ec2:
+   region: "{{aws_region}}"
+   aws_access_key:   "{{ aws_access_key }}"
+   aws_secret_key:   "{{ aws_secret_key }}"
+   image: "{{instance_ami}}"
+   instance_type: "{{InstanceType}}"
+   tenancy: "{{VpcInstanceTenancy}}"
+   key_name: "{{instance_key}}"
+   source_dest_check: "{{instance_source_destination_check}}"
+   vpc_subnet_id: "{{public_subnet_id}}"
+   group_id: "{{sg_bastion_group_id}}"
+   instance_tags: "{{BastionTags}}"
+   count_tag: "{{BastionTags}}"
+   exact_count: "{{BastionExactCount}}"
+   volumes: "{{ InstanceVolumes[0].VolumeSpecifications }}"
+   assign_public_ip: yes
+   wait: yes
+  register: bastion_instance
