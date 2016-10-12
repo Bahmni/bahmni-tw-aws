@@ -1,0 +1,10 @@
+BastionTags: {"Environment": "bastion", "Role": "bastion-server", "ServerName": "bastion-server", "Name": "bastion-server"}
+
+BastionExactCount: 1
+
+SecurityGroupName: "bahmni"
+
+InstanceType: m4.large
+
+useLocalhostToProvision: yes
+

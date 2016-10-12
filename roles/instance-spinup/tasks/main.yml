@@ -1,26 +1,7 @@
 ---
-# tasks file for instance-spinup
 
-- debug: msg="{{ InstanceVolumes }}"
+- include: launch_bastion.yml
+- include: launch_proxy.yml
+- include: launch_qa_env.yml
+- include: setup_route53.yml
 
-- debug: msg="{{ InstanceVolumes[0].VolumeSpecifications }}"
-
-- name: Spin up instance
-  ec2:
-   region: "{{aws_region}}"
-   aws_access_key:   "{{ aws_access_key }}"
-   aws_secret_key:   "{{ aws_secret_key }}"
-   image: "{{instance_ami}}"
-   instance_type: "{{InstanceType}}"
-   tenancy: "{{VpcInstanceTenancy}}"
-   key_name: "{{instance_key}}"
-   source_dest_check: "{{instance_source_destination_check}}"
-   vpc_subnet_id: "{{qa_subnet_id}}"
-   group_id: "{{sg_id}}"
-   instance_tags: "{{CountTags}}"
-   count_tag: "{{CountTags}}"
-   exact_count: "{{ExactCount}}"
-   volumes: "{{ InstanceVolumes[0].VolumeSpecifications }}"
-   assign_public_ip: no
-   wait: yes
-  register: created_instances

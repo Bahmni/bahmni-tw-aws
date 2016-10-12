@@ -1,0 +1,10 @@
+ProxyServerTags: {"Environment": "proxy", "Role": "proxy-server", "ServerName": "proxy-server", "Name": "proxy-server"}
+
+ProxyExactCount: 1
+
+SecurityGroupName: "bahmni"
+
+InstanceType: m4.large
+
+useLocalhostToProvision: yes
+

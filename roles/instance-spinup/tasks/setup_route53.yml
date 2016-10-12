@@ -1,0 +1,78 @@
+---
+
+- name: create identifier sequence for tagging
+  debug: msg="{{ item }}"
+  with_sequence: start="{{ StartIndex }}" count="{{ ExactCount }}" format=%02d
+  register: sequence
+
+#- debug: msg="{{ created_instances.tagged_instances }}"
+
+- name: tag instances
+  ec2_tag:
+    region: "{{aws_region}}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource: "{{ item.0.id }}"
+    tags:
+      Name: "{{Environment}}{{item.1.msg}}"
+      env: "{{Environment}}"
+  with_together:
+      - qa_instances.tagged_instances
+      - sequence.results
+
+- name: update qa dns records
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PrivateHostedZone }}"
+    private_zone: yes
+    record: "{{ Environment }}{{ item.1.msg }}.{{ PrivateHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ item.0.private_ip }}"
+    overwrite: true
+  with_together:
+    - qa_instances.tagged_instances
+    - sequence.results
+
+- set_fact: bastion_instance_fact="{{ bastion_instance.tagged_instances[0] }}"
+
+- name: update bastion dns records
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PublicHostedZone }}"
+    record: "bastion.{{ PublicHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ bastion_instance_fact.public_ip }}"
+    overwrite: true
+
+- set_fact: proxy_instance_fact="{{ proxy_instance.tagged_instances[0] }}"
+
+- name: update proxy dns records
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PublicHostedZone }}"
+    record: "proxy.{{ PublicHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ proxy_instance_fact.public_ip }}"
+    overwrite: true
+
+- name: update proxy private dns records
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PrivateHostedZone }}"
+    private_zone: yes
+    record: "proxy.{{ PrivateHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ proxy_instance_fact.private_ip }}"
+    overwrite: true
