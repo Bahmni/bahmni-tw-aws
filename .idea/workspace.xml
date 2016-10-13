@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f6b1d6e-1608-4749-a86a-2c473b984de2" name="Default" comment="" />
+    <list default="true" id="1f6b1d6e-1608-4749-a86a-2c473b984de2" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/group_vars/cidr_blocks.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group_vars/secure_vars.yml" afterPath="$PROJECT_DIR$/group_vars/secure_vars.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/launch_instance.yml" afterPath="$PROJECT_DIR$/launch_instance.yml" />
+    </list>
     <ignored path="bahmni-tw-aws.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -25,8 +30,28 @@
       <file leaf-file-name="secure_vars.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cidr_blocks.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/group_vars/cidr_blocks.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bahmni_launch_key.pem" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="396">
-              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -52,21 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/main.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="launch_instance.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/launch_instance.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+            <state relative-caret-position="198">
+              <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -87,16 +102,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
               <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/roles/instance-spinup/meta/main.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="192" column="5" selection-start-line="192" selection-start-column="5" selection-end-line="192" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -165,9 +170,7 @@
         <option value="$PROJECT_DIR$/phython-modules/vpc_fetch.py" />
         <option value="$PROJECT_DIR$/roles/fetch-facts/tasks/main.yml" />
         <option value="$PROJECT_DIR$/roles/instance-spinup/tasks/setup_route53.yml" />
-        <option value="$PROJECT_DIR$/group_vars/secure_vars.yml" />
         <option value="$PROJECT_DIR$/roles/instance-spinup/tasks/launch_proxy.yml" />
-        <option value="$PROJECT_DIR$/launch_instance.yml" />
         <option value="$PROJECT_DIR$/ssh.cfg" />
         <option value="$PROJECT_DIR$/provision_proxy.yml" />
         <option value="$PROJECT_DIR$/inventory" />
@@ -175,6 +178,10 @@
         <option value="$PROJECT_DIR$/group_vars/gatewayed.yml" />
         <option value="$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml" />
         <option value="$PROJECT_DIR$/ansible.cfg" />
+        <option value="$PROJECT_DIR$/group_vars/cidr_blocks" />
+        <option value="$PROJECT_DIR$/group_vars/secure_vars.yml" />
+        <option value="$PROJECT_DIR$/launch_instance.yml" />
+        <option value="$PROJECT_DIR$/group_vars/cidr_blocks.yml" />
       </list>
     </option>
   </component>
@@ -814,12 +821,12 @@
       <updated>1475588232039</updated>
       <workItem from="1475588233555" duration="10127000" />
       <workItem from="1475665821317" duration="33723000" />
-      <workItem from="1476074216578" duration="36485000" />
+      <workItem from="1476074216578" duration="37544000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80335000" />
+    <option name="totallyTimeSpent" value="81394000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1068,14 +1075,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/launch_qa_env.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -1124,14 +1123,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/group_vars/gatewayed.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="88" selection-start-line="0" selection-start-column="88" selection-end-line="0" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ansible.cfg">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -1148,14 +1139,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/launch_instance.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/provision_proxy.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -1164,10 +1147,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
+    <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/gatewayed.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="88" selection-start-line="0" selection-start-column="88" selection-end-line="0" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/launch_instance.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/cidr_blocks.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
           <folding />
         </state>
       </provider>

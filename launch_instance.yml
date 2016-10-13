@@ -9,3 +9,4 @@
         - "configs/qa-server"
         - "configs/bastion-server"
         - "configs/proxy-server"
+        - "group_vars/cidr_blocks.yml"
