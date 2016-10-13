@@ -19,3 +19,16 @@
    assign_public_ip: yes
    wait: yes
   register: proxy_instance
+
+- set_fact: proxy_instance_fact="{{ proxy_instance.tagged_instances[0] }}"
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: proxy_host
+    hostname: "{{ proxy_instance_fact.public_ip }}"
+    groupname: proxy
+    ansible_connection: ssh
+    ansible_user: centos
+
+#- name: Wait for proxy SSH to come up
+#  wait_for: host={{ proxy_instance_fact.public_dns_name }} port=22 delay=60 timeout=320 state=started
