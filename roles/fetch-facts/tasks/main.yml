@@ -1,16 +1,48 @@
 ---
 
-- name: Fetch VPC facts
-  command: python ./python-modules/vpc_fetch.py '{ "{{ infra_cidr_blocks.vpc_cidr_block }}":"{{ vpc_name }}" }' '{{ vpc_account}}'
-  register: output
-  tags: fetchvpc
-
-- debug: msg="{{ output }}"
-  tags: fetchvpc
+- name: get VPC info
+  command: "aws ec2 describe-vpcs --region {{ aws_region }} --filter Name=tag:Name,Values={{ vpc_name }}"
+  register: get_vpc_id
+  changed_when: false
 
 - set_fact:
-   vpc_facts: "{{ output.stdout|from_json }}"
+    vpc_facts: "{{ get_vpc_id.stdout|from_json }}"
   tags: fetchvpc
 
-#- debug: msg="{{ output }}"
-                 #  tags: fetchvpc
+- debug: msg="{{ vpc_facts }}"
+  tags: fetchvpc
+
+- ec2_vpc_subnet_facts:
+    region: "{{ aws_region }}"
+    filters:
+       vpc-id: "{{ vpc_facts.Vpcs[0].VpcId }}"
+  register: subnet_facts
+
+- debug: msg="{{ subnet_facts }}"
+  tags: fetchvpc
+
+#- name: get Security group info
+#  command: "aws ec2 describe-security-groups --region {{ aws_region }}"
+#  register: get_security_group_info
+#  changed_when: false
+#
+
+- debug: msg="{{ subnet_facts.subnets | selectattr(\"cidr_block", "", "172.21.0.0/24\") }}"
+  tags: fetchvpc
+
+
+#- name: Get all subnets
+#  set_fact:
+#    subnet_facts: "{{ subnet_facts.subnets | selectattr(\"cidr_block\", \"equalto\", \"172.21.0.0/24\") }}"
+##  with_items: "{{ subnet_facts.subnets }}"
+
+
+
+#- debug: msg="{{ subnet_facts }}"
+#  tags: fetchvpc
+
+#- name: Set Security group id in variable
+#  set_fact:
+#    sg_id: "{{ sg_bahmni.group_id }}"
+#    sg_bastion_group_id: "{{sg_bastion_group.group_id}}"
+#    sg_tw_proxy_group_id: "{{sg_tw_proxy_group.group_id}}"

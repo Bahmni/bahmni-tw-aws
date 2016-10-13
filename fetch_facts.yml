@@ -2,7 +2,7 @@
 
 - hosts: all
   roles:
-    - instance-spinup
+    - fetch-facts
   vars_files:
         - "group_vars/secure_vars.yml"
         - "configs/qa-server"
