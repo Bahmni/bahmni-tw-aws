@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f6b1d6e-1608-4749-a86a-2c473b984de2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/group_vars/gatewayed.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/python-modules/vpc_fetch.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ansible.cfg" afterPath="$PROJECT_DIR$/ansible.cfg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group_vars/secure_vars.yml" afterPath="$PROJECT_DIR$/group_vars/secure_vars.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inventory" afterPath="$PROJECT_DIR$/inventory" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/launch_instance.yml" afterPath="$PROJECT_DIR$/launch_instance.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roles/instance-spinup/tasks/launch_proxy.yml" afterPath="$PROJECT_DIR$/roles/instance-spinup/tasks/launch_proxy.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roles/instance-spinup/tasks/setup_route53.yml" afterPath="$PROJECT_DIR$/roles/instance-spinup/tasks/setup_route53.yml" />
-    </list>
+    <list default="true" id="1f6b1d6e-1608-4749-a86a-2c473b984de2" name="Default" comment="" />
     <ignored path="bahmni-tw-aws.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -32,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="secure_vars.yml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="secure_vars.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1836">
-              <caret line="102" column="19" selection-start-line="102" selection-start-column="19" selection-end-line="102" selection-end-column="19" />
+            <state relative-caret-position="396">
+              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -82,7 +72,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="provision_proxy.yml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="provision_proxy.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/provision_proxy.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="18">
@@ -824,12 +814,12 @@
       <updated>1475588232039</updated>
       <workItem from="1475588233555" duration="10127000" />
       <workItem from="1475665821317" duration="33723000" />
-      <workItem from="1476074216578" duration="36362000" />
+      <workItem from="1476074216578" duration="36485000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80212000" />
+    <option name="totallyTimeSpent" value="80335000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1134,14 +1124,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="102" column="19" selection-start-line="102" selection-start-column="19" selection-end-line="102" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/group_vars/gatewayed.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1178,6 +1160,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/secure_vars.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
           <folding />
         </state>
       </provider>
