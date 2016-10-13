@@ -1,0 +1,19 @@
+---
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: qa01host
+    groupname: gatewayed
+    ansible_ssh_host: 172.21.3.202
+    ansible_user: centos
+
+- name: install httpd
+  delegate_to: qa01host
+  sudo: yes
+  yum: name=httpd state=present
+  tags: qa01-provision
+
+- name: restart haproxy
+  delegate_to: qa01host
+  service: name=iptables state=stopped
+  tags: qa01-provision

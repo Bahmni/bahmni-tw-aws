@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f6b1d6e-1608-4749-a86a-2c473b984de2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/group_vars/cidr_blocks.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/group_vars/secure_vars.yml" afterPath="$PROJECT_DIR$/group_vars/secure_vars.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/launch_instance.yml" afterPath="$PROJECT_DIR$/launch_instance.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml" afterPath="$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml" />
     </list>
     <ignored path="bahmni-tw-aws.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,11 +35,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="launch_qa_env.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/launch_qa_env.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="cidr_blocks.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/group_vars/cidr_blocks.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="306">
+              <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -50,48 +58,8 @@
       <file leaf-file-name="bahmni_launch_key.pem" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="launch_proxy.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/launch_proxy.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="setup_route53.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/setup_route53.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="launch_instance.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/launch_instance.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="provision_proxy.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/provision_proxy.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state relative-caret-position="612">
+              <caret line="34" column="80" selection-start-line="34" selection-start-column="80" selection-end-line="34" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -100,8 +68,48 @@
       <file leaf-file-name="main.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="90">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/main.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="proxy.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/proxy.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="334">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qa01.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/qa01.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="haproxy.cfg" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/roles/provision-proxy/files/haproxy.cfg">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -111,17 +119,7 @@
         <entry file="file://$PROJECT_DIR$/group_vars/gatewayed.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="88" selection-start-line="0" selection-start-column="88" selection-end-line="0" selection-end-column="88" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ansible.cfg" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ansible.cfg">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <caret line="0" column="29" selection-start-line="0" selection-start-column="29" selection-end-line="0" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -176,12 +174,15 @@
         <option value="$PROJECT_DIR$/inventory" />
         <option value="$PROJECT_DIR$/group_vars/gatewayed" />
         <option value="$PROJECT_DIR$/group_vars/gatewayed.yml" />
-        <option value="$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml" />
         <option value="$PROJECT_DIR$/ansible.cfg" />
         <option value="$PROJECT_DIR$/group_vars/cidr_blocks" />
         <option value="$PROJECT_DIR$/group_vars/secure_vars.yml" />
         <option value="$PROJECT_DIR$/launch_instance.yml" />
         <option value="$PROJECT_DIR$/group_vars/cidr_blocks.yml" />
+        <option value="$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml" />
+        <option value="$PROJECT_DIR$/roles/provision-proxy/tasks/qa01.yml" />
+        <option value="$PROJECT_DIR$/roles/provision-proxy/files/haproxy.cfg" />
+        <option value="$PROJECT_DIR$/roles/provision-proxy/tasks/proxy.yml" />
       </list>
     </option>
   </component>
@@ -290,6 +291,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tasks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bahmni-tw-aws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bahmni-tw-aws" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="roles" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="provision-proxy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="files" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -821,12 +844,12 @@
       <updated>1475588232039</updated>
       <workItem from="1475588233555" duration="10127000" />
       <workItem from="1475665821317" duration="33723000" />
-      <workItem from="1476074216578" duration="37544000" />
+      <workItem from="1476074216578" duration="42559000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81394000" />
+    <option name="totallyTimeSpent" value="86409000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1075,26 +1098,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/launch_qa_env.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inventory">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/main.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1125,16 +1132,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ansible.cfg">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="108">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1147,22 +1146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/group_vars/gatewayed.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="88" selection-start-line="0" selection-start-column="88" selection-end-line="0" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/launch_instance.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1171,10 +1154,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/launch_qa_env.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/roles/instance-spinup/tasks/main.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/main.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/qa01.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/roles/provision-proxy/tasks/proxy.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/roles/provision-proxy/files/haproxy.cfg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/bahmni_launch_key.pem">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="34" column="80" selection-start-line="34" selection-start-column="80" selection-end-line="34" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/group_vars/cidr_blocks.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/group_vars/gatewayed.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="29" selection-start-line="0" selection-start-column="29" selection-end-line="0" selection-end-column="29" />
           <folding />
         </state>
       </provider>
