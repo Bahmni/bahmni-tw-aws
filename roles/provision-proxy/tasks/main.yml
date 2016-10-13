@@ -1,0 +1,15 @@
+---
+# tasks file for provision-proxy
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: proxyhost
+    groupname: gatewayed
+    ansible_ssh_host: 172.21.0.153
+    ansible_user: centos
+
+- name: install haproxy
+  delegate_to: proxyhost
+  sudo: yes
+  yum: name=haproxy state=present
+  tags: proxy-provision

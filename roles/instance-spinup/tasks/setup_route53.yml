@@ -50,7 +50,6 @@
     value: "{{ bastion_instance_fact.public_ip }}"
     overwrite: true
 
-- set_fact: proxy_instance_fact="{{ proxy_instance.tagged_instances[0] }}"
 
 - name: update proxy dns records
   route53:

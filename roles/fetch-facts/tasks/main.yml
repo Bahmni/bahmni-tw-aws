@@ -1,0 +1,16 @@
+---
+
+- name: Fetch VPC facts
+  command: python ./python-modules/vpc_fetch.py '{ "{{ infra_cidr_blocks.vpc_cidr_block }}":"{{ vpc_name }}" }' '{{ vpc_account}}'
+  register: output
+  tags: fetchvpc
+
+- debug: msg="{{ output }}"
+  tags: fetchvpc
+
+- set_fact:
+   vpc_facts: "{{ output.stdout|from_json }}"
+  tags: fetchvpc
+
+#- debug: msg="{{ output }}"
+                 #  tags: fetchvpc
