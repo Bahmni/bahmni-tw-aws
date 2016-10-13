@@ -1,0 +1,47 @@
+---
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: proxyhost
+    groupname: gatewayed
+    ansible_ssh_host: 172.21.0.153
+    ansible_user: centos
+
+- name: install haproxy
+  delegate_to: proxyhost
+  sudo: yes
+  yum: name=haproxy state=present
+  tags: proxy-provision
+
+- name: stop iptables
+  delegate_to: proxyhost
+  service: name=iptables state=stopped
+  tags: proxy-provision
+
+#- name: Wait for SSH to come up
+#  local_action:
+#   wait_for host="172.21.0.153"
+#   port="{{ 22 }}"
+#   delay=10
+#   timeout=240
+#   state=started
+
+- name: stop haproxy
+  delegate_to: proxyhost
+  become: yes
+  service: name=haproxy state=stopped
+  tags: proxy-provision
+
+- name: Copy haproxy config
+  delegate_to: proxyhost
+  become: yes
+  template:
+    src=files/haproxy.cfg
+    dest=/etc/haproxy/haproxy.cfg
+    backup=yes
+    mode=755
+
+- name: restart haproxy
+  delegate_to: proxyhost
+  service: name=haproxy state=reloaded
+  tags: proxy-provision
