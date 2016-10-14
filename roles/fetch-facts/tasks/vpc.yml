@@ -1,0 +1,14 @@
+---
+
+- name: get VPC info
+  command: "aws ec2 describe-vpcs --region {{ aws_region }} --filter Name=tag:Name,Values={{ vpc_name }}"
+  register: get_vpc_id
+  changed_when: false
+
+- set_fact:
+    vpc_facts: "{{ get_vpc_id.stdout|from_json }}"
+  tags: fetchvpc
+
+- name: Populate public Subnet
+  set_fact:
+    VpcId: "{{ vpc_facts.Vpcs[0].VpcId }}"
