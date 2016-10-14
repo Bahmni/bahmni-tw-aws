@@ -1,0 +1,31 @@
+---
+
+- name: get Security group info
+  command: "aws ec2 describe-security-groups --region {{ aws_region }}"
+  register: get_security_group_info
+  changed_when: false
+
+- set_fact:
+    securityGroup: "{{ get_security_group_info.stdout|from_json }}"
+  tags: fetchvpc
+
+#- debug: msg="{{ securityGroup_facts }}"
+
+- name: Fetch fact Bahmni SG
+  set_fact:
+    BahmniSG: "{{ securityGroup.SecurityGroups | selectattr('GroupName', 'equalto', 'bahmni') | list }}"
+
+- name: Fetch fact TWProxy SG
+  set_fact:
+    TWProxySG: "{{ securityGroup.SecurityGroups | selectattr('GroupName', 'equalto', 'tw_proxy') | list }}"
+
+- name: Fetch fact Bastion SG
+  set_fact:
+    BastionSG: "{{ securityGroup.SecurityGroups | selectattr('GroupName', 'equalto', 'bastion') | list }}"
+
+- name: Fetch SG Ids
+  set_fact:
+    BahmniSGId: "{{ BahmniSG[0].GroupId }}"
+    BastionSGId: "{{ BastionSG[0].GroupId }}"
+    TWProxySGId: "{{ TWProxySG[0].GroupId }}"
+

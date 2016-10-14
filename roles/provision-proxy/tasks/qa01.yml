@@ -1,10 +1,21 @@
 ---
 
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      "tag:Name": qa01
+  register: qa01_instance_fact
+
+- debug: msg="{{ qa01_instance_fact }}"
+
 - name: Add proxy to dynamic host group
   add_host:
     name: qa01host
     groupname: gatewayed
-    ansible_ssh_host: 172.21.3.202
+    ansible_ssh_host: "{{ qa01_instance_fact.instances[0].private_ip_address }}"
     ansible_user: centos
 
 - name: install httpd
@@ -13,7 +24,13 @@
   yum: name=httpd state=present
   tags: qa01-provision
 
-- name: restart haproxy
+- name: stop iptables in qa01
   delegate_to: qa01host
   service: name=iptables state=stopped
+  tags: qa01-provision
+
+- name: start httpd
+  delegate_to: qa01host
+  sudo: yes
+  service: name=httpd state=started
   tags: qa01-provision

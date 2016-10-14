@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  roles:
+    - vpc
+  vars_files:
+        - "group_vars/secure_vars.yml"
+        - "group_vars/cidr_blocks.yml"

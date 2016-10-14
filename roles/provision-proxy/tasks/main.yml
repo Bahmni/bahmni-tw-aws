@@ -1,7 +1,8 @@
 ---
 # tasks file for provision-proxy
 
-- include: proxy.yml
 - include: qa01.yml
+- include: proxy.yml
+
 
 

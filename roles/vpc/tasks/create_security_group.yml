@@ -10,16 +10,6 @@
     rules_egress:     "{{ bastion_rules_egress }}"
   register: sg_bastion_group
 
-#- name:               Create Public proxy Security Group
-#  ec2_group:
-#    name:             "public_proxy"
-#    description:      "Permissions for http proxies available to public"
-#    vpc_id:           "{{ vpc_id }}"
-#    region:           "{{ aws_region }}"
-#    rules:            "{{ public_proxy_rules }}"
-#    rules_egress:     "{{ public_proxy_rules_egress }}"
-#  register: sg_public_proxy_group
-
 - name:               Create TW proxy Security Group
   ec2_group:
     name:             "tw_proxy"
@@ -43,10 +33,3 @@
     rules:            "{{ bahmni_rules }}"
     rules_egress:     "{{ bahmni_rules_egress }}"
   register: sg_bahmni
-
-- name:               Set Security group id in variable
-  set_fact:
-    sg_id: "{{ sg_bahmni.group_id }}"
-    sg_bastion_group_id: "{{sg_bastion_group.group_id}}"
-#    sg_public_proxy_group_id: "{{sg_public_proxy_group.group_id}}"
-    sg_tw_proxy_group_id: "{{sg_tw_proxy_group.group_id}}"
