@@ -18,3 +18,5 @@
    volumes: "{{ InstanceVolumes[0].VolumeSpecifications }}"
    wait: yes
   register: qa_instances
+
+
