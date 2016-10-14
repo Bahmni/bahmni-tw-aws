@@ -21,31 +21,33 @@
 
 - name: install haproxy
   delegate_to: proxyhost
-  sudo: yes
+  become: yes
   yum: name=haproxy state=present
   tags: proxy-provision
 
-- name: stop iptables in proxy server
-  delegate_to: proxyhost
-  service: name=iptables state=stopped
-  tags: proxy-provision
-
-- name: stop haproxy
+- name: start haproxy
   delegate_to: proxyhost
   become: yes
-  service: name=haproxy state=stopped
+  service: name=haproxy state=started
   tags: proxy-provision
 
 - name: Copy haproxy config
   delegate_to: proxyhost
   become: yes
   template:
-    src=files/haproxy.cfg
+    src=haproxy.cfg.j2
     dest=/etc/haproxy/haproxy.cfg
     backup=yes
     mode=755
 
-- name: restart haproxy
+- name: Restart haproxy
   delegate_to: proxyhost
-  service: name=haproxy state=started
+  become: yes
+  service: name=haproxy state=reloaded
+  tags: proxy-provision
+
+- name: stop iptables in proxy server
+  delegate_to: proxyhost
+  become: yes
+  service: name=iptables state=stopped
   tags: proxy-provision

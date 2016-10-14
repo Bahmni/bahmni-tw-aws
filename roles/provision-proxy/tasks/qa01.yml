@@ -11,6 +11,10 @@
 
 - debug: msg="{{ qa01_instance_fact }}"
 
+- name:  Set Subnet ID in variable
+  set_fact:
+    qa01_private_ipaddress: "{{ qa01_instance_fact.instances[0].private_ip_address }}"
+
 - name: Add proxy to dynamic host group
   add_host:
     name: qa01host
@@ -20,17 +24,18 @@
 
 - name: install httpd
   delegate_to: qa01host
-  sudo: yes
+  become: yes
   yum: name=httpd state=present
   tags: qa01-provision
 
 - name: stop iptables in qa01
   delegate_to: qa01host
+  become: yes
   service: name=iptables state=stopped
   tags: qa01-provision
 
 - name: start httpd
   delegate_to: qa01host
-  sudo: yes
+  become: yes
   service: name=httpd state=started
   tags: qa01-provision
