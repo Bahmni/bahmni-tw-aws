@@ -5,7 +5,10 @@
     - instance-spinup
   vars_files:
         - "group_vars/secure_vars.yml"
-        - "configs/qa-server"
+        - "configs/qa-env"
+        - "configs/showcase-env"
+        - "configs/assets-env"
+        - "configs/build-env"
         - "configs/bastion-server"
         - "configs/proxy-server"
         - "group_vars/cidr_blocks.yml"

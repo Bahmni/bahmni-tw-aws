@@ -1,8 +1,8 @@
-Proxy_Env:
-   Tags: {"environment": "proxy", "role": "proxy-server"}
+QA_Env:
+   Tags: {"environment": "qa", "role": "bahmni-server", "tw_proxy": "true"}
    StartIndex: 1
-   ExactCount: 2
-   CountTags: {"environment": "proxy", "role": "proxy-server"}
+   ExactCount: 1
+   CountTags: {"environment": "qa", "role": "bahmni-server"}
    InstanceType: m4.large
    InstanceVolumes:
      - VolumeSpecifications:

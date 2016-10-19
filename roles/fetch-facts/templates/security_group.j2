@@ -1,0 +1,5 @@
+{
+ {% for s in securityGroups %}
+  "{{ s.GroupName }}":"{{ s.GroupId }}" {% if not loop.last %},{% endif %}
+ {% endfor %}
+}

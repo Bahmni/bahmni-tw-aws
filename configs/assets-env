@@ -1,8 +1,8 @@
-Proxy_Env:
-   Tags: {"environment": "proxy", "role": "proxy-server"}
+Assets_Env:
+   Tags: {"environment": "assets", "role": "assets-server"}
    StartIndex: 1
-   ExactCount: 2
-   CountTags: {"environment": "proxy", "role": "proxy-server"}
+   ExactCount: 1
+   CountTags: {"environment": "assets", "role": "assets-server"}
    InstanceType: m4.large
    InstanceVolumes:
      - VolumeSpecifications:

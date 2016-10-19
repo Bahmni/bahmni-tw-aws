@@ -1,0 +1,23 @@
+global
+  maxconn 1028
+  daemon
+  user haproxy
+  group haproxy
+
+defaults
+  timeout connect 6000ms
+  timeout client 60000ms
+  timeout server 60000ms
+  mode    http
+
+frontend public
+  bind *:80
+   {% for h in under_tw_proxy_instances.instances %}
+     acl host_{{ h.tags.Name }} hdr(host) -i {{ h.tags.Name }}.mybahmni.org
+     use_backend {{h.tags.Name}} if host_{{ h.tags.Name }}
+   {% endfor %}
+
+{% for h in under_tw_proxy_instances.instances %}
+backend {{ h.tags.Name }}
+  server {{ h.tags.Name }} {{ h.private_ip_address }}
+{% endfor %}

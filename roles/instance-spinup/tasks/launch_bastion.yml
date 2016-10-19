@@ -1,21 +1,25 @@
 ---
 
+- debug: msg="{{ Bastion_Env }}"
+
 - name: Spin up bastion instance
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"
    aws_secret_key:   "{{ aws_secret_key }}"
    image: "{{instance_ami}}"
-   instance_type: "{{InstanceType}}"
-   tenancy: "{{VpcInstanceTenancy}}"
-   key_name: "{{instance_key}}"
-   source_dest_check: "{{instance_source_destination_check}}"
-   vpc_subnet_id: "{{ PublicSubnetId }}"
-   group_id: "{{ BastionSGId }}"
-   instance_tags: "{{BastionTags}}"
-   count_tag: "{{BastionTags}}"
-   exact_count: "{{BastionExactCount}}"
-   volumes: "{{ InstanceVolumes[0].VolumeSpecifications }}"
+   instance_type: "{{ Bastion_Env.InstanceType }}"
+   tenancy: "{{ VpcInstanceTenancy }}"
+   key_name: "{{ instance_key }}"
+   source_dest_check: "{{ instance_source_destination_check }}"
+   vpc_subnet_id: "{{ SubnetIds.public }}"
+   group_id: "{{ SecurityGroupIds.bastion }}"
+   instance_tags: "{{ Bastion_Env.Tags }}"
+   count_tag: "{{ Bastion_Env.CountTags }}"
+   exact_count: "{{ Bastion_Env.ExactCount }}"
+   volumes: "{{ Bastion_Env.InstanceVolumes[0].VolumeSpecifications }}"
    assign_public_ip: yes
    wait: yes
   register: bastion_instance
+
+- set_fact: bastion_instance_fact="{{ bastion_instance.tagged_instances[0] }}"
