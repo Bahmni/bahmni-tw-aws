@@ -2,6 +2,6 @@
 
 - hosts: all
   roles:
-    - provision-proxy
+    - provision-instances
   vars_files:
         - "group_vars/secure_vars.yml"

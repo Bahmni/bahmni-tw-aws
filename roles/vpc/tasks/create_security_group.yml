@@ -19,8 +19,20 @@
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"
     rules:            "{{ tw_proxy_rules }}"
-    rules_egress:     "{{tw_proxy_rules_egress }}"
+    rules_egress:     "{{ tw_proxy_rules_egress }}"
   register: sg_tw_proxy_group
+
+- name:               Create public proxy Security Group
+  ec2_group:
+    name:             "public_proxy"
+    description:      "Permissions for the http proxies available for public"
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    rules:            "{{ public_proxy_rules }}"
+    rules_egress:     "{{ public_proxy_rules_egress }}"
+  register: sg_public_proxy_group
 
 - name:               Create Bahmni Security Group
   ec2_group:

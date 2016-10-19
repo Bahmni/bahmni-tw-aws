@@ -9,23 +9,13 @@
     securityGroup: "{{ get_security_group_info.stdout|from_json }}"
   tags: fetchvpc
 
-#- debug: msg="{{ securityGroup_facts }}"
-
-- name: Fetch fact Bahmni SG
+- name: Populate SecurityGroupIds
   set_fact:
-    BahmniSG: "{{ securityGroup.SecurityGroups | selectattr('GroupName', 'equalto', 'bahmni') | list }}"
+    SecurityGroupIds: "{{ lookup('template', 'security_group.j2') }}"
+  vars:
+    securityGroups: "{{ securityGroup.SecurityGroups }}"
 
-- name: Fetch fact TWProxy SG
-  set_fact:
-    TWProxySG: "{{ securityGroup.SecurityGroups | selectattr('GroupName', 'equalto', 'tw_proxy') | list }}"
+- debug: msg="{{ SecurityGroupIds }}"
 
-- name: Fetch fact Bastion SG
-  set_fact:
-    BastionSG: "{{ securityGroup.SecurityGroups | selectattr('GroupName', 'equalto', 'bastion') | list }}"
 
-- name: Fetch SG Ids
-  set_fact:
-    BahmniSGId: "{{ BahmniSG[0].GroupId }}"
-    BastionSGId: "{{ BastionSG[0].GroupId }}"
-    TWProxySGId: "{{ TWProxySG[0].GroupId }}"
 

@@ -3,5 +3,8 @@
 - include: launch_bastion.yml
 - include: launch_proxy.yml
 - include: launch_qa_env.yml
+- include: launch_showcase_env.yml
+- include: launch_assets_env.yml
+- include: launch_build_env.yml
 - include: setup_route53.yml
 

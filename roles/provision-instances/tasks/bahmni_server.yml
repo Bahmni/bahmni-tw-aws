@@ -1,0 +1,38 @@
+---
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+       instance-state-name: running
+       'tag:role': 'bahmni-server'
+  register: bahmni_server_instances
+
+- debug: msg="{{ bahmni_server_instances }}"
+
+- name: Add servers to dynamic host group
+  add_host:
+    name: "{{ item.tags.Name }}"
+    groupname: gatewayed
+    ansible_ssh_host: "{{ item.private_ip_address }}"
+    ansible_user: centos
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: install httpd in server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=httpd state=present
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: stop iptables in {{item.tags.Name}}
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  service: name=iptables state=stopped
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: start httpd
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  service: name=httpd state=started
+  with_items: "{{ bahmni_server_instances.instances }}"

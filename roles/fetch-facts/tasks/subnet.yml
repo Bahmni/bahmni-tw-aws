@@ -6,15 +6,11 @@
        vpc-id: "{{ VpcId }}"
   register: subnet_facts
 
-- name: Populate public Subnet
+- name: Populate SubnetIds
   set_fact:
-    PublicSubnet: "{{ subnet_facts.subnets | selectattr('tags.Name', 'equalto', 'public') | list }}"
+    SubnetIds: "{{ lookup('template', 'subnets.j2') }}"
+  vars:
+    subnets: "{{ subnet_facts.subnets }}"
 
-- name: Populate qa Subnet
-  set_fact:
-    QASubnet: "{{ subnet_facts.subnets | selectattr('tags.Name', 'equalto', 'qa') | list }}"
+- debug: msg="{{ SubnetIds }}"
 
-- name: Fetch SubnetIds
-  set_fact:
-    PublicSubnetId: "{{ PublicSubnet[0].id }}"
-    QASubnetId: "{{ QASubnet[0].id }}"

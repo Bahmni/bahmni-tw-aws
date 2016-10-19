@@ -1,8 +1,8 @@
-Proxy_Env:
-   Tags: {"environment": "proxy", "role": "proxy-server"}
+Build_Env:
+   Tags: {"environment": "build", "role": "build-server"}
    StartIndex: 1
-   ExactCount: 2
-   CountTags: {"environment": "proxy", "role": "proxy-server"}
+   ExactCount: 1
+   CountTags: {"environment": "build", "role": "build-server"}
    InstanceType: m4.large
    InstanceVolumes:
      - VolumeSpecifications:

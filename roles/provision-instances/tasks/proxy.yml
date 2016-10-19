@@ -1,0 +1,86 @@
+---
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      "tag:role": proxy-server
+  register: proxy_instances
+
+#- debug: msg="{{ proxy_instance_fact }}"
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: "{{ item.tags.Name }}"
+    groupname: gatewayed
+    ansible_ssh_host: "{{ item.private_ip_address }}"
+    ansible_user: centos
+  with_items: "{{ proxy_instances.instances }}"
+
+#- debug: msg="{{ groups['gatewayed'] }}"
+
+- name: install haproxy
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=haproxy state=present
+  tags: proxy-provision
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: start haproxy
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  service: name=haproxy state=started
+  tags: proxy-provision
+  with_items: "{{ proxy_instances.instances }}"
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+       instance-state-name: running
+       'tag:tw_proxy': 'true'
+  register: under_tw_proxy_instances
+
+- name: Copy tw haproxy config
+  delegate_to: "{{ proxy_instances.instances[0].tags.Name }}"
+  become: yes
+  template:
+      src=haproxy_priv.cfg.j2
+      dest=/etc/haproxy/haproxy.cfg
+      backup=yes
+      mode=755
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+       instance-state-name: running
+       'tag:pub_proxy': 'true'
+  register: under_pub_proxy_instances
+
+- name: Copy pub haproxy config
+  delegate_to: "{{ proxy_instances.instances[1].tags.Name }}"
+  become: yes
+  template:
+      src=haproxy_pub.cfg.j2
+      dest=/etc/haproxy/haproxy.cfg
+      backup=yes
+      mode=755
+
+- name: Restart haproxy
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  service: name=haproxy state=reloaded
+  tags: proxy-provision
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: stop iptables in proxy server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  service: name=iptables state=stopped
+  tags: proxy-provision
+  with_items: "{{ proxy_instances.instances }}"

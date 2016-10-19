@@ -1,0 +1,5 @@
+{
+ {% for s in subnets %}
+  "{{ s.tags.Name }}":"{{ s.id }}" {% if not loop.last %},{% endif %}
+ {% endfor %}
+}

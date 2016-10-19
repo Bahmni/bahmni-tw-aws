@@ -6,29 +6,45 @@
    aws_access_key:   "{{ aws_access_key }}"
    aws_secret_key:   "{{ aws_secret_key }}"
    image: "{{instance_ami}}"
-   instance_type: "{{InstanceType}}"
-   tenancy: "{{VpcInstanceTenancy}}"
-   key_name: "{{instance_key}}"
-   source_dest_check: "{{instance_source_destination_check}}"
-   vpc_subnet_id: "{{ PublicSubnetId }}"
-   group_id: "{{ TWProxySGId }}"
-   instance_tags: "{{ProxyServerTags}}"
-   count_tag: "{{ProxyServerTags}}"
-   exact_count: "{{ProxyExactCount}}"
-   volumes: "{{ InstanceVolumes[0].VolumeSpecifications }}"
+   instance_type: "{{ Proxy_Env.InstanceType }}"
+   tenancy: "{{ VpcInstanceTenancy }}"
+   key_name: "{{ instance_key }}"
+   source_dest_check: "{{ instance_source_destination_check }}"
+   vpc_subnet_id: "{{ SubnetIds.public }}"
+   group_id: "{{ SecurityGroupIds.tw_proxy }}"
+   instance_tags: "{{ Proxy_Env.Tags }}"
+   count_tag: "{{ Proxy_Env.CountTags }}"
+   exact_count: "{{ Proxy_Env.ExactCount }}"
+   volumes: "{{ Proxy_Env.InstanceVolumes[0].VolumeSpecifications }}"
    assign_public_ip: yes
    wait: yes
-  register: proxy_instance
+  register: proxy_instances
 
-- set_fact: proxy_instance_fact="{{ proxy_instance.tagged_instances[0] }}"
+- name: create identifier sequence for proxy tagging
+  debug: msg="{{ item }}"
+  with_sequence: start="{{ Proxy_Env.StartIndex }}" count="{{ Proxy_Env.ExactCount }}" format=%02d
+  register: proxy_sequence
 
-- name: Add proxy to dynamic host group
-  add_host:
-    name: proxy_host
-    hostname: "{{ proxy_instance_fact.public_ip }}"
-    groupname: proxy
-    ansible_connection: ssh
-    ansible_user: centos
+#- debug: msg="{{ created_instances.tagged_instances }}"
 
-#- name: Wait for proxy SSH to come up
-#  wait_for: host={{ proxy_instance_fact.public_dns_name }} port=22 delay=60 timeout=320 state=started
+- name: tag proxy instances
+  ec2_tag:
+    region: "{{aws_region}}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource: "{{ item.0.id }}"
+    tags:
+      Name: "{{ Proxy_Env.Tags.environment }}{{ item.1.msg }}"
+  with_together:
+      - proxy_instances.tagged_instances
+      - proxy_sequence.results
+
+- name: Update pub security group for pub proxy
+  environment:
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+  shell: "aws ec2 modify-instance-attribute --instance-id {{ proxy_instances.tagged_instances[1].id }} --groups {{ SecurityGroupIds.public_proxy }} "
+
+
+
+
