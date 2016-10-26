@@ -13,5 +13,3 @@
      - "configs/proxy-server"
      - "group_vars/cidr_blocks.yml"
      - "group_vars/vars.yml"
-
-
