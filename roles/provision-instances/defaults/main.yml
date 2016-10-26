@@ -1,2 +1,6 @@
 ---
 # defaults file for provision-proxy
+
+instance_ami: "ami-2a497449"
+instance_key: "bahmni_launch_key"
+instance_source_destination_check: yes

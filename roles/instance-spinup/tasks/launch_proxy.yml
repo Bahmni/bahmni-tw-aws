@@ -5,7 +5,7 @@
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"
    aws_secret_key:   "{{ aws_secret_key }}"
-   image: "{{instance_ami}}"
+   image: "{{instance_ami_proxy}}"
    instance_type: "{{ Proxy_Env.InstanceType }}"
    tenancy: "{{ VpcInstanceTenancy }}"
    key_name: "{{ instance_key }}"

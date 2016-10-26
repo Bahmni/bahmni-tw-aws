@@ -1,0 +1,4 @@
+---
+- include: delegate_task.yml
+
+
