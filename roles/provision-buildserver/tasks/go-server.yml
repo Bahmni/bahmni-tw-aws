@@ -1,0 +1,36 @@
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+       instance-state-name: running
+       'tag:role': 'build-server'
+  register: bahmni_server_instances
+
+- name: Add servers to dynamic host group
+  add_host:
+    name: "{{ item.tags.Name }}"
+    groupname: gatewayed
+    ansible_ssh_host: "{{ item.private_ip_address }}"
+    ansible_user: centos
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: Copy buildserver repository
+  become: yes
+  copy: src=files/gocd.repo dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: Installing Java
+  become: yes
+  yum: pkg=java-1.7.0-openjdk state=installed
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: Installing GoServer
+  become: yes
+  yum: pkg=go-server state=installed
+  notify: restart goserver service
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+

@@ -1,0 +1,3 @@
+---
+# tasks file for provision-goserver
+- include: go-server.yml

@@ -1,39 +1,39 @@
 ---
-
-- name: Spin up build instances
+- name: Spin up BuildServer
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"
    aws_secret_key:   "{{ aws_secret_key }}"
    image: "{{instance_ami}}"
-   instance_type: "{{ Build_Env.InstanceType }}"
+   instance_type: "{{ Build_Server.InstanceType }}"
    tenancy: "{{ VpcInstanceTenancy }}"
    key_name: "{{ instance_key }}"
    source_dest_check: "{{ instance_source_destination_check }}"
-   vpc_subnet_id: "{{ SubnetIds.qa }}"
-   group_id: "{{ SecurityGroupIds.bahmni }}"
-   instance_tags: "{{ Build_Env.Tags }}"
-   count_tag: "{{ Build_Env.CountTags }}"
-   exact_count: "{{ Build_Env.ExactCount }}"
-   volumes: "{{ Build_Env.InstanceVolumes[0].VolumeSpecifications }}"
+   vpc_subnet_id: "{{ SubnetIds.assets }}"
+   group_id: "{{ SecurityGroupIds.buildserver }}"
+   instance_tags: "{{ Build_Server.Tags }}"
+   count_tag: "{{ Build_Server.CountTags }}"
+   exact_count: "{{ Build_Server.ExactCount }}"
+   volumes: "{{ Build_Server.InstanceVolumes[0].VolumeSpecifications }}"
+   assign_public_ip: yes
    wait: yes
   register: build_instances
 
 - name: create identifier sequence for build tagging
   debug: msg="{{ item }}"
-  with_sequence: start="{{ Build_Env.StartIndex }}" count="{{ Build_Env.ExactCount }}" format=%02d
+  with_sequence: start="{{ Build_Server.StartIndex }}" count="{{ Build_Server.ExactCount }}" format=%02d
   register: build_sequence
 
 #- debug: msg="{{ created_instances.tagged_instances }}"
 
-- name: tag build instances
+- name: tag buildserver instances
   ec2_tag:
     region: "{{aws_region}}"
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"
     resource: "{{ item.0.id }}"
     tags:
-      Name: "{{ Build_Env.Tags.environment }}{{ item.1.msg }}"
+      Name: "{{ Build_Server.Tags.environment }}{{ item.1.msg }}"
   with_together:
       - build_instances.tagged_instances
       - build_sequence.results

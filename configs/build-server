@@ -1,8 +1,8 @@
-Build_Env:
-   Tags: {"environment": "build", "role": "build-server"}
+Build_Server:
+   Tags: {"environment": "buildserver", "role": "build-server"}
    StartIndex: 1
    ExactCount: 1
-   CountTags: {"environment": "build", "role": "build-server"}
+   CountTags: {"environment": "buildserver", "role": "build-server"}
    InstanceType: m4.large
    InstanceVolumes:
      - VolumeSpecifications:

@@ -1,0 +1,42 @@
+---
+
+- name: Spin up build instances
+  ec2:
+   region: "{{aws_region}}"
+   aws_access_key:   "{{ aws_access_key }}"
+   aws_secret_key:   "{{ aws_secret_key }}"
+   image: "{{instance_ami}}"
+   instance_type: "{{ Build_Agent.InstanceType }}"
+   tenancy: "{{ VpcInstanceTenancy }}"
+   key_name: "{{ instance_key }}"
+   source_dest_check: "{{ instance_source_destination_check }}"
+   vpc_subnet_id: "{{ SubnetIds.qa }}"
+   group_id: "{{ SecurityGroupIds.bahmni }}"
+   instance_tags: "{{ Build_Agent.Tags }}"
+   count_tag: "{{ Build_Agent.CountTags }}"
+   exact_count: "{{ Build_Agent.ExactCount }}"
+   volumes: "{{ Build_Agent.InstanceVolumes[0].VolumeSpecifications }}"
+   wait: yes
+  register: build_instances
+
+- name: create identifier sequence for build tagging
+  debug: msg="{{ item }}"
+  with_sequence: start="{{ Build_Agent.StartIndex }}" count="{{ Build_Agent.ExactCount }}" format=%02d
+  register: build_sequence
+
+#- debug: msg="{{ created_instances.tagged_instances }}"
+
+- name: tag build instances
+  ec2_tag:
+    region: "{{aws_region}}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    resource: "{{ item.0.id }}"
+    tags:
+      Name: "{{ Build_Agent.Tags.environment }}{{ item.1.msg }}"
+  with_together:
+      - build_instances.tagged_instances
+      - build_sequence.results
+
+
+

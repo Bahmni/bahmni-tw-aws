@@ -45,3 +45,15 @@
     rules:            "{{ bahmni_rules }}"
     rules_egress:     "{{ bahmni_rules_egress }}"
   register: sg_bahmni
+
+- name:               Create buildserver Security Group
+  ec2_group:
+    name:             "buildserver"
+    description:      "Permissions for buildserver"
+    vpc_id:           "{{ vpc_id }}"
+    region:           "{{ aws_region }}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    rules:            "{{ buildserver_rules }}"
+    rules_egress:     "{{ buildserver_rules_egress }}"
+  register: sg_goserer

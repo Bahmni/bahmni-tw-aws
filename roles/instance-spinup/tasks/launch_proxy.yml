@@ -1,5 +1,4 @@
 ---
-
 - name: Spin up proxy instance
   ec2:
    region: "{{aws_region}}"

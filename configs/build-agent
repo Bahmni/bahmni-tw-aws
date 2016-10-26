@@ -1,0 +1,22 @@
+Build_Agent:
+   Tags: {"environment": "build", "role": "build-agent"}
+   StartIndex: 1
+   ExactCount: 1
+   CountTags: {"environment": "build", "role": "build-agent"}
+   InstanceType: m4.large
+   InstanceVolumes:
+     - VolumeSpecifications:
+         - volume_size: 40
+           volume_type: gp2
+           device_name: /dev/sda1
+           delete_on_termination: yes
+           FilesystemSpecifications:
+             volume_label: "root"
+           mountpoint: /
+         - volume_size: 15
+           volume_type: gp2
+           device_name: /dev/xvdg
+           delete_on_termination: yes
+           FilesystemSpecifications:
+             volume_label: "test"
+           mountpoint: /tmp
