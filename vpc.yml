@@ -2,8 +2,7 @@
 
 - hosts: all
   roles:
-    - fetch-facts
-    - provision-buildserver
+    - vpc
   vars_files:
     - "group_vars/secure_vars.yml"
     - "group_vars/gatewayed.yml"
