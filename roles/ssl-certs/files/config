@@ -1,0 +1,9 @@
+CAS="https://acme-staging.api.letsencrypt.org/directory"
+CA="https://acme-v01.api.letsencrypt.org/directory"
+
+CHALLENGETYPE="dns-01"
+
+HOOK="${BASEDIR}/hook-dns-01-lets-encrypt-route53.rb"
+
+CONTACT_EMAIL="apalani@thoughtworks.com"
+

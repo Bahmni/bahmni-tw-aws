@@ -1,0 +1,7 @@
+---
+
+- hosts: all
+  roles:
+    - ssl-certs
+  vars_files:
+        - "group_vars/secure_vars.yml"

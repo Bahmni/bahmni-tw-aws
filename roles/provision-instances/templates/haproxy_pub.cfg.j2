@@ -1,5 +1,6 @@
 global
   maxconn 1028
+  tune.ssl.default-dh-param 2048
   daemon
   user haproxy
   group haproxy
@@ -9,9 +10,16 @@ defaults
   timeout client 60000ms
   timeout server 60000ms
   mode    http
+  option forwardfor
+  option http-server-close
+  stats enable
+  stats uri /stats
+  stats realm Haproxy\ Statistics
+  stats auth user:password
 
-frontend public
-  bind *:80
+frontend https_443_frontend
+  bind *:443 ssl crt /etc/ssl/mybahmni.org.pem
+  reqadd X-Forwarded-Proto:\ https
    {% for h in under_pub_proxy_instances.instances %}
      acl host_{{ h.tags.Name }} hdr(host) -i {{ h.tags.Name }}.mybahmni.org
      use_backend {{h.tags.Name}} if host_{{ h.tags.Name }}
@@ -19,5 +27,7 @@ frontend public
 
 {% for h in under_pub_proxy_instances.instances %}
 backend {{ h.tags.Name }}
-  server {{ h.tags.Name }} {{ h.private_ip_address }}
+  redirect scheme https if !{ ssl_fc }
+  mode http
+  server {{ h.tags.Name }} {{ h.private_ip_address }}:80
 {% endfor %}

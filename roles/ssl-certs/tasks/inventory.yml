@@ -1,0 +1,20 @@
+---
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      "tag:role": proxy-server
+  register: proxy_instances
+  tags: inventory
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: "{{ item.tags.Name }}"
+    groupname: gatewayed
+    ansible_ssh_host: "{{ item.private_ip_address }}"
+    ansible_user: centos
+  with_items: "{{ proxy_instances.instances }}"
+  tags: inventory
