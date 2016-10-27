@@ -1,0 +1,7 @@
+---
+# defaults file for ssl-certs
+
+dehydrated_repo: https://github.com/lukas2511/dehydrated.git
+dehydrated_version: master
+dehydrated_keep_updated: yes
+dehydrated_dir: /opt/dehydrated

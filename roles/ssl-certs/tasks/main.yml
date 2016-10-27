@@ -1,0 +1,4 @@
+---
+
+- include: inventory.yml
+- include: generate_cert.yml

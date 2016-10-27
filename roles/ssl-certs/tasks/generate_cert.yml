@@ -1,0 +1,110 @@
+---
+
+- name: install git in server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=git state=present
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: install openssl on server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=openssl state=present
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: install centos-release-SCL on server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=centos-release-SCL state=present
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: install rh-ruby22 on server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=rh-ruby22 state=present
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: install rubygems on server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  yum: name=rubygems state=present
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: create symlink for libruby.
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  file:
+    src: /opt/rh/rh-ruby22/root/usr/lib64/libruby.so.2.2.0
+    dest: /usr/lib64/libruby.so.2.2
+    state: link
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: enable rh-ruby22 bash on server
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  shell: "scl enable rh-ruby22 -- gem install aws-sdk"
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: Clone dehydrated repo into configured directory.
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  git:
+    repo: "{{ dehydrated_repo }}"
+    dest: "{{ dehydrated_dir }}"
+    version: "{{ dehydrated_version }}"
+    update: "{{ dehydrated_keep_updated }}"
+  tags: dehydrated
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: Ensure dehydrated-auto is executable.
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  file:
+    path: "{{ dehydrated_dir }}/dehydrated"
+    mode: 0755
+  tags: dehydrated
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: create directory for dehydrated files.
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  file: path=/etc/dehydrated state=directory mode=0755
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: copy dehydrated files
+  delegate_to: "{{ item[1].tags.Name }}"
+  become: yes
+  copy: src={{ item[0] }} dest=/etc/dehydrated owner=root mode=0775
+  with_nested:
+    - ['files/config', 'files/domains.txt', 'files/hook-dns-01-lets-encrypt-route53.rb' ]
+    - "{{ proxy_instances.instances }}"
+
+- name: Generate certificate
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  environment:
+      AWS_REGION: "{{ aws_region }}"
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+  shell: "/opt/dehydrated/dehydrated -c"
+  register: certificates_resp
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: combine certificate and priv key into main cert
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  shell:
+    cmd: cat fullchain.pem privkey.pem > mybahmni.org.pem
+    chdir: /etc/dehydrated/certs/mybahmni.org
+  tags: cert
+  with_items: "{{ proxy_instances.instances }}"
+
+- name: create symlink for certificate folder.
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  file:
+    src: /etc/dehydrated/certs/mybahmni.org/mybahmni.org.pem
+    dest: /etc/ssl/mybahmni.org.pem
+    state: link
+  tags: link
+  with_items: "{{ proxy_instances.instances }}"
