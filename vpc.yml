@@ -5,12 +5,4 @@
     - vpc
   vars_files:
     - "group_vars/secure_vars.yml"
-    - "group_vars/gatewayed.yml"
-    - "configs/qa-env"
-    - "configs/showcase-env"
-    - "configs/assets-env"
-    - "configs/build-agent"
-    - "configs/bastion-server"
-    - "configs/proxy-server"
     - "group_vars/cidr_blocks.yml"
-    - "group_vars/vars.yml"
