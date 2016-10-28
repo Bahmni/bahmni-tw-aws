@@ -1,4 +1,0 @@
-[gatewayed]
-qa01 ansible_host=172.21.3.146
-build01 ansible_host=172.21.3.79
-assets01 ansible_host=172.21.1.166

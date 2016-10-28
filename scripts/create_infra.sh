@@ -24,8 +24,10 @@ may be required${NC}\n"
 # echo "Please decrypt secure_vars.yml to find the right values"
 # aws-configure
 
-ansible-playbook -i vpc_inventory vpc.yml
+# echo "Setting up ssh agent and adding bahmni launch key"
+# eval "$(ssh-agent -s)"
+# ansible decrypt group_vars/bahmni_launch_key.pem
+# ssh-add group_vars/bahmni_launch_key.pem
 
 
-
-
+ansible-playbook -i infra_inventory infra.yml

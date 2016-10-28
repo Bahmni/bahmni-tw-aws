@@ -1,0 +1,7 @@
+---
+
+- name: Spin up all instances
+  include: ec2-instance.yml
+  with_items: "{{ ec2_instances }}"
+  vars:
+    - instance: "{{ item }}"

@@ -1,9 +1,13 @@
-Build_Agent:
-   Tags: {"environment": "build", "role": "build-agent"}
+build_agent_spec:
+   Tags: {"role": "build-agent"}
    StartIndex: 1
    ExactCount: 1
-   CountTags: {"environment": "build", "role": "build-agent"}
    InstanceType: m4.large
+   SecurityGroups:
+     - "{{ SecurityGroupIds.bahmni }}"
+   AmiId: "{{ available_amis.bahmni_ami }}"
+   SubnetId: "{{ SubnetIds.build }}"
+   AssignPublicIp: no
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40

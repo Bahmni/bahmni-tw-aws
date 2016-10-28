@@ -1,0 +1,19 @@
+public_proxy_spec:
+   Tags: {"role": "proxy-server", "type": "public"}
+   StartIndex: 1
+   ExactCount: 1
+   InstanceType: t2.micro
+   SecurityGroups:
+     - "{{ SecurityGroupIds.public_proxy }}"
+   AmiId: "{{ available_amis.hardened_ami }}"
+   SubnetId: "{{ SubnetIds.public }}"
+   AssignPublicIp: yes
+   InstanceVolumes:
+     - VolumeSpecifications:
+         - volume_size: 40
+           volume_type: gp2
+           device_name: /dev/sda1
+           delete_on_termination: yes
+           FilesystemSpecifications:
+             volume_label: "root"
+           mountpoint: /

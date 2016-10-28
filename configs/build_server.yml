@@ -1,0 +1,19 @@
+build_server_spec:
+   Tags: {"role": "build-server"}
+   StartIndex: 1
+   ExactCount: 1
+   InstanceType: m4.large
+   SecurityGroups:
+     - "{{ SecurityGroupIds.buildserver }}"
+   AmiId: "{{ available_amis.bahmni_ami }}"
+   SubnetId: "{{ SubnetIds.assets }}"
+   AssignPublicIp: no
+   InstanceVolumes:
+     - VolumeSpecifications:
+         - volume_size: 40
+           volume_type: gp2
+           device_name: /dev/sda1
+           delete_on_termination: yes
+           FilesystemSpecifications:
+             volume_label: "root"
+           mountpoint: /

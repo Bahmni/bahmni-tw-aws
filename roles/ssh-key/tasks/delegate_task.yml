@@ -4,7 +4,6 @@
     region:           "{{ aws_region }}"
     filters:
        instance-state-name: running
-       'tag:role': "{{env_roles}}"
   register: bahmni_server_instances
 
 - name: Add servers to dynamic host group

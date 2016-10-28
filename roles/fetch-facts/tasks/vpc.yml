@@ -9,6 +9,6 @@
     vpc_facts: "{{ get_vpc_id.stdout|from_json }}"
   tags: fetchvpc
 
-- name: Populate public Subnet
+- name: Populate vpc id
   set_fact:
     VpcId: "{{ vpc_facts.Vpcs[0].VpcId }}"

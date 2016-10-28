@@ -1,9 +1,13 @@
-Showcase_Env:
-   Tags: {"environment": "showcase", "role": "bahmni-server", "pub_proxy": "true"}
+bastion_spec:
+   Tags: {"role": "bastion-server"}
    StartIndex: 1
    ExactCount: 1
-   CountTags: {"environment": "showcase", "role": "bahmni-server"}
-   InstanceType: m4.large
+   InstanceType: t2.micro
+   SecurityGroups:
+     - "{{ SecurityGroupIds.bastion }}"
+   AmiId: "{{ available_amis.hardened_ami }}"
+   SubnetId: "{{ SubnetIds.public }}"
+   AssignPublicIp: yes
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40

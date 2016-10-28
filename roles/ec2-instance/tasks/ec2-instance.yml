@@ -1,0 +1,47 @@
+---
+
+- name: Spin up {{instance.hostname}}
+  ec2:
+   region: "{{aws_region}}"
+   aws_access_key:   "{{ aws_access_key }}"
+   aws_secret_key:   "{{ aws_secret_key }}"
+   image: "{{ instance.spec.AmiId }}"
+   instance_type: "{{ instance.spec.InstanceType }}"
+   tenancy: "{{ VpcInstanceTenancy }}"
+   key_name: "{{ instance_key }}"
+   source_dest_check: "{{ instance_source_destination_check }}"
+   vpc_subnet_id: "{{ instance.spec.SubnetId }}"
+   group_id: "{{ instance.spec.SecurityGroups }}"
+   instance_tags: "{{ instance.spec.Tags|combine({'Name':instance.hostname}) }}"
+   count_tag: "{{ {'Name':instance.hostname} }}"
+   exact_count: "{{ instance.spec.ExactCount }}"
+   volumes: "{{ instance.spec.InstanceVolumes[0].VolumeSpecifications }}"
+   assign_public_ip: "{{ instance.spec.AssignPublicIp }}"
+   wait: yes
+  register: created_instance
+
+- name: Create public dns record for {{ instance.hostname }}
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PublicHostedZone }}"
+    record: "{{ instance.hostname }}.{{ PublicHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ created_instance.tagged_instances.0.public_ip }}"
+    overwrite: true
+  when: created_instance.tagged_instances.0.public_ip
+
+- name: Create private dns record for {{ instance.hostname }}
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PrivateHostedZone }}"
+    private_zone: yes
+    record: "{{ instance.hostname }}.{{ PrivateHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ created_instance.tagged_instances.0.private_ip }}"
+    overwrite: true

@@ -1,9 +1,13 @@
-Bastion_Env:
-   Tags: {"environment": "bastion", "Name": "bastion", "role": "bastion-server"}
+qa_env_spec:
+   Tags: {"role": "bahmni-server", "server_type": "public"}
    StartIndex: 1
    ExactCount: 1
-   CountTags: {"environment": "bastion", "Name": "bastion", "role": "bastion-server"}
    InstanceType: m4.large
+   SecurityGroups:
+     - "{{ SecurityGroupIds.bahmni }}"
+   AmiId: "{{ available_amis.bahmni_ami }}"
+   SubnetId: "{{ SubnetIds.showcase }}"
+   AssignPublicIp: no
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40
@@ -13,5 +17,3 @@ Bastion_Env:
            FilesystemSpecifications:
              volume_label: "root"
            mountpoint: /
-
-

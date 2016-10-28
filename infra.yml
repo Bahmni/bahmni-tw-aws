@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  roles:
+    - vpc
+    - fetch-facts
+    - ec2-instance
+    - provision-buildserver
+    - haproxy
+    - ssh-key
+  vars_files:
+    - "group_vars/gatewayed.yml"
+    - "group_vars/secure_vars.yml"
+    - "group_vars/vars.yml"
+    - "group_vars/cidr_blocks.yml"
+    - "configs/bastion.yml"
+    - "configs/build_server.yml"
+    - "configs/tw_proxy.yml"
+    - "configs/public_proxy.yml"
+    - "configs/bahmni_qa.yml"
+    - "configs/instances.yml"

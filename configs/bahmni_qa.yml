@@ -1,9 +1,13 @@
-Proxy_Env:
-   Tags: {"environment": "proxy", "role": "proxy-server"}
+qa_env_spec:
+   Tags: {"role": "bahmni-server", "server_type": "private"}
    StartIndex: 1
-   ExactCount: 2
-   CountTags: {"environment": "proxy", "role": "proxy-server"}
+   ExactCount: 1
    InstanceType: m4.large
+   SecurityGroups:
+     - "{{ SecurityGroupIds.bahmni }}"
+   AmiId: "{{ available_amis.bahmni_ami }}"
+   SubnetId: "{{ SubnetIds.qa }}"
+   AssignPublicIp: no
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40

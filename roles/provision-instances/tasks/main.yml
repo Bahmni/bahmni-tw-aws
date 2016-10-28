@@ -1,8 +1,0 @@
----
-# tasks file for provision-proxy
-
-- include: bahmni_server.yml
-- include: proxy.yml
-
-
-
