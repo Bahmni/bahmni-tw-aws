@@ -1,6 +1,0 @@
----
-# handlers file for provision-goserver
-
-- name: restart goserver service
-  service: name=go-server state=restart
-  become: yes

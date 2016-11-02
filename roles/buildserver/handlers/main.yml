@@ -1,0 +1,11 @@
+---
+# handlers file for provision-goserver
+
+
+- name: start goserver service
+  service: name=go-server state=started
+  become: yes
+
+- name: reload goserver service
+  service: name=go-server state=reloaded
+  become: yes

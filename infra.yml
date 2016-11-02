@@ -5,7 +5,7 @@
     - vpc
     - fetch-facts
     - ec2-instance
-    - provision-buildserver
+    - buildserver
     - haproxy
     - ssh-key
   vars_files:
