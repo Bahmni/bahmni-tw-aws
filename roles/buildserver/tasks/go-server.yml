@@ -35,11 +35,19 @@
   notify: start goserver service
 
 - name: Allow Go-Server to access from outside
+  become: yes
   command: /sbin/iptables -A INPUT -p tcp -s 172.16.0.0/16 --dport 8153 --ctstate NEW,ESTABLISHED -j ACCEPT -m comment --comment "Go-Server"
   when: iptablesrules.stdout.find("Go-server") == -1
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
 
 - name: Save the changes
+  become: yes
   command: service iptables save
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+  
+
 
 
 
