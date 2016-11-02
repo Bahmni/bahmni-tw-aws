@@ -17,7 +17,7 @@
 
 - name: Copy buildserver repository
   become: yes
-  template: src=files/gocd.repo dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
+  template: src=gocd.repo.j2 dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
 
@@ -46,7 +46,7 @@
   command: service iptables save
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
-  
+
 
 
 
