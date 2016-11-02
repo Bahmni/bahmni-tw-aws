@@ -1,4 +1,4 @@
-qa_env_spec:
+showcase_env_spec:
    Tags: {"role": "bahmni-server", "server_type": "public"}
    StartIndex: 1
    ExactCount: 1

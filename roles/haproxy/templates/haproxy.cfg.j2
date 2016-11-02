@@ -29,5 +29,9 @@ frontend https_443_frontend
 backend {{ h.tags.Name }}
   redirect scheme https if !{ ssl_fc }
   mode http
-  server {{ h.tags.Name }} {{ h.private_ip_address }}:80
+  {% if h.tags.port is defined %}
+    server {{ h.tags.Name }} {{ h.private_ip_address }}:{{ h.tags.port }}
+  {% else %}
+    server {{ h.tags.Name }} {{ h.private_ip_address }}:80
+  {% endif %}
 {% endfor %}

@@ -12,5 +12,4 @@
   vars:
     subnets: "{{ subnet_facts.subnets }}"
 
-- debug: msg="{{ SubnetIds }}"
 

@@ -15,7 +15,6 @@
   vars:
     securityGroups: "{{ securityGroup.SecurityGroups }}"
 
-- debug: msg="{{ SecurityGroupIds }}"
 
 
 

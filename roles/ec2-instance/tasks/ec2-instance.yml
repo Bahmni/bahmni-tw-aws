@@ -45,3 +45,64 @@
     ttl: 300
     value: "{{ created_instance.tagged_instances.0.private_ip }}"
     overwrite: true
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      'tag:type': "public"
+  register: public_proxy
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      'tag:type': "private"
+  register: private_proxy
+
+- name: Retrieve public hosted zone detail
+  environment:
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+  shell: "aws route53 list-hosted-zones-by-name --dns-name {{ PublicHostedZone }}"
+  register: public_hosted_zone
+
+- set_fact: public_hosted_zone_fact={{public_hosted_zone.stdout |from_json }}
+
+- name: A record alias for public proxy
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PublicHostedZone }}"
+    record: "{{ created_instance.tagged_instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ public_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    alias: True
+    alias_hosted_zone_id: "{{ public_hosted_zone_fact.HostedZones.0.Id |replace('/hostedzone/', '')}}"
+    overwrite: true
+  when:
+    - created_instance.tagged_instances.0.tags.server_type is defined
+    - created_instance.tagged_instances.0.tags.server_type == "public"
+
+- name: A record alias for private proxy
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PublicHostedZone }}"
+    record: "{{ created_instance.tagged_instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ private_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    alias: True
+    alias_hosted_zone_id: "{{ public_hosted_zone_fact.HostedZones.0.Id | replace('/hostedzone/', '')}}"
+    overwrite: true
+  when:
+    - created_instance.tagged_instances.0.tags.server_type is defined
+    - created_instance.tagged_instances.0.tags.server_type == "private"

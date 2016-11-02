@@ -6,6 +6,7 @@
     - fetch-facts
     - ec2-instance
     - buildserver
+    - ssl-certs
     - haproxy
     - ssh-key
   vars_files:

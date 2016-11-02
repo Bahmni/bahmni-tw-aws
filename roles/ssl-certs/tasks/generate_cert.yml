@@ -15,7 +15,7 @@
 - name: install centos-release-SCL on server
   delegate_to: "{{ item.tags.Name }}"
   become: yes
-  yum: name=centos-release-SCL state=present
+  yum: name=centos-release-scl state=present
   with_items: "{{ proxy_instances.instances }}"
 
 - name: install rh-ruby22 on server
@@ -88,6 +88,7 @@
       AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
   shell: "/opt/dehydrated/dehydrated -c"
   register: certificates_resp
+  tags: renew
   with_items: "{{ proxy_instances.instances }}"
 
 - name: combine certificate and priv key into main cert
@@ -96,7 +97,7 @@
   shell:
     cmd: cat fullchain.pem privkey.pem > mybahmni.org.pem
     chdir: /etc/dehydrated/certs/mybahmni.org
-  tags: cert
+  tags: renew
   with_items: "{{ proxy_instances.instances }}"
 
 - name: create symlink for certificate folder.
@@ -106,5 +107,4 @@
     src: /etc/dehydrated/certs/mybahmni.org/mybahmni.org.pem
     dest: /etc/ssl/mybahmni.org.pem
     state: link
-  tags: link
   with_items: "{{ proxy_instances.instances }}"

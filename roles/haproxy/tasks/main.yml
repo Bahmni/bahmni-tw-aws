@@ -5,6 +5,6 @@
     - "{'proxy_type': 'private', 'target_server_type': 'private'}"
     - "{'proxy_type': 'public', 'target_server_type': 'public'}"
   vars:
-    - config: "{{ item }}"
+    - config: "{{ proxy_server }}"
 
 

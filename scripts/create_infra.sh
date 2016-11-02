@@ -30,4 +30,4 @@ may be required${NC}\n"
 # ssh-add group_vars/bahmni_launch_key.pem
 
 
-ansible-playbook -i infra_inventory infra.yml
+ansible-playbook -i infra_inventory infra.yml -vvv

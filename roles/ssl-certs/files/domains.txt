@@ -1,1 +1,1 @@
-mybahmni.org qa01.mybahmni.org showcase01.mybahmni.org
+mybahmni.org product-qa01.mybahmni.org ci.mybahmni.org
