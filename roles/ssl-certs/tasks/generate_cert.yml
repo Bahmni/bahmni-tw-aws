@@ -76,8 +76,26 @@
   become: yes
   copy: src={{ item[0] }} dest=/etc/dehydrated owner=root mode=0775
   with_nested:
-    - ['files/config', 'files/domains.txt', 'files/hook-dns-01-lets-encrypt-route53.rb' ]
+    - ['files/config', 'files/hook-dns-01-lets-encrypt-route53.rb' ]
     - "{{ proxy_instances.instances }}"
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+       instance-state-name: running
+       'tag:server_type': [ "private", "public" ]
+  register: ssl_instances
+
+- name: generate domains.txt config
+  delegate_to: "{{ item.tags.Name }}"
+  become: yes
+  template:
+      src=domains.j2
+      dest=/etc/dehydrated/domains.txt
+      mode=755
+  with_items: "{{ proxy_instances.instances }}"
 
 - name: Generate certificate
   delegate_to: "{{ item.tags.Name }}"
