@@ -1,6 +1,6 @@
 ---
 
-- name: Spin up {{instance.hostname}}
+- name: Spinup {{instance.hostname}}
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"

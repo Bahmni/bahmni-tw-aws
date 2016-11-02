@@ -1,4 +1,4 @@
-- name:               Set up public subnet route table
+- name:               Setup public subnet route table
   ec2_vpc_route_table:
     vpc_id:           "{{ vpc_id }}"
     region:           "{{ aws_region }}"

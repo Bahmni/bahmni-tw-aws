@@ -1,5 +1,9 @@
 build_server_spec:
+<<<<<<< 9480685092eb4f41edfd2ab221d92365e470d9a5
    Tags: {"role": "build-server", "server_type": "public", "port": "8153/go"}
+=======
+   Tags: {"role": "build-server", "server_type": "public"}
+>>>>>>> [vinay/senthilr]Added goserver proxy config
    StartIndex: 1
    ExactCount: 1
    InstanceType: m4.large

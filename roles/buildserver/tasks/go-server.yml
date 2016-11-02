@@ -29,25 +29,32 @@
 
 - name: Installing GoServer
   become: yes
-  yum: pkg=go-server state=installed
+  yum: pkg="go-server-{{goserver_installer_version}}" state=installed
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
-  notify: start goserver service
 
-- name: Allow Go-Server to access from outside
+- name: Start goserver service
+  service: name=go-server state=started
   become: yes
-  command: /sbin/iptables -A INPUT -p tcp -s 172.16.0.0/16 --dport 8153 --ctstate NEW,ESTABLISHED -j ACCEPT -m comment --comment "Go-Server"
-  when: iptablesrules.stdout.find("Go-server") == -1
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
 
-- name: Save the changes
+- name: Allow GoServer access from vpc subnet
   become: yes
-  command: service iptables save
+  lineinfile: dest=/etc/sysconfig/iptables
+              state=present
+              regexp="^-A INPUT -s "{{infra_cidr_blocks.vpc_cidr_block}}" -p tcp -m tcp --dport 8153 -m comment --comment "Go_Server" -j ACCEPT"
+              line="-A INPUT -s "{{infra_cidr_blocks.vpc_cidr_block}}" -p tcp -m tcp --dport 8153 -m comment --comment "Go_Server" -j ACCEPT"
+              insertafter="^:OUTPUT ACCEPT \[\d*:\d*\]$"
+              backup=yes
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
 
-
+- name: restart iptables
+  become: yes
+  service: name=iptables state=restarted
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
 
 
 
