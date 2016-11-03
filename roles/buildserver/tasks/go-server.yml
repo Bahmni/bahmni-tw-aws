@@ -33,8 +33,47 @@
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
 
+ - name: Copy goserver admin credentials
+   become: yes
+   template: src=password_file.j2 dest=/var/lib/go-server/passwd-file owner=root group=root mode=0644
+   delegate_to: "{{ item.tags.Name }}"
+   with_items: "{{ bahmni_server_instances.instances }}"
+
 - name: Start goserver service
   service: name=go-server state=started
+  become: yes
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: Download github_oauth
+  get_url:
+    url: https://github.com/gocd-contrib/gocd-oauth-login/releases/download/v2.1/github-oauth-login-2.1.jar
+    dest: /var/lib/go-server/plugins/external/github-oauth-login-2.1.jar
+    owner: go
+    group: go
+    mode: 0644
+  become: yes
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: Download go_maven_poller
+  get_url:
+    url: https://github.com/1and1/go-maven-poller/releases/download/v1.1.4/go-maven-poller.jar
+    dest: /var/lib/go-server/plugins/external/go-maven-poller.jar
+    owner: go
+    group: go
+    mode: 0644
+  become: yes
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ bahmni_server_instances.instances }}"
+
+- name: Download go_slack_notifier
+  get_url:
+    url: https://github.com/ashwanthkumar/gocd-slack-build-notifier/releases/download/v1.3.1/gocd-slack-notifier-1.3.1.jar
+    dest: /var/lib/go-server/plugins/external/gocd-slack-notifier-1.3.1.jar
+    owner: go
+    group: go
+    mode: 0644
   become: yes
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ bahmni_server_instances.instances }}"
