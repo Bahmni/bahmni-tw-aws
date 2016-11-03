@@ -29,6 +29,9 @@
   service: name=haproxy state=started
   with_items: "{{ proxy_instances.instances }}"
 
+- name: Set Selinux to allow outbound access
+  seport: ports=8153 proto=tcp setype=http_port_t state=present
+
 - ec2_remote_facts:
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
