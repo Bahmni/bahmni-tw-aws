@@ -1,21 +1,28 @@
 global
-  maxconn 1028
+  log 127.0.0.1 local2 info
+  maxconn 6000
   tune.ssl.default-dh-param 2048
   daemon
   user haproxy
   group haproxy
 
 defaults
+  log global
   timeout connect 6000ms
   timeout client 60000ms
   timeout server 60000ms
-  mode    http
-  option forwardfor
+  retries 3
+  mode http
+  option httplog
   option http-server-close
   stats enable
   stats uri /stats
   stats realm Haproxy\ Statistics
   stats auth user:password
+
+frontend http_80_frontend
+  bind *:80
+  redirect scheme https code 301 if !{ ssl_fc }
 
 frontend https_443_frontend
   bind *:443 ssl crt /etc/ssl/mybahmni.org.pem
@@ -29,9 +36,8 @@ frontend https_443_frontend
 backend {{ h.tags.Name }}
   redirect scheme https if !{ ssl_fc }
   mode http
-  {% if h.tags.port is defined %}
-    server {{ h.tags.Name }} {{ h.private_ip_address }}:{{ h.tags.port }}
-  {% else %}
-    server {{ h.tags.Name }} {{ h.private_ip_address }}:80
-  {% endif %}
+  option httpclose
+  option forwardfor
+  server {{ h.tags.Name }} {{ h.private_ip_address }}:80
 {% endfor %}
+
