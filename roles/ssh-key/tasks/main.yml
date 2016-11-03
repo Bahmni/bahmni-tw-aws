@@ -1,4 +1,35 @@
----
-- include: delegate_task.yml
 
+- name: Create developers_groups
+  become: yes
+  group: name={{developer_groups}} state=present
 
+- name: Create Users
+  become: yes
+  user:
+    name: "{{item.name}}"
+    groups: "{{developer_groups}}"
+    append: no
+    shell: "{{shell}}"
+  with_items: "{{developers}}"
+
+- name: Add keys to account
+  become: yes
+  authorized_key:
+    user: "{{item.name}}"
+    key: "{{item.key}}"
+    exclusive: yes
+  with_items: "{{developers}}"
+
+- name: remove unauthorized user accounts
+  user:
+    name: "{{item.name}}"
+    state: "{{item.state}}"
+  with_items: "{{developers}}"
+
+- name: Add developers_groups group to sudo
+  become: yes
+  lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^%{{developer_groups}}' insertafter='^# %wheel' line='%{{developer_groups}} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+
+- name: reload sshd
+  become: yes
+  service: name=sshd state=reloaded

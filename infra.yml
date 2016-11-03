@@ -8,7 +8,6 @@
     - buildserver
     - ssl-certs
     - haproxy
-    - ssh-key
   vars_files:
     - "group_vars/gatewayed.yml"
     - "group_vars/secure_vars.yml"
