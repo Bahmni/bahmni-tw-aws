@@ -1,0 +1,11 @@
+---
+
+- name: Add gocd yum repo
+  become: yes
+  template:
+    src=gocd.repo.j2
+    dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
+
+- name: Install go-agent from GoCD repo
+  become: yes
+  yum: name="go-agent" state=present
