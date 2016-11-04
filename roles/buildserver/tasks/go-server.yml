@@ -1,49 +1,29 @@
-- ec2_remote_facts:
-    aws_access_key: "{{ aws_access_key }}"
-    aws_secret_key: "{{ aws_secret_key }}"
-    region:           "{{ aws_region }}"
-    filters:
-       instance-state-name: running
-       'tag:role': 'build-server'
-  register: bahmni_server_instances
+- name: Get iptable rules
+  shell: /sbin/iptables -L
+  register: iptablesrules
 
-- name: Add servers to dynamic host group
-  add_host:
-    name: "{{ item.tags.Name }}"
-    groupname: gatewayed
-    ansible_ssh_host: "{{ item.private_ip_address }}"
-    ansible_user: centos
-  with_items: "{{ bahmni_server_instances.instances }}"
+- name: Allow GoServer port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport 8153 -j ACCEPT -m comment --comment "GoServer"
+  when: iptablesrules.stdout.find("GoServer") == -1
+
+- name: Allow GoServer SSl port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport 8154 -j ACCEPT -m comment --comment "GoServerssl"
+  when: iptablesrules.stdout.find("GoServerssl") == -1
+
+- name: save iptables
+  shell: iptables-save > /etc/sysconfig/iptables
 
 - name: Copy buildserver repository
-  become: yes
   template: src=gocd.repo.j2 dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
 
 - name: Installing Java
-  become: yes
   yum: pkg=java-1.7.0-openjdk state=installed
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
 
 - name: Installing GoServer
-  become: yes
   yum: pkg="go-server-{{goserver_installer_version}}" state=installed
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
 
- - name: Copy goserver admin credentials
-   become: yes
-   template: src=password_file.j2 dest=/var/lib/go-server/passwd-file owner=root group=root mode=0644
-   delegate_to: "{{ item.tags.Name }}"
-   with_items: "{{ bahmni_server_instances.instances }}"
-
-- name: Start goserver service
-  service: name=go-server state=started
-  become: yes
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
+- name: Copy goserver admin credentials
+  template: src=passwd_file.j2 dest=/var/lib/go-server/passwd-file owner=root group=root mode=0644
 
 - name: Download github_oauth
   get_url:
@@ -52,9 +32,6 @@
     owner: go
     group: go
     mode: 0644
-  become: yes
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
 
 - name: Download go_maven_poller
   get_url:
@@ -63,9 +40,6 @@
     owner: go
     group: go
     mode: 0644
-  become: yes
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
 
 - name: Download go_slack_notifier
   get_url:
@@ -74,29 +48,6 @@
     owner: go
     group: go
     mode: 0644
-  become: yes
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
 
-- name: Allow GoServer access from vpc subnet
-  become: yes
-  lineinfile: dest=/etc/sysconfig/iptables
-              state=present
-              regexp="^-A INPUT -s "{{infra_cidr_blocks.vpc_cidr_block}}" -p tcp -m tcp --dport 8153 -m comment --comment "Go_Server" -j ACCEPT"
-              line="-A INPUT -s "{{infra_cidr_blocks.vpc_cidr_block}}" -p tcp -m tcp --dport 8153 -m comment --comment "Go_Server" -j ACCEPT"
-              insertafter="^:OUTPUT ACCEPT \[\d*:\d*\]$"
-              backup=yes
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
-
-- name: restart iptables
-  become: yes
-  service: name=iptables state=restarted
-  delegate_to: "{{ item.tags.Name }}"
-  with_items: "{{ bahmni_server_instances.instances }}"
-
-
-
-
-
-
+- name: Start goserver service
+  service: name=go-server state=started

@@ -1,11 +1,18 @@
 ---
-
 - name: Add gocd yum repo
   become: yes
   template:
     src=gocd.repo.j2
     dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
 
-- name: Install go-agent from GoCD repo
-  become: yes
-  yum: name="go-agent" state=present
+- name: Install go-agent
+  yum: name="{{ java_installer_version }}" state=present
+
+- name: Install go-agent
+  yum: name="go-agent-{{ go_agent_version }}" state=present
+
+- name: Set GO_SERVER as ci.mybahmni.org
+  template:
+    src=go-agent.j2
+    dest=/etc/default/go-agent
+  notify: Start go-agent

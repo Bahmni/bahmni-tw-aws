@@ -1,1 +1,0 @@
-# bahmni-tw-aws
