@@ -2,12 +2,13 @@
 
 - hosts: all
   roles:
-    - vpc
-    - fetch-facts
-    - ec2-instance
+#    - vpc
+#    - fetch-facts
+#    - ec2-instance
     - buildserver
-    - ssl-certs
-    - haproxy
+    - epel-repo
+#    - ssl-certs
+#    - haproxy
   vars_files:
     - "group_vars/gatewayed.yml"
     - "group_vars/secure_vars.yml"

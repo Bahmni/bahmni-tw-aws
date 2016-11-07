@@ -16,6 +16,9 @@
 - name: Copy buildserver repository
   template: src=gocd.repo.j2 dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
 
+- name: Install yum utils
+  yum: pkg=yum-utils state=installed
+
 - name: Installing Java
   yum: pkg=java-1.7.0-openjdk state=installed
 

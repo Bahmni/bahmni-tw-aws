@@ -1,4 +1,27 @@
 ---
+- name: Create Folder to copy the pem file
+  file: path=/var/go/.keys/ owner=root group=root mode=0755 state=directory
+
+- name: Drop in Ansible vault pem file
+  template:
+    src=secret.pem.j2
+    dest=/var/go/.keys/secret.pem owner=root group=root mode=0644
+
+- name: Remove require tty
+  lineinfile: regexp="^Defaults\s+requiretty" dest=/etc/sudoers state=absent
+
+- name: Add user go to sudoers group
+  lineinfile: dest=/etc/sudoers state=present regexp='^go ALL\=' line='go ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
+
+- name: Install supporting utils
+  yum: name={{item}} state=present
+  with_items:
+     - git
+     - ansible
+     - python-crypto
+     - python-paramiko
+     - python-keyczar
+
 - name: Add gocd yum repo
   become: yes
   template:
@@ -16,3 +39,4 @@
     src=go-agent.j2
     dest=/etc/default/go-agent
   notify: Start go-agent
+
