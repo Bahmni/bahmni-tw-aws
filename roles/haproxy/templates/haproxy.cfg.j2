@@ -12,9 +12,6 @@ defaults
   timeout client 60000ms
   timeout server 60000ms
   retries 3
-  mode http
-  option httplog
-  option http-server-close
   stats enable
   stats uri /stats
   stats realm Haproxy\ Statistics
@@ -26,7 +23,10 @@ frontend http_80_frontend
 
 frontend https_443_frontend
   bind *:443 ssl crt /etc/ssl/mybahmni.org.pem
+  option http-server-close
+  option forwardfor
   reqadd X-Forwarded-Proto:\ https
+  reqadd X-Forwarded-Port:\ 443
    {% for h in target_proxy_instances.instances %}
      acl host_{{ h.tags.Name }} hdr(host) -i {{ h.tags.Name }}.mybahmni.org
      use_backend {{h.tags.Name}} if host_{{ h.tags.Name }}
@@ -34,10 +34,6 @@ frontend https_443_frontend
 
 {% for h in target_proxy_instances.instances %}
 backend {{ h.tags.Name }}
-  redirect scheme https if !{ ssl_fc }
-  mode http
-  option httpclose
-  option forwardfor
-  server {{ h.tags.Name }} {{ h.private_ip_address }}:80
+  server {{ h.tags.Name }} {{ h.private_ip_address }}:443 ssl verify none
 {% endfor %}
 
