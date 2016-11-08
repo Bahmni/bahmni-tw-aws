@@ -19,6 +19,9 @@
 - name: Install yum utils
   yum: pkg=yum-utils state=installed
 
+- name: Install Git
+  yum: name=git state=present
+
 - name: Installing Java
   yum: pkg=java-1.7.0-openjdk state=installed
 
