@@ -96,7 +96,7 @@
     aws_secret_key:   "{{ aws_secret_key }}"
     command: create
     zone: "{{ PublicHostedZone }}"
-    record: "{{ created_instance.tagged_instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    record: "erp-{{ created_instance.tagged_instances.0.tags.Name }}.{{ PublicHostedZone }}"
     type: A
     ttl: 300
     value: "{{ private_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
