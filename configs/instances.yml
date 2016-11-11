@@ -4,7 +4,7 @@ ec2_instances:
   - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}" }
   - { hostname: public_proxy, spec: "{{ public_proxy_spec }}" }
   - { hostname: ci, spec: "{{ build_server_spec }}" }
-#  - { hostname: product-qa01, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-qa01, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa02, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa03, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa04, spec: "{{ qa_env_spec }}" }

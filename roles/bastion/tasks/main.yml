@@ -1,0 +1,15 @@
+- name: Set Idle Timeout Interval for User Login
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^ClientAliveInterval "
+    line="ClientAliveInterval 300"
+  notify: Reload sshd
+
+- name: Idle Timeout Interval for User
+  lineinfile: >
+    dest=/etc/ssh/sshd_config
+    regexp="^ClientAliveCountMax "
+    line="ClientAliveCountMax 6"
+  notify: Reload sshd
+
+

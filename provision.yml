@@ -21,6 +21,16 @@
    - "group_vars/vars.yml"
 
 
+- hosts: tag_role_bastion-server
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - bastion
+  vars_files:
+   - "group_vars/vars.yml"
+
 - hosts: tag_Name_ci
   become: yes
   vars:
