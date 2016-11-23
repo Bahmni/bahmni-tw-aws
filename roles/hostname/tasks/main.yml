@@ -1,0 +1,4 @@
+---
+- name: Set hostname for aws host
+  hostname: name="{{ ec2_tag_Name }}"
+  become: yes
