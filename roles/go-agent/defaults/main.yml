@@ -1,2 +1,2 @@
----
-# defaults file for goagent
+go_java_home: "/usr/java/default"
+go_agent_version: "16.11.0-4185"
