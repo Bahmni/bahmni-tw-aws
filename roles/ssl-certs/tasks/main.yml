@@ -1,4 +1,3 @@
 ---
 
-- include: inventory.yml
-- include: generate_cert.yml
+- include: letsencrypt.yml

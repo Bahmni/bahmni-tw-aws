@@ -1,1 +1,0 @@
-{{ PublicHostedZone }}{% for instance in ssl_instances.instances %} {{ instance.tags.Name }}.{{ PublicHostedZone }} erp-{{ instance.tags.Name }}.{{ PublicHostedZone }} {% endfor %}
