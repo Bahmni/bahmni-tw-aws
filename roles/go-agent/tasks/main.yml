@@ -36,6 +36,3 @@
 
 - name: Add user go to sudoers group
   lineinfile: dest=/etc/sudoers state=present regexp='^go ALL\=' line='go ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
-
-- name: Install Maven
-  yum: name=apache-maven state=present
