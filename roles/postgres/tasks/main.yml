@@ -1,0 +1,128 @@
+- name: Check if postgres yum repo rpm is present
+  stat: path={{postgres_repo_rpm_location}}
+  register: postgresRepoRpm
+
+- name: Download postgres yum repo rpm if not present
+  command: "wget -q -O {{ postgres_repo_rpm_location }} {{postgres_repo_download_url}} creates={{ postgres_repo_rpm_location }}"
+  when: postgresRepoRpm.stat.exists == false
+
+- name: Install postgresql yum repository
+  yum: name={{postgres_repo_rpm_location}} state=present
+
+- name: Install python-psycopg2
+  yum: name=python-psycopg2 state=present
+
+- name: Install postgresql
+  yum: name="postgresql92-server" state=present
+
+- name: Install postgresql-contrib
+  yum: name="postgresql92-contrib" state=present
+
+- name: Initiate database
+  command: service postgresql-{{ postgres_version }} initdb creates=/var/lib/pgsql/data/postgresql.conf
+
+- name: Copy postgresql conf
+  template:
+    src=postgresql.conf.j2
+    dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+    owner=postgres
+    group=postgres
+    mode=644
+  register: postgres_conf
+
+- name: insert/update postgres config after "local" is for Unix domain socket connections only line
+  lineinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    regexp: '^local\s+all\s+all\s+peer'
+    state: present
+    backrefs: yes
+    line: local  all    all   trust
+
+- name: insert/update postgres config after IPv4 local connections line
+  lineinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    regexp: '^host\s+all\s+all\s+127.0.0.1/32\s+ident'
+    state: present
+    backrefs: yes
+    line: host  all    all   127.0.0.1/32 trust
+
+- name: insert/update postgres config after IPv6 local connections line
+  lineinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    regexp: '^host\s+all\s+all\s+::1/128\s+ident'
+    state: present
+    backrefs: yes
+    line: host  all    all   ::1/128 trust
+
+
+- name: Removing recovery config file from master db
+  file:
+      path=/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf
+      state=absent
+  register: recovery_conf
+
+#- name: Get matched IpTable rule
+#  shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
+#  register: matchedRule
+#
+#- name: delete matching rule if exists
+#  shell: iptables -D INPUT {{ matchedRule.stdout }}
+#  when: matchedRule.stdout!=""
+#
+#- name: Allow postgres port through firewall
+#  command: /sbin/iptables -I INPUT 1 -p tcp --dport  5432 -j ACCEPT -m comment --comment "POSTGRES"
+#
+#- name: save iptables
+#  command: service iptables save
+
+- name: Stop PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=stopped
+  when: postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
+
+- name: Start PostgreSQL and enable at boot
+  service:
+    name=postgresql-{{ postgres_version }}
+    enabled=yes
+    state=started
+
+- name: Create /db-restore
+  file:
+    path=/db-restore
+    state=directory
+
+- name: Download openerp dbdump
+  get_url:
+    url: https://github.com/Bahmni/emr-functional-tests/blob/master/dbdump/openerp_backup.sql.gz?raw=true
+    dest: /db-restore
+    owner: go
+    group: go
+    mode: 0644
+
+#- name: Copy openerp backup to the machine
+#  copy: src={{ file_path }}
+#        dest=/db-restore/openerp_dump.sql.gz
+#        mode=644
+#        owner={{ bahmni_user }}
+#        group={{ bahmni_group }}
+
+- name: Drop openerp database
+  postgresql_db:
+    name=openerp
+    state=absent
+    login_user=postgres
+
+- name: Restore openerp db
+  shell: gunzip -c /db-restore/openerp_backup.sql.gz | psql -U postgres
+
+#- name: Delete restored file
+#  file:
+#    path=/db-restore/openerp_backup.sql.gz
+#    state=absent
+
+- name: Create postgres user
+  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION
+  sudo_user: postgres
+  when: postgres_user is defined and (inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee-db'])
+# creating user only in master dbs. User creation will be replicated in slave.

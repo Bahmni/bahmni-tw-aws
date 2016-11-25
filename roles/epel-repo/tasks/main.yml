@@ -3,6 +3,11 @@
     name: "{{ epel_repo_url }}"
     state: present
 
+- name: Install EPEL Apache-maven-repo.
+  get_url:
+      url: "{{ epel_apache_maven_repo_url }}"
+      dest: /etc/yum.repos.d/epel-apache-maven.repo
+
 - name: Import EPEL GPG key.
   rpm_key:
     key: "{{ epel_repo_gpg_key_url }}"

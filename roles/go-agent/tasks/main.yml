@@ -1,4 +1,8 @@
 ---
+
+- name: Installing Java
+  yum: pkg=java-1.7.0-openjdk state=installed
+
 - name: Install supporting utils
   yum: name={{item}} state=present
   with_items:
@@ -7,6 +11,7 @@
      - python-crypto
      - python-paramiko
      - python-keyczar
+     - apache-maven
 
 - name: Add gocd yum repo
   become: yes
@@ -39,3 +44,53 @@
 
 - name: Add user go to sudoers group
   lineinfile: dest=/etc/sudoers state=present regexp='^go ALL\=' line='go ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
+
+- name: Install postgresql yum repository
+  yum: name={{postgres_repo_rpm_location}} state=present
+
+- name: Reload postgresql
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=reloaded
+
+#- name: Install RVM
+#  shell: "curl -sSL https://get.rvm.io | bash"
+#
+##- name: create directory for ruby install directory
+##  file: path=/etc/rubyinstall state=directory mode=0755
+##
+##- name: copy ruby install script files
+##  copy: src=files/ruby_install.sh dest=/etc/rubyinstall/ owner=root mode=0775
+#
+#- name: Install ruby and gem
+#  shell: rvm install 1.8.7
+
+- name: Install gcc-c++ make
+  yum: name={{item}} state=present
+  with_items:
+     - gcc-c++
+     - make
+
+- name: Add nodejs repository
+  shell: curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+
+- name: Install nodejs
+  yum: name=nodejs-6.6.0 state=present
+
+- name: Install npm
+  npm: name=npm@3.10.7 global=yes state=present
+
+- name: make sure bower is installed
+  npm: name=bower@1.7.9 global=yes state=present
+
+- name: make sure grunt-cli is installed
+  npm: name=grunt-cli global=yes state=present
+
+- name: Install ant-apache-regexp
+  yum: name=ant-apache-regexp state=present
+
+- name: Install ant-junit
+  yum: name=ant-junit state=present
+
+- name: Install ant-trax
+  yum: name=ant-trax state=present
