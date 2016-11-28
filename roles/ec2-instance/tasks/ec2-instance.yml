@@ -90,6 +90,23 @@
     - created_instance.tagged_instances.0.tags.server_type is defined
     - created_instance.tagged_instances.0.tags.server_type == "public"
 
+- name: A record alias for tw proxy
+  route53:
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    command: create
+    zone: "{{ PublicHostedZone }}"
+    record: "{{ created_instance.tagged_instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    type: A
+    ttl: 300
+    value: "{{ private_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    alias: True
+    alias_hosted_zone_id: "{{ public_hosted_zone_fact.HostedZones.0.Id |replace('/hostedzone/', '')}}"
+    overwrite: true
+  when:
+    - created_instance.tagged_instances.0.tags.server_type is defined
+    - created_instance.tagged_instances.0.tags.server_type == "private"
+
 - name: A record alias for erp app private proxy
   route53:
     aws_access_key:   "{{ aws_access_key }}"

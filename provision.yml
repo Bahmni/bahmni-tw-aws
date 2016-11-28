@@ -1,26 +1,59 @@
-#- hosts: all
-#  become: yes
-#  vars:
-#   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-#   ansible_user: centos
-#  roles:
-#   - ssh-key
-#  vars_files:
-#   - "group_vars/vars.yml"
+- hosts: all
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - ssh-key
+  vars_files:
+   - "group_vars/vars.yml"
 
+- hosts: all
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - hostname
+   - ssh-key
+  vars_files:
+   - "group_vars/vars.yml"
 
-#- hosts: tag_role_build_agent
-#  become: yes
-#  vars:
-#   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-#   ansible_user: centos
-#  roles:
-#   - epel-repo
-#   - go-agent
-#  vars_files:
-#   - "group_vars/vars.yml"
+- hosts: tag_role_build_agent
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - epel-repo
+   - go-agent
+  vars_files:
+   - "group_vars/vars.yml"
 
 - hosts: tag_build_agent_resource_openerp
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - epel-repo
+   - go-agent
+   - mysql
+   - postgres
+  vars_files:
+   - "group_vars/vars.yml"
+
+- hosts: tag_role_bastion-server
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - bastion
+  vars_files:
+   - "group_vars/vars.yml"
+
+- hosts: tag_Name_ci
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
@@ -30,34 +63,34 @@
   vars_files:
    - "group_vars/vars.yml"
 
-#
-#- hosts: tag_Name_ci
-#  become: yes
-#  vars:
-#   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-#   ansible_user: centos
-#  roles:
-#   - epel-repo
-#   - buildserver
-#  vars_files:
-#   - "group_vars/vars.yml"
-#
-#- hosts: tag_role_proxy_server
-#  become: yes
-#  vars:
-#   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-#   ansible_user: centos
-#  roles:
-#   - ssl-certs
-#   - haproxy
-#  vars_files:
-#    - "group_vars/gatewayed.yml"
-#    - "group_vars/secure_vars.yml"
-#    - "group_vars/vars.yml"
-#    - "group_vars/cidr_blocks.yml"
-#    - "configs/bastion.yml"
-#    - "configs/build_server.yml"
-#    - "configs/tw_proxy.yml"
-#    - "configs/public_proxy.yml"
-#    - "configs/bahmni_qa.yml"
-#    - "configs/instances.yml"
+
+- hosts: tag_Name_ci
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - epel-repo
+   - buildserver
+  vars_files:
+   - "group_vars/vars.yml"
+
+- hosts: tag_role_proxy_server
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - ssl-certs
+   - haproxy
+  vars_files:
+    - "group_vars/gatewayed.yml"
+    - "group_vars/secure_vars.yml"
+    - "group_vars/vars.yml"
+    - "group_vars/cidr_blocks.yml"
+    - "configs/bastion.yml"
+    - "configs/build_server.yml"
+    - "configs/tw_proxy.yml"
+    - "configs/public_proxy.yml"
+    - "configs/bahmni_qa.yml"
+    - "configs/instances.yml"

@@ -7,7 +7,11 @@ ec2_instances:
   - { hostname: ci-agent01, spec: "{{ build_agent_spec }}" }
   - { hostname: ci-agent02, spec: "{{ build_agent_spec }}" }
   - { hostname: ci-agent03, spec: "{{ build_agent_spec }}" }
+  - { hostname: product-qa01, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa02, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa03, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa04, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa05, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-qa06, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-qa07, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-qa08, spec: "{{ qa_env_spec }}" }

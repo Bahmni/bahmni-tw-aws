@@ -20,9 +20,6 @@
     dest=/etc/yum.repos.d/gocd.repo owner=root group=root mode=0644
 
 - name: Install go-agent
-  yum: name="{{ java_installer_version }}" state=present
-
-- name: Install go-agent
   yum: name="go-agent-{{ go_agent_version }}" state=present
 
 - name: Set GO_SERVER as ci.mybahmni.org
@@ -52,18 +49,6 @@
   service:
     name=postgresql-{{ postgres_version }}
     state=reloaded
-
-#- name: Install RVM
-#  shell: "curl -sSL https://get.rvm.io | bash"
-#
-##- name: create directory for ruby install directory
-##  file: path=/etc/rubyinstall state=directory mode=0755
-##
-##- name: copy ruby install script files
-##  copy: src=files/ruby_install.sh dest=/etc/rubyinstall/ owner=root mode=0775
-#
-#- name: Install ruby and gem
-#  shell: rvm install 1.8.7
 
 - name: Install gcc-c++ make
   yum: name={{item}} state=present

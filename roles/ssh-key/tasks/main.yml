@@ -1,4 +1,3 @@
-
 - name: Create developers_groups
   become: yes
   group: name={{developer_groups}} state=present
@@ -33,3 +32,4 @@
 - name: reload sshd
   become: yes
   service: name=sshd state=reloaded
+

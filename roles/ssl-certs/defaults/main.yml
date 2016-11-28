@@ -1,7 +1,9 @@
 ---
 # defaults file for ssl-certs
 
-dehydrated_repo: https://github.com/lukas2511/dehydrated.git
-dehydrated_version: master
-dehydrated_keep_updated: yes
-dehydrated_dir: /opt/dehydrated
+certs_dir: /etc/letsencrypt-certs
+letsencrypt_prod_server: https://acme-v01.api.letsencrypt.org/directory
+email: "bahmni@thoughtworks.com"
+certs_user: root
+certs_group: root
+intermediate_cert: https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
