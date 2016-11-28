@@ -63,7 +63,6 @@
   vars_files:
    - "group_vars/vars.yml"
 
-
 - hosts: tag_Name_ci
   become: yes
   vars:
