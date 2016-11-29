@@ -1,0 +1,95 @@
+{{ ip1 }} ansible_ssh_user=centos ansible_ssh_private_key_file=/tmp/deploy_test_key.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+{{ ip2 }} ansible_ssh_user=centos ansible_ssh_private_key_file=/tmp/deploy_test_key.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[nagios-server]
+
+[bahmni-emr]
+{{ ip1 }}
+{{ ip2 }} passive=yes
+
+[bahmni-emr-db]
+{{ ip1 }}
+
+[bahmni-emr-db-slave]
+{{ ip2 }}
+
+[bahmni-erp]
+{{ ip1 }}
+{{ ip2 }} passive=yes
+
+[bahmni-erp-db]
+{{ ip1 }}
+
+[bahmni-erp-db-slave]
+{{ ip2 }}
+
+[bahmni-lab]
+{{ ip1 }}
+{{ ip2 }} passive=yes
+
+[bahmni-lab-db]
+{{ ip1 }}
+
+[bahmni-lab-db-slave]
+{{ ip2 }}
+
+[bahmni-reports]
+{{ ip1 }}
+{{ ip2 }} passive=yes
+
+[bahmni-reports-db]
+{{ ip1 }}
+
+[bahmni-reports-db-slave]
+{{ ip2 }}
+
+[atomfeed-console]
+{{ ip1 }}
+
+[pacs-integration]
+{{ ip1 }}
+{{ ip2 }} passive=yes
+
+[pacs-integration-db]
+{{ ip1 }}
+
+[pacs-integration-db-slave]
+{{ ip2 }}
+
+[dcm4chee]
+{{ ip1 }}
+{{ ip2 }} passive=yes
+
+[dcm4chee-db]
+{{ ip1 }}
+
+[dcm4chee-db-slave]
+{{ ip2 }}
+
+[bahmni-event-log-service]
+
+[bahmni-offline]
+
+[local:children]
+nagios-server
+bahmni-emr
+bahmni-emr-db
+bahmni-emr-db-slave
+bahmni-lab
+bahmni-lab-db
+bahmni-lab-db-slave
+bahmni-erp
+bahmni-erp-db
+bahmni-erp-db-slave
+bahmni-reports
+bahmni-reports-db
+bahmni-reports-db-slave
+pacs-integration
+pacs-integration-db
+pacs-integration-db-slave
+dcm4chee
+dcm4chee-db
+dcm4chee-db-slave
+bahmni-event-log-service
+bahmni-offline
+atomfeed-console

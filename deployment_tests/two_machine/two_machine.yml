@@ -1,0 +1,72 @@
+- hosts: localhost
+  vars_files:
+     - "../../group_vars/secure_vars.yml"
+  tasks:
+  - name: terminate deployment instance
+    include: ../terminate_instance.yml
+    vars:
+      - instance_name: "{{ deploy_instances[0] }}"
+
+  - name: terminate deployment instance
+    include: ../terminate_instance.yml
+    vars:
+      - instance_name: "{{ deploy_instances[1] }}"
+  tags:
+    - terminate_instances
+
+- hosts: localhost
+  vars_files:
+    - "../../group_vars/secure_vars.yml"
+    - "../../group_vars/vars.yml"
+    - "../../group_vars/cidr_blocks.yml"
+    - "../../configs/bahmni_deploy.yml"
+  roles:
+      - { role: ../../roles/fetch-facts }
+      - { role: ../../roles/ec2-instance, "instance_key": "deploy_test_key", ec2_instances: [{ "hostname": "{{ deploy_instances[0] }}", "spec": "{{ deploy_env_spec }}" }, { "hostname": "{{ deploy_instances[1] }}", "spec": "{{ deploy_env_spec }}" }]}
+
+- hosts: localhost
+  vars_files:
+    - "../../group_vars/cidr_blocks.yml"
+  tasks:
+  - name: wait for ssh to come up
+    wait_for:
+      host: "{{ item }}.{{ PrivateHostedZone }}"
+      port: 22
+      delay: 60
+      timeout: 320
+      state: started
+    with_items: "{{ deploy_instances }}"
+
+- hosts: localhost
+  become: yes
+  vars_files:
+       - "../../group_vars/secure_vars.yml"
+  tasks:
+  - name: add bahmni development repo
+    template:
+      src: ../bahmni.repo.j2
+      dest: /etc/yum.repos.d/bahmni.repo
+      mode: 0644
+
+  - name: remove bahmni installer package
+    yum:
+      name: bahmni-installer
+      state: absent
+
+  - name: install bahmni-installer package
+    yum:
+      name: "bahmni-installer-{{ bahmni_version }}"
+      state: latest
+      update_cache: yes
+
+  - name: setup bahmni installer files
+    include: two_machine_installer_setup.yml
+
+  - name: install bahmni
+    command: "bahmni -i two_machine install"
+
+  - name: setup mysql replication
+    command: "bahmni -i two_machine setup-mysql-replication"
+
+  - name: setup postgres replication
+    command: "bahmni -i two_machine setup-postgres-replication"

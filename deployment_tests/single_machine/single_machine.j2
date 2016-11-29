@@ -1,0 +1,82 @@
+{{ ip }} ansible_ssh_user=centos ansible_ssh_private_key_file=/tmp/deploy_test_key.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[nagios-server]
+
+[bahmni-emr]
+{{ ip }}
+
+[bahmni-emr-db]
+{{ ip }}
+
+[bahmni-emr-db-slave]
+
+[bahmni-erp]
+{{ ip }}
+
+[bahmni-erp-db]
+{{ ip }}
+
+[bahmni-erp-db-slave]
+
+[bahmni-lab]
+{{ ip }}
+
+[bahmni-lab-db]
+{{ ip }}
+
+[bahmni-lab-db-slave]
+
+[bahmni-reports]
+{{ ip }}
+
+[bahmni-reports-db]
+{{ ip }}
+
+[bahmni-reports-db-slave]
+
+[atomfeed-console]
+{{ ip }}
+
+[pacs-integration]
+{{ ip }}
+
+[pacs-integration-db]
+{{ ip }}
+
+[pacs-integration-db-slave]
+
+[dcm4chee]
+{{ ip }}
+
+[dcm4chee-db]
+{{ ip }}
+
+[dcm4chee-db-slave]
+
+[bahmni-event-log-service]
+
+[bahmni-offline]
+
+[local:children]
+nagios-server
+bahmni-emr
+bahmni-emr-db
+bahmni-emr-db-slave
+bahmni-lab
+bahmni-lab-db
+bahmni-lab-db-slave
+bahmni-erp
+bahmni-erp-db
+bahmni-erp-db-slave
+bahmni-reports
+bahmni-reports-db
+bahmni-reports-db-slave
+pacs-integration
+pacs-integration-db
+pacs-integration-db-slave
+dcm4chee
+dcm4chee-db
+dcm4chee-db-slave
+bahmni-event-log-service
+bahmni-offline
+atomfeed-console

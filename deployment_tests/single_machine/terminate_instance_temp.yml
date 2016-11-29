@@ -1,0 +1,8 @@
+- hosts: localhost
+  vars_files:
+     - "../../group_vars/secure_vars.yml"
+  tasks:
+  - name: terminate deployment instances
+    include: ../terminate_instance.yml
+    vars:
+      - instance_name: "{{ deploy_instances[0] }}"
