@@ -1,0 +1,31 @@
+- name: fetch information about instance
+  ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      'tag:Name': "{{ deploy_instances[0] }}"
+  register: response
+
+- name: ip address of instance
+  set_fact:
+    ip: "{{ response.instances[0].private_ip_address }}"
+
+- name: generate inventory file
+  template:
+    src: single_machine.j2
+    dest: /etc/bahmni-installer/single_machine
+    mode: 0644
+
+- name: generate setup file
+  template:
+    src: ../setup.yml.j2
+    dest: /etc/bahmni-installer/setup.yml
+    mode: 0644
+
+- name: copy ssh key
+  copy:
+    src: ../deploy_test_key.pem
+    dest: /tmp/deploy_test_key.pem
+    mode: 0600

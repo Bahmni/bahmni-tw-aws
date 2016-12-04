@@ -1,0 +1,18 @@
+- name: fetch information about instance
+  ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      'tag:Name': "{{ instance_name }}"
+  register: response
+
+- name: terminate instance
+  ec2:
+    instance_ids: "{{ response.instances[0].id }}"
+    region: "{{aws_region}}"
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    state: absent
+  when: response.instances | length > 0
