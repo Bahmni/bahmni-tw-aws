@@ -1,4 +1,3 @@
-# Proxy instance spin up must be preceeded the bahmni instances.
 ec2_instances:
   - { hostname: bastion, spec: "{{ bastion_spec }}" }
   - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}" }

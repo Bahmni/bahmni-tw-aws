@@ -1,0 +1,9 @@
+- name: Copy ci conf
+  template: src=ci.conf.j2 dest=/etc/httpd/conf.d/ci.conf owner=root group=root mode=0644
+
+- name: Copy http redirect conf
+  template: src=redirect_http.conf.j2 dest=/etc/httpd/conf.d/redirect_http.conf owner=root group=root mode=0644
+
+- name: start httpd service
+  service: name=httpd state=restarted
+  become: yes

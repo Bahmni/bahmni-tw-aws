@@ -1,3 +1,4 @@
 ---
 # tasks file for provision-goserver
-- include: go-server.yml
+#- include: go-server.yml
+- include: httpd.yml

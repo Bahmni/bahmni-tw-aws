@@ -67,6 +67,7 @@
     value: '"{{ letsencrypt_data["challenge_data"][item]["dns-01"]["resource_value"]  }}"'
     overwrite: true
   delegate_to: localhost
+  become: no
   with_items: "{{ letsencrypt_data['challenge_data'] }}"
 
 - name: Wait for 10 seconds for the configuration to take effect
