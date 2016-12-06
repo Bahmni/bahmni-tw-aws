@@ -14,3 +14,5 @@ ec2_instances:
   - { hostname: product-qa06, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa07, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa08, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
+

@@ -42,13 +42,13 @@
 - name: Add user go to sudoers group
   lineinfile: dest=/etc/sudoers state=present regexp='^go ALL\=' line='go ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
 
-- name: Install postgresql yum repository
-  yum: name={{postgres_repo_rpm_location}} state=present
-
-- name: Reload postgresql
-  service:
-    name=postgresql-{{ postgres_version }}
-    state=reloaded
+#- name: Install postgresql yum repository
+#  yum: name={{postgres_repo_rpm_location}} state=present
+#
+#- name: Reload postgresql
+#  service:
+#    name=postgresql-{{ postgres_version }}
+#    state=reloaded
 
 - name: Install gcc-c++ make
   yum: name={{item}} state=present

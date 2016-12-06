@@ -1,11 +1,7 @@
-<<<<<<< HEAD
----
-# defaults file for goagent
-postgres_repo_rpm_name: pgdg-centos92-9.2-6.noarch.rpm
-postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
-postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
+download_folder: /opt
 postgres_version: 9.2
-=======
+postgres_repo_rpm_name: pgdg-centos92-9.2-8.noarch.rpm
+postgres_repo_download_url: https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
+postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 go_java_home: "/usr/java/default"
 go_agent_version: "16.11.0-4185"
->>>>>>> 5038ec6253ab0eda9e3ee3504d811c22362c8a25

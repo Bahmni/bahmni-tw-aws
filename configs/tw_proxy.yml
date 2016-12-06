@@ -7,7 +7,7 @@ tw_proxy_spec:
      - "{{ SecurityGroupIds.tw_proxy }}"
    AmiId: "{{ available_amis.hardened_ami }}"
    SubnetId: "{{ SubnetIds.public }}"
-   AssignPublicIp: yes
+   public_ip: "52.220.231.34"
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40

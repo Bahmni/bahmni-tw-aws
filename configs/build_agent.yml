@@ -2,7 +2,7 @@ build_agent_spec:
    Tags: {"role": "build-agent"}
    StartIndex: 1
    ExactCount: 1
-   InstanceType: m4.large
+   InstanceType: t2.large
    SecurityGroups:
      - "{{ SecurityGroupIds.bahmni }}"
    AmiId: "{{ available_amis.bahmni_ami }}"

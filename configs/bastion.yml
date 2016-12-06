@@ -3,11 +3,11 @@ bastion_spec:
    StartIndex: 1
    ExactCount: 1
    InstanceType: t2.micro
+   public_ip: "52.220.233.188"
    SecurityGroups:
      - "{{ SecurityGroupIds.bastion }}"
    AmiId: "{{ available_amis.hardened_ami }}"
    SubnetId: "{{ SubnetIds.public }}"
-   AssignPublicIp: yes
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40

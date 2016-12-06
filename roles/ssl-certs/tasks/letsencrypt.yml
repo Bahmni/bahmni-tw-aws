@@ -56,6 +56,7 @@
   register: letsencrypt_data
 
 - name: Create txt record for {{ ec2_tag_Name }}
+  become: no
   route53:
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"

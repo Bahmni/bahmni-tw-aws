@@ -4,16 +4,6 @@
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
-   - ssh-key
-  vars_files:
-   - "group_vars/vars.yml"
-
-- hosts: all
-  become: yes
-  vars:
-   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-   ansible_user: centos
-  roles:
    - hostname
    - ssh-key
   vars_files:
@@ -60,15 +50,6 @@
    ansible_user: centos
   roles:
    - mysql
-  vars_files:
-   - "group_vars/vars.yml"
-
-- hosts: tag_Name_ci
-  become: yes
-  vars:
-   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-   ansible_user: centos
-  roles:
    - epel-repo
    - buildserver
   vars_files:
@@ -80,7 +61,6 @@
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
-   - ssl-certs
    - haproxy
   vars_files:
     - "group_vars/gatewayed.yml"

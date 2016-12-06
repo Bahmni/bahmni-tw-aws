@@ -7,7 +7,7 @@ public_proxy_spec:
      - "{{ SecurityGroupIds.public_proxy }}"
    AmiId: "{{ available_amis.hardened_ami }}"
    SubnetId: "{{ SubnetIds.public }}"
-   AssignPublicIp: yes
+   public_ip: "52.77.160.197"
    InstanceVolumes:
      - VolumeSpecifications:
          - volume_size: 40
