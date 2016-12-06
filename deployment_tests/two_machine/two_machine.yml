@@ -64,3 +64,9 @@
 
   - name: install bahmni
     command: "bahmni -i two_machine -av {{ _ansible_version }} install"
+
+  - name: setup mysql replication
+    command: "bahmni -i two_machine -av {{ _ansible_version }} setup-mysql-replication"
+
+  - name: setup postgres replication
+    command: "bahmni -i two_machine -av {{ _ansible_version }} setup-postgres-replication"
