@@ -8,6 +8,7 @@
    - ssh-key
   vars_files:
    - "group_vars/vars.yml"
+   - "group_vars/users.yml"
 
 - hosts: tag_role_build_agent
   become: yes
@@ -63,8 +64,7 @@
   roles:
    - haproxy
   vars_files:
-    - "group_vars/gatewayed.yml"
-    - "group_vars/secure_vars.yml"
+    - "group_vars/aws_credentials.yml"
     - "group_vars/vars.yml"
     - "group_vars/cidr_blocks.yml"
     - "configs/bastion.yml"
