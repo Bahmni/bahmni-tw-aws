@@ -63,10 +63,10 @@
     include: two_machine_installer_setup.yml
 
   - name: install bahmni
-    command: "bahmni -i two_machine -av {{ _ansible_version }} install"
+    command: "bahmni -i two_machine install"
 
   - name: setup mysql replication
-    command: "bahmni -i two_machine -av {{ _ansible_version }} setup-mysql-replication"
+    command: "bahmni -i two_machine setup-mysql-replication"
 
   - name: setup postgres replication
-    command: "bahmni -i two_machine -av {{ _ansible_version }} setup-postgres-replication"
+    command: "bahmni -i two_machine setup-postgres-replication"

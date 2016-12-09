@@ -57,4 +57,4 @@
     include: single_machine_installer_setup.yml
 
   - name: install bahmni
-    command: "bahmni -i single_machine -av {{ _ansible_version }} install"
+    command: "bahmni -i single_machine install"
