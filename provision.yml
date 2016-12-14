@@ -1,15 +1,3 @@
-- hosts: all
-  become: yes
-  vars:
-   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-   ansible_user: centos
-  roles:
-   - hostname
-   - ssh-key
-  vars_files:
-   - "group_vars/vars.yml"
-   - "group_vars/users.yml"
-
 - hosts: tag_role_build_agent
   become: yes
   vars:
@@ -73,3 +61,18 @@
     - "configs/public_proxy.yml"
     - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
+  tags:
+    - update_proxy
+
+- hosts: tag_role_bahmni-server
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+    - ssl-certs
+  vars_files:
+    - "group_vars/aws_credentials.yml"
+    - "group_vars/cidr_blocks.yml"
+  tags:
+    - renew_certs

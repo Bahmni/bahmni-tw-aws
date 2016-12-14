@@ -1,9 +1,7 @@
 ---
-
 - hosts: all
   roles:
-    - fetch-facts
-    - ec2-instance
+    - vpc
   vars_files:
     - "group_vars/aws_credentials.yml"
     - "group_vars/vars.yml"
@@ -15,5 +13,4 @@
     - "configs/public_proxy.yml"
     - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
-  tags:
-    - create_instance
+

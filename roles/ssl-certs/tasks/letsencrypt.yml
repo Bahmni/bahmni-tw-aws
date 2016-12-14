@@ -40,12 +40,22 @@
   command: openssl genrsa -out {{ certs_dir }}/domain.key 4096
   become: yes
 
-- name: generate certificate signing request
-  command: openssl req -new -key {{ certs_dir }}/domain.key -out {{ certs_dir }}/csr.csr -subj "/CN={{ ec2_tag_Name }}.{{ PublicHostedZone }}"
+- name: Copy openssl configuration file
+  template:
+    src=openssl.cnf.j2
+    dest=/etc/ssl/openssl.cnf
+    owner={{ certs_user }}
+    group={{ certs_group }}
+    mode=0644
   become: yes
 
-- name: send request to LetsEncrypt server to get dns-01 challege
-  letsencrypt:
+- name: generate certificate signing request
+  shell: openssl req -new -sha256 -key {{ certs_dir }}/domain.key -subj "/CN={{ ec2_tag_Name }}.{{ PublicHostedZone }}" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS.1:{{ ec2_tag_Name }}.{{ PublicHostedZone }},DNS.2:erp-{{ ec2_tag_Name }}.{{ PublicHostedZone }}")) -out {{ certs_dir }}/csr.csr
+  args:
+    executable: /bin/bash
+  become: yes
+
+- letsencrypt:
      acme_directory: "{{ letsencrypt_prod_server }}"
      account_email: "{{ email }}"
      account_key: "{{ certs_dir }}/account.key"

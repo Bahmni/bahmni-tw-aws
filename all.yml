@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - hostname
+  vars_files:
+   - "group_vars/users.yml"
+
+- hosts: all
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - ssh-key
+  tags:
+   - manage_user
+  vars_files:
+   - "group_vars/users.yml"

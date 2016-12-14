@@ -1,7 +1,9 @@
 ---
 
-- hosts: all
+- hosts:
   roles:
     - ssl-certs
   vars_files:
-        - "group_vars/secure_vars.yml"
+    - "group_vars/aws_credentials.yml"
+  tags:
+    - renew_certs
