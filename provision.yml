@@ -8,6 +8,8 @@
    - go-agent
   vars_files:
    - "group_vars/vars.yml"
+  tags:
+    - provision_build_agent
 
 - hosts: tag_build_agent_resource_openerp
   become: yes
@@ -21,6 +23,8 @@
    - postgres
   vars_files:
    - "group_vars/vars.yml"
+  tags:
+    - provision_erp_build_agent
 
 - hosts: tag_role_bastion-server
   become: yes
@@ -31,6 +35,8 @@
    - bastion
   vars_files:
    - "group_vars/vars.yml"
+  tags:
+    - provision_bastion
 
 - hosts: tag_Name_ci
   become: yes
@@ -43,28 +49,20 @@
    - buildserver
   vars_files:
    - "group_vars/vars.yml"
+  tags:
+    - provision_ci
 
-- hosts: tag_role_proxy_server
+- hosts: tag:role=bahmni-server
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
    - haproxy
-  vars_files:
-    - "group_vars/aws_credentials.yml"
-    - "group_vars/vars.yml"
-    - "group_vars/cidr_blocks.yml"
-    - "configs/bastion.yml"
-    - "configs/build_server.yml"
-    - "configs/tw_proxy.yml"
-    - "configs/public_proxy.yml"
-    - "configs/bahmni_qa.yml"
-    - "configs/instances.yml"
   tags:
     - update_proxy
 
-- hosts: tag_role_bahmni-server
+- hosts: tag:role=bahmni-server
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
