@@ -4,7 +4,6 @@ SCRIPT_DIR=`cd $TEMP_SCRIPT_DIR; pwd`
 cd $SCRIPT_DIR/..
 INVENTORY="inventory/"
 PROVISION="provision.yml"
-ALL="all.yml"
 VPC="vpc.yml"
 INFRA="infra.yml"
 
@@ -19,7 +18,7 @@ function update-user
 {
    title
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
-   ansible-playbook -i $INVENTORY $ALL -t manage_user -vvv
+   ansible-playbook -i $INVENTORY $INFRA -t ssh_user -vvv
 
 }
 
@@ -55,18 +54,11 @@ function update-proxy
 
 }
 
-function provision-ci
+function provision-build-server
 {
    title
-   echo -e "\033[01;35m---------- Update proxy configuration ----------"
-   ansible-playbook -i $INVENTORY $PROVISION -t provision_ci -vvv
-}
-
-function provision-ci
-{
-   title
-   echo -e "\033[01;35m---------- Provision CIAgent ----------"
-   ansible-playbook -i $INVENTORY $PROVISION -t provision_ci -vvv
+   echo -e "\033[01;35m---------- Provision Build Server ----------"
+   ansible-playbook -i $INVENTORY $PROVISION -t provision_build_server -vvv
 }
 
 function provision-erpagent
@@ -77,8 +69,7 @@ function provision-erpagent
 
 }
 
-function provision-build-agent
-
+function provision-buildagent
 {
    title
    echo -e "\033[01;35m---------- Provision-build-agent ----------"
@@ -122,8 +113,8 @@ case "$1" in
 -p |--update-proxy)
     update-proxy
     ;;
--ci |--provision-ci)
-    provision-ci
+-bs |--provision-buildserver)
+    provision-build-server
     ;;
 -ea |--provision-erpagent)
     provision-erpagent
@@ -137,6 +128,6 @@ case "$1" in
     exit 0
     ;;
 *)
-    echo $"Usage: $0 {create-user|delete-user|create-vpc|renew-certs|spinup-instance|update-proxy|provison-ci|provision-erpagent|provision-buildagent|help}"
+    echo $"Usage: $0 {create-user|delete-user|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
 esac

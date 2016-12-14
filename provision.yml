@@ -1,10 +1,11 @@
-- hosts: tag_role_build_agent
+- hosts: 172.21.3.9
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
    - epel-repo
+   - oracle-java
    - go-agent
   vars_files:
    - "group_vars/vars.yml"
@@ -50,7 +51,7 @@
   vars_files:
    - "group_vars/vars.yml"
   tags:
-    - provision_ci
+    - provision_build_server
 
 - hosts: tag:role=bahmni-server
   become: yes

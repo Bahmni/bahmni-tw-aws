@@ -51,5 +51,11 @@
 - name: Start httpd
   service: name=httpd state=started enabled=yes
 
-- name: Remove ssl.conf
+- name: remove ssl.conf
   file: path=/etc/httpd/conf.d/ssl.conf state=absent
+
+- name: set httpd_enable_cgi for SELinux
+  seboolean:
+    name=httpd_enable_cgi
+    state=yes
+    persistent=yes

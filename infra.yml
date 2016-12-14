@@ -1,12 +1,11 @@
----
-
-- hosts: all
+- hosts: localhost
   roles:
     - fetch-facts
     - ec2-instance
   vars_files:
     - "group_vars/aws_credentials.yml"
     - "group_vars/vars.yml"
+    - "group_vars/users.yml"
     - "group_vars/cidr_blocks.yml"
     - "configs/bastion.yml"
     - "configs/build_server.yml"
@@ -17,3 +16,30 @@
     - "configs/instances.yml"
   tags:
     - create_instance
+
+- hosts: all
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - hostname
+  vars_files:
+   - "group_vars/users.yml"
+  tags:
+    - create_instance
+
+- hosts: all
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - ssh-key
+  tags:
+   - manage_user
+  vars_files:
+   - "group_vars/users.yml"
+  tags:
+    - create_instance
+    - ssh_user
