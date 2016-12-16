@@ -1,6 +1,6 @@
 - hosts: localhost
   vars_files:
-     - "../../group_vars/secure_vars.yml"
+     - "../../group_vars/aws_credentials.yml"
   tasks:
   - name: terminate deployment instances
     include: ../terminate_instance.yml

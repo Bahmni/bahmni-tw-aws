@@ -1,6 +1,6 @@
 - hosts: localhost
   vars_files:
-     - "../../group_vars/secure_vars.yml"
+     - "../../group_vars/aws_credentials.yml"
   tasks:
   - name: terminate deployment instances
     include: ../terminate_instance.yml
@@ -11,7 +11,7 @@
 
 - hosts: localhost
   vars_files:
-    - "../../group_vars/secure_vars.yml"
+    - "../../group_vars/aws_credentials.yml"
     - "../../group_vars/vars.yml"
     - "../../group_vars/cidr_blocks.yml"
     - "../../configs/bahmni_deploy.yml"
@@ -34,7 +34,7 @@
 - hosts: localhost
   become: yes
   vars_files:
-       - "../../group_vars/secure_vars.yml"
+       - "../../group_vars/aws_credentials.yml"
   tasks:
   - name: add bahmni development repo
     template:
