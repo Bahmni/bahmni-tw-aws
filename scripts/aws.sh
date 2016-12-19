@@ -11,7 +11,7 @@ function title
 {
 RED='\033[0;31m'
 NC='\033[0m'
-printf "${RED}Note: If this script fails, please take a look at the contents and uncomment lines that you think may be required${NC}\n"
+printf "${RED}Note: ############# ${NC}\n"
 }
 
 function update-user
@@ -78,33 +78,41 @@ function provision-buildagent
 }
 
 function display_help() {
-    echo "   -c, --create-user              Create new ssh user"
-    echo "   -d, --delete-user              Delete existing ssh user"
-    echo "   -v, --create-vpc               Create new VPC"
-    echo "   -r, --renew-certs              Create or Renew Lets encrypt certificate"
-    echo "   -s, --spinup                   Spinup new instance"
-    echo "   -h, --help                     Help"
-    echo "   -r, --renew-certs              Create or Renew Lets encrypt certificate"
-    echo "   -p, --update-proxy             Update proxy configuration"
-    echo "   -ci, --provision-ci            Provision CI Agent"
-    echo "   -ea, --provision-erpagent      Provision ERP Agent"
-    echo "   -ba, --provision-buildagent    Provision Build Agent"
-    echo
+   cat <<- _EOF_
+   Options:
+
+    -r, --refresh-users             Refresh user list in all machines
+                                    Make sure correct user details are present in "users.yml".
+
+    -v, --create-vpc                Create new VPC in AWS
+                                    Further to create the new VPC in a different Amazon region change the AWS region in playbook.
+
+    -r, --renew-certs               Install or Renew Lets encrypt certificate
+                                    It will renew the "Lets encrypt" certificate in all the machines.
+
+    -s, --spinup                    Spinup new instance
+                                    Make sure include the name and specs of the new instance in the "Instance.yml".
+
+    -h, --help                      Display this help message
+
+    -p, --update-proxy              Update proxy configuration
+                                    All bahmini server instances would be added in Haproxy configuration.
+
+    -bs, --provision-buildserver    Provision CI Server
+    -ea, --provision-erpagent       Provision ERP Agent
+    -ba, --provision-buildagent     Provision Build Agent
+_EOF_
 }
 
 
 case "$1" in
--c | --create-user)
+-r | --refresh-user)
     update-user
     ;;
--d | --delete-user)
-    update-user
-    ;;
-
 -v |--create-vpc)
     create-vpc
     ;;
--r |--renew-certs)
+-c |--renew-certs)
     renew-certs
     ;;
 -s |--spinup)
@@ -128,6 +136,6 @@ case "$1" in
     exit 0
     ;;
 *)
-    echo $"Usage: $0 {create-user|delete-user|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
+    echo $"Usage: $0 {refresh-user|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
 esac

@@ -1,4 +1,4 @@
-- hosts: 172.21.3.9
+- hosts: tag_role_build_agent
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
@@ -53,17 +53,19 @@
   tags:
     - provision_build_server
 
-- hosts: tag:role=bahmni-server
+- hosts: tag_role_bahmni_server
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
    - haproxy
+  vars_files:
+    - "group_vars/aws_credentials.yml"
   tags:
     - update_proxy
 
-- hosts: tag:role=bahmni-server
+- hosts: tag_role_bahmni_server
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'

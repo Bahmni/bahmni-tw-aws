@@ -23,9 +23,9 @@
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
-   - hostname
+    - hostname
   vars_files:
-   - "group_vars/users.yml"
+    - "group_vars/users.yml"
   tags:
     - create_instance
 
@@ -35,11 +35,9 @@
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
-   - ssh-key
-  tags:
-   - manage_user
+    - ssh-key
   vars_files:
-   - "group_vars/users.yml"
+    - "group_vars/users.yml"
   tags:
     - create_instance
     - ssh_user

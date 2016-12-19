@@ -11,5 +11,3 @@
     regexp="^ClientAliveCountMax "
     line="ClientAliveCountMax 6"
   notify: Reload sshd
-
-
