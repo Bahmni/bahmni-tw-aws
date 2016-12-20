@@ -1,0 +1,56 @@
+- name: Drop in common yum repo files
+  copy: src={{item}} dest=/etc/yum.repos.d/
+  with_items:
+    - epel.repo
+
+- name: Fetch EPEL GPG key
+  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+
+#- name: cleaning task for yum
+#  command: /usr/bin/yum clean all
+
+#- name: delete cache files
+#  file: path=/var/cache/{{ item }}
+#        state=absent
+#  with_items:
+#    - yum
+
+- name: Install Common Libraries
+  yum: state=present name={{ item }}
+  with_items:
+   - "gcc-c++"
+   - "openssl-devel"
+   - "python-devel"
+   - "python-setuptools"
+   - "git"
+   - "ansible"
+
+- name: Install PIP
+  easy_install: name=pip state=latest
+
+- name: Install awscli and boto
+  become: yes
+  pip: name={{ item }}
+  with_items:
+    - "boto"
+    - "boto3"
+    - "awscli"
+
+- name: Create directory for checking out source
+  file: path="{{bahmni_aws_codebase_directory}}" state=directory owner="{{ owner }}" group="{{ group }}"
+
+- name: Check if Bahmni AWS Codebase is already cloned
+  stat: path='{{bahmni_aws_codebase_directory}}/bahmni-tw-aws'
+  register: repo_dir
+
+- name: Checkout Bahmni AWS Codebase
+  command: 'git clone {{repo_url}} chdir={{bahmni_aws_codebase_directory}}'
+  when: repo_dir.stat.exists == false
+
+- name: Create Folder to copy the pem file
+  file: path=/home/centos/.keys/ owner="{{ owner }}" group="{{ group }}" mode=0755 state=directory
+
+- name: Drop in Ansible vault pem file
+  template:
+    src=secret.pem.j2
+    dest=/home/centos/.keys/secret.pem owner="{{ owner }}" group="{{ group }}" mode=0644

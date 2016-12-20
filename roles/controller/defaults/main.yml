@@ -1,0 +1,4 @@
+---
+repo_url: "https://{{git_user_name}}:{{git_user_password}}@github.com/Bahmni/bahmni-tw-aws.git"
+owner: "centos"
+group: "centos"
