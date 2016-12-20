@@ -6,6 +6,7 @@ INVENTORY="inventory/"
 PROVISION="provision.yml"
 VPC="vpc.yml"
 INFRA="infra.yml"
+BASTION="bastion.yml"
 
 function title
 {
@@ -77,6 +78,14 @@ function provision-buildagent
 
 }
 
+function bastion-server
+{
+   title
+   echo -e "\033[01;35m---------- Bastion Server ----------"
+   ansible-playbook -i ec2.py $BASTION -vvv
+
+}
+
 function display_help() {
    cat <<- _EOF_
    Options:
@@ -87,7 +96,7 @@ function display_help() {
     -v, --create-vpc                Create new VPC in AWS
                                     Further to create the new VPC in a different Amazon region change the AWS region in playbook.
 
-    -r, --renew-certs               Install or Renew Lets encrypt certificate
+    -c, --renew-certs               Install or Renew Lets encrypt certificate
                                     It will renew the "Lets encrypt" certificate in all the machines.
 
     -s, --spinup                    Spinup new instance
@@ -101,6 +110,8 @@ function display_help() {
     -bs, --provision-buildserver    Provision CI Server
     -ea, --provision-erpagent       Provision ERP Agent
     -ba, --provision-buildagent     Provision Build Agent
+    -br, --provision-bastionserver  Provision Bastion Server
+    -cr, --provision-controller     Provision Ansible controller
 _EOF_
 }
 
@@ -130,12 +141,15 @@ case "$1" in
 -ba |--provision-buildagent)
     provision-buildagent
     ;;
+-br |--provision-bastionserver)
+    bastion-server
+    ;;
 
 -h | --help)
     display_help  # Call your function
     exit 0
     ;;
 *)
-    echo $"Usage: $0 {refresh-user|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
+    echo $"Usage: $0 {refresh-user|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
 esac

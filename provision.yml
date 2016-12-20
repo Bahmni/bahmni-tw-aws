@@ -7,6 +7,7 @@
    - epel-repo
    - oracle-java
    - go-agent
+   - maven
   vars_files:
    - "group_vars/vars.yml"
   tags:
