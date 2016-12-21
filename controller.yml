@@ -3,10 +3,14 @@
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
+   environment:
+      AWS_ACCESS_KEY_ID: "{{aws_access_key}}"
+      AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
   roles:
     - controller
-    - hostname
-    - ssh-key
+#    - hostname
+#    - ssh-key
   vars_files:
     - "group_vars/vars.yml"
     - "group_vars/users.yml"
+    - "group_vars/aws_credentials.yml"
