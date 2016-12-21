@@ -19,6 +19,7 @@
   yum: state=present name={{ item }}
   with_items:
    - "gcc-c++"
+   - "python27"
    - "openssl-devel"
    - "python-devel"
    - "python-setuptools"
@@ -53,4 +54,13 @@
 - name: Drop in Ansible vault pem file
   template:
     src=secret.pem.j2
-    dest=/home/centos/.keys/secret.pem owner="{{ owner }}" group="{{ group }}" mode=0644
+    dest=/home/centos/.keys/bahmni-tw-aws.pem owner="{{ owner }}" group="{{ group }}" mode=0644
+
+- cron:
+    name: Lets encypt Renewal
+    minute: 00
+    hour: 01
+    day: 1
+    month: 3
+    user: centos
+    job: "/bin/sh {{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c"

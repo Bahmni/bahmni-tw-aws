@@ -15,7 +15,7 @@ NC='\033[0m'
 printf "${RED}Note: ############# ${NC}\n"
 }
 
-function update-user
+function refresh-user
 {
    title
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
