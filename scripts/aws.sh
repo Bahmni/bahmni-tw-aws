@@ -7,6 +7,7 @@ PROVISION="provision.yml"
 VPC="vpc.yml"
 INFRA="infra.yml"
 BASTION="bastion.yml"
+CONTROLLER="controller.yml"
 
 function title
 {
@@ -86,6 +87,15 @@ function bastion-server
 
 }
 
+function provision-controller
+{
+   title
+   echo -e "\033[01;35m---------- Controller Server ----------"
+   ansible-playbook -i ec2.py $CONTROLLER -vvv
+
+}
+
+
 function display_help() {
    cat <<- _EOF_
    Options:
@@ -118,7 +128,7 @@ _EOF_
 
 case "$1" in
 -r | --refresh-user)
-    update-user
+    refresh-user
     ;;
 -v |--create-vpc)
     create-vpc
@@ -145,11 +155,15 @@ case "$1" in
     bastion-server
     ;;
 
+-cr |--provision-controller)
+    provision-controller
+    ;;
+
 -h | --help)
     display_help  # Call your function
     exit 0
     ;;
 *)
-    echo $"Usage: $0 {refresh-user|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
+    echo $"Usage: $0 {refresh-user|provision-controller|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
 esac

@@ -6,23 +6,17 @@
 - name: Fetch EPEL GPG key
   copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
 
-#- name: cleaning task for yum
-#  command: /usr/bin/yum clean all
+- name: setup centos releas-scl
+  command: /usr/bin/yum install -y centos-release-SCL
 
-#- name: delete cache files
-#  file: path=/var/cache/{{ item }}
-#        state=absent
-#  with_items:
-#    - yum
+- name: cleaning task for yum
+  command: /usr/bin/yum clean all
 
 - name: Install Common Libraries
   yum: state=present name={{ item }}
   with_items:
    - "gcc-c++"
    - "python27"
-   - "openssl-devel"
-   - "python-devel"
-   - "python-setuptools"
    - "git"
    - "ansible"
 
@@ -49,12 +43,17 @@
   when: repo_dir.stat.exists == false
 
 - name: Create Folder to copy the pem file
-  file: path=/home/centos/.keys/ owner="{{ owner }}" group="{{ group }}" mode=0755 state=directory
+  file: path=~/.keys/ owner="{{ owner }}" group="{{ group }}" mode=0755 state=directory
+
+- name: Change ownership to '{{ owner }}'
+  file: path="{{bahmni_aws_codebase_directory}}/bahmni-tw-aws" state=directory recurse=yes owner="{{ owner }}" group="{{ group }}"
 
 - name: Drop in Ansible vault pem file
+  become: yes
+  become_user: "{{ owner }}"
   template:
-    src=secret.pem.j2
-    dest=/home/centos/.keys/bahmni-tw-aws.pem owner="{{ owner }}" group="{{ group }}" mode=0644
+    src=ansible_vault_secret.pem.j2
+    dest=~/.keys/bahmni-tw-aws.pem owner="{{ owner }}" group="{{ group }}" mode=0644
 
 - cron:
     name: Lets encypt Renewal
