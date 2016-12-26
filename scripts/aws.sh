@@ -6,6 +6,7 @@ INVENTORY="inventory/"
 PROVISION="provision.yml"
 VPC="vpc.yml"
 INFRA="infra.yml"
+ALL_HOSTS="all.yml"
 BASTION="bastion.yml"
 CONTROLLER="controller.yml"
 
@@ -20,7 +21,7 @@ function refresh-user
 {
    title
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
-   ansible-playbook -i $INVENTORY $INFRA -t ssh_user -vvv
+   ansible-playbook -i ${INVENTORY}/ec2.py $ALL_HOSTS -t ssh_user -vvv
 
 }
 
