@@ -1,5 +1,5 @@
 ---
-repo_url: "https://{{git_user_name}}:{{git_user_password}}@github.com/Bahmni/bahmni-tw-aws.git"
+repo_url: "https://github.com/Bahmni/bahmni-tw-aws.git"
 owner: "root"
 group: "root"
 

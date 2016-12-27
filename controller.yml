@@ -8,8 +8,8 @@
       AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
   roles:
     - controller
-#    - hostname
-#    - ssh-key
+    - hostname
+    - ssh-key
   vars_files:
     - "group_vars/vars.yml"
     - "group_vars/users.yml"

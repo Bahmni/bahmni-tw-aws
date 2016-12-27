@@ -10,24 +10,15 @@ ALL_HOSTS="all.yml"
 BASTION="bastion.yml"
 CONTROLLER="controller.yml"
 
-function title
-{
-RED='\033[0;31m'
-NC='\033[0m'
-printf "${RED}Note: ############# ${NC}\n"
-}
-
 function refresh-user
 {
-   title
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
-   ansible-playbook -i ${INVENTORY}/ec2.py $ALL_HOSTS -t ssh_user -vvv
+   ansible-playbook -i ${INVENTORY}/ec2.py $ALL_HOSTS -t manage_user -vvv
 
 }
 
 function create-vpc
 {
-   title
    echo -e "\033[01;35m---------- Creating Virtual Private Cloud in AWS ----------"
    ansible-playbook -i $INVENTORY $VPC -vvv
 
@@ -35,7 +26,6 @@ function create-vpc
 
 function renew-certs
 {
-   title
    echo -e "\033[01;35m---------- Create/Renew Certficate ----------"
    ansible-playbook -i $INVENTORY $PROVISION -t renew_certs -vvv
 
@@ -43,7 +33,6 @@ function renew-certs
 
 function spinup-instance
 {
-   title
    echo -e "\033[01;35m---------- Spinup Instance ----------"
    ansible-playbook -i $INVENTORY $INFRA -vvv
 
@@ -51,7 +40,6 @@ function spinup-instance
 
 function update-proxy
 {
-   title
    echo -e "\033[01;35m---------- Update proxy configuration ----------"
    ansible-playbook -i $INVENTORY $PROVISION -t update_proxy -vvv
 
@@ -59,14 +47,12 @@ function update-proxy
 
 function provision-build-server
 {
-   title
    echo -e "\033[01;35m---------- Provision Build Server ----------"
    ansible-playbook -i $INVENTORY $PROVISION -t provision_build_server -vvv
 }
 
 function provision-erpagent
 {
-   title
    echo -e "\033[01;35m---------- Provision ERP Build Agent ----------"
    ansible-playbook -i $INVENTORY $PROVISION -t provision_erp_build_agent -vvv
 
@@ -74,7 +60,6 @@ function provision-erpagent
 
 function provision-buildagent
 {
-   title
    echo -e "\033[01;35m---------- Provision-build-agent ----------"
    ansible-playbook -i $INVENTORY $PROVISION -t provision_build_agent -vvv
 
@@ -82,7 +67,6 @@ function provision-buildagent
 
 function bastion-server
 {
-   title
    echo -e "\033[01;35m---------- Bastion Server ----------"
    ansible-playbook -i ec2.py $BASTION -vvv
 
@@ -90,18 +74,15 @@ function bastion-server
 
 function provision-controller
 {
-   title
-   echo -e "\033[01;35m---------- Controller Server ----------"
+
    ansible-playbook -i ec2.py $CONTROLLER -vvv
 
 }
 
-
 function display_help() {
-   cat <<- _EOF_
-   Options:
-
-    -r, --refresh-users             Refresh user list in all machines
+echo -e "\n \033[3;0m Options: \n"
+cat<<'EOF'
+    -u, --refresh-users             Refresh user list in all machines
                                     Make sure correct user details are present in "users.yml".
 
     -v, --create-vpc                Create new VPC in AWS
@@ -122,13 +103,76 @@ function display_help() {
     -ea, --provision-erpagent       Provision ERP Agent
     -ba, --provision-buildagent     Provision Build Agent
     -br, --provision-bastionserver  Provision Bastion Server
-    -cr, --provision-controller     Provision Ansible controller
-_EOF_
+    -a, --provision-controller      Provision Ansible controller
+EOF
+echo -e "\033[3;91m\nNote:- Readme : \n"
+echo -e "\033[1;30m"
+cat<<'EOF'
+   =====================================================================================================================
+   Prerequisites
+   -------------
+   On the machine where you are running this script,
+   Ensure you have Ansible > 2.1 setup in your machine
+   Install python modules boto and awscli
+    - pip install boto
+    - pip install awscli
+
+   Decrypt group_vars/aws_credentials.yml.
+   ```ansible-vault decrypt group_vars/aws_credentials.yml```
+
+   Configure aws-cli. Use AWS credentials provided in the aws_credentials.yml
+   ```aws configure```
+
+   Add launch key to connect to AWS
+   eval "$(ssh-agent -s)"
+   ansible decrypt group_vars/bahmni_launch_key.pem
+   ssh-add group_vars/bahmni_launch_key.pem
+   =====================================================================================================================
+   Description
+   -----------
+
+   VPC Creation (-v, --create-vpc) :
+        To create a new VPC, the following command is executed, "aws.sh -v".
+        Further to create the new VPC in a different Amazon region the group_vars\aws_credentials.yml has to decrypted using
+        ansible vault and change the AWS region.
+
+   Spinup new instance (-s,--spinup) :
+        To create a new Instance, the following command is executed, "aws.sh -s".
+        Before executing the above command, including the name and specs of the new instance to be created in the instance.yml under config directory is mandatory.
+        As a result of the above command, the instance will be created in respective vpc according to the configuration added.
+
+   Add new user (-u, --refresh-users) :
+        To add a new ssh user, the user.yml script under group_vars directory has to decrypted using ansible vault and the name and public key details
+        of the new user has to be added and then the following command has to be executed, "aws.sh -u".
+
+   Delete existing user (-u, --refresh-users) :
+        To remove a particular user, the user.yml script under group_vars directory has to decrypted using ansible vault and the “state” of that
+        particular user has to be change to “absent” and then the following command has to be executed, "aws.sh -u". 
+
+   Renew lets encrypt certificate (-c, --renew-certs) :
+        To renew the "Lets encrypt" certificate in all instances the following command has to be executed, "aws.sh -c".
+
+   Update proxy configuration (-p, --update-proxy) :
+        To update haproxy run the following command,  "aws.sh -p".
+        As a result of the above command, all Bahmini server instances would be added in ha proxy configuration.
+
+   Provision Build Server (-bs, --provision-buildserver) : To install and configure new GoServer, "aws.sh -bs".
+
+   Provision Erpagent (-ea, --provision-erpagent) : To install and configure ERP build agent, "aws.sh -ea".
+
+   Provision Build agent (-ba, --provision-buildagent) : To install and configure build agent, "aws.sh -ba".
+
+   Provision Bastion Server ( -br, --provision-bastionserver) : To install and configure Bastion Server, "aws.sh -ba".
+
+   Provision Controller (-a, --provision-controller ) : To provision ansible controller box, "aws.sh -a".
+   =====================================================================================================================
+
+EOF
+
 }
 
-
 case "$1" in
--r | --refresh-user)
+-u | --refresh-user)
     refresh-user
     ;;
 -v |--create-vpc)
@@ -152,11 +196,11 @@ case "$1" in
 -ba |--provision-buildagent)
     provision-buildagent
     ;;
--br |--provision-bastionserver)
+-bs |--provision-bastionserver)
     bastion-server
     ;;
 
--cr |--provision-controller)
+-a |--provision-controller)
     provision-controller
     ;;
 
@@ -164,6 +208,7 @@ case "$1" in
     display_help  # Call your function
     exit 0
     ;;
+
 *)
     echo $"Usage: $0 {refresh-user|provision-controller|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
