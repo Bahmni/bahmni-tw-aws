@@ -75,7 +75,7 @@ function bastion-server
 function provision-controller
 {
 
-   ansible-playbook -i ec2.py $CONTROLLER -vvv
+   ansible-playbook -i ${INVENTORY}/ec2.py $CONTROLLER -vvv
 
 }
 

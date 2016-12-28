@@ -1,0 +1,8 @@
+- name: Start the feature instances
+  ec2:
+   region: "{{aws_region}}"
+   aws_access_key:   "{{ aws_access_key }}"
+   aws_secret_key:   "{{ aws_secret_key }}"
+   instance_tags: '{"Name": "{{instance_name}}"}'
+   state: running
+   wait: True

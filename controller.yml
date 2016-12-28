@@ -10,6 +10,8 @@
     - controller
     - hostname
     - ssh-key
+    - oracle-java
+    - go-agent
   vars_files:
     - "group_vars/vars.yml"
     - "group_vars/users.yml"

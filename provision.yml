@@ -6,6 +6,7 @@
   roles:
    - epel-repo
    - oracle-java
+   - build-utils
    - go-agent
    - maven
   vars_files:
@@ -20,6 +21,7 @@
    ansible_user: centos
   roles:
    - epel-repo
+   - build-utils
    - go-agent
    - mysql
    - postgres
