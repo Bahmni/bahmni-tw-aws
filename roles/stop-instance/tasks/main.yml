@@ -1,6 +1,5 @@
-- fail:
-    msg: "Check instance name"
-    when: instance_name == "controller"
+- fail: msg="------------Not allowed to shutdown the CONTROLLER------------"
+  failed_when: instance_name =="controller"
 
 - name: Stop the instances {{ec2_tag_Name}}
   ec2:
