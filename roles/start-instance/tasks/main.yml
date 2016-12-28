@@ -1,4 +1,4 @@
-- name: Start the feature instances
+- name: Start the instances {{ec2_tag_Name}}
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"

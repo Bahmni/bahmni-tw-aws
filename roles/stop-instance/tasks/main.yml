@@ -2,7 +2,7 @@
     msg: "The system may not be provisioned according to the CMDB status."
     when: ec2_tag_Name == "controller"
 
-- name: Stop the instances
+- name: Stop the instances {{ec2_tag_Name}}
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"
