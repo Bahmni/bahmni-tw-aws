@@ -1,3 +1,7 @@
+- fail:
+    msg: "The system may not be provisioned according to the CMDB status."
+    when: ec2_tag_Name == "controller"
+
 - name: Stop the instances
   ec2:
    region: "{{aws_region}}"
@@ -6,4 +10,3 @@
    instance_tags: '{"Name": "{{instance_name}}"}'
    state: stopped
    wait: True
-

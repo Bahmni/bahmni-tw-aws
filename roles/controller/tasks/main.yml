@@ -4,10 +4,6 @@
 - name: Adding the path in the bashrc files
   lineinfile: dest=~/.bashrc line='export AWS_SECRET_ACCESS_KEY={{aws_secret_key}}' insertafter='EOF' state=present
 
-- name: Source the bash_profile file
-  shell: source ~/.bash_profile
-  tags: test
-
 - name: Source the bashrc file
   shell: source ~/.bashrc
 
