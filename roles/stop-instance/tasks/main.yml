@@ -1,6 +1,6 @@
 - fail:
     msg: "The system may not be provisioned according to the CMDB status."
-    when: ec2_tag_Name == "controller"
+    when: instance_name == "controller"
 
 - name: Stop the instances {{ec2_tag_Name}}
   ec2:
