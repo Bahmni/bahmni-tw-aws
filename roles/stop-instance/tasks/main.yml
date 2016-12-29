@@ -1,7 +1,7 @@
 - fail: msg="------------Not allowed to shutdown the CONTROLLER------------"
   failed_when: instance_name =="controller"
 
-- name: Stop the instances {{ec2_tag_Name}}
+- name: Stop the instances {{instance_name}}
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"

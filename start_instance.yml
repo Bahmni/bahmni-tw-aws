@@ -1,6 +1,4 @@
 - hosts: all
-  vars:
-    name: "{{instance_name}}"
   roles:
     - fetch-facts
     - start-instance

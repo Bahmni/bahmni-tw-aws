@@ -9,6 +9,8 @@ INFRA="infra.yml"
 ALL_HOSTS="all.yml"
 BASTION="bastion.yml"
 CONTROLLER="controller.yml"
+INSTANCE="manage_instance.yml"
+INSTANCE_NAME='controller'
 
 function refresh-user
 {
@@ -79,6 +81,17 @@ function provision-controller
 
 }
 
+function start-instance
+{
+
+    ansible-playbook -i $INVENTORY $INSTANCE -e "instance_name=$input_instance_name" -t start_instance
+}
+
+function stop-instance
+{
+    ansible-playbook -i $INVENTORY $INSTANCE -e "instance_name=$input_instance_name" -t stop_instance
+}
+
 function display_help() {
 echo -e "\n \033[3;0m Options: \n"
 cat<<'EOF'
@@ -103,7 +116,10 @@ cat<<'EOF'
     -ea, --provision-erpagent       Provision ERP Agent
     -ba, --provision-buildagent     Provision Build Agent
     -br, --provision-bastionserver  Provision Bastion Server
-    -a, --provision-controller      Provision Ansible controller
+    -a,  --provision-controller     Provision Ansible controller
+    -n,                             Instance name
+    -st, --start-instance           start instance
+    -si, --stop-instance            stop instance
 EOF
 echo -e "\033[3;91m\nNote:- Readme : \n"
 echo -e "\033[1;30m"
@@ -171,6 +187,44 @@ EOF
 
 }
 
+if [[ "$1" != "-si" && "$1" != "-st" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-bs" && "$1" != "--provision-buildserver" && "$1" != "-ea" && "$1" != "--provision-erpagent" && "$1" != "-ba" && "$1" != "--provision-buildagent" && "$1" != "-br" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" ]]; then
+    printf "\e[31;1m syntax error \e[0m\n"
+    exit
+fi
+
+
+while getopts ":n:" opt; do
+ case $opt in
+   n) input_instance_name="$OPTARG"
+   ;;
+ esac
+done
+
+if [[ "$1" == "-si" || "$1" == "-st" ]]; then
+    if [[ -z "$input_instance_name" || "$input_instance_name" == "" ]]; then
+    printf "\e[31;1m Instance name is empty \e[0m\n"
+        exit
+    fi
+fi
+
+if [[ -z "$input_instance_name" && -z "$1" ]]; then
+    echo "Syntax error"
+    exit
+elif [ "$input_instance_name" = "$INSTANCE_NAME" ]; then
+    echo "Not allowed to shutdown controller"
+    exit
+elif [ "$input_instance_name" != "$INSTANCE_NAME" ];
+    then
+  if [ "$1" = "-si" ]; then
+    res1=$(start-instance)
+    printf "$res1"
+  elif [ "$1" = "-st" ];
+    then
+    res2=$(stop-instance)
+    printf "$res2"
+  fi
+fi
+
 case "$1" in
 -u | --refresh-user)
     refresh-user
@@ -196,7 +250,7 @@ case "$1" in
 -ba |--provision-buildagent)
     provision-buildagent
     ;;
--bs |--provision-bastionserver)
+-br |--provision-bastionserver)
     bastion-server
     ;;
 
@@ -208,8 +262,7 @@ case "$1" in
     display_help  # Call your function
     exit 0
     ;;
-
 *)
-    echo $"Usage: $0 {refresh-user|provision-controller|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
+    echo $"Usage: $0 {start-instance|stop-instance|refresh-user|provision-controller|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
 esac

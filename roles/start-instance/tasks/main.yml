@@ -1,4 +1,4 @@
-- name: Start the instances {{ec2_tag_Name}}
+- name: Start the instances {{instance_name}}
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"

@@ -1,6 +1,4 @@
 - hosts: localhost
-  vars:
-    name: "{{instance_name}}"
   roles:
     - fetch-facts
     - stop-instance
