@@ -112,14 +112,14 @@ cat<<'EOF'
     -p, --update-proxy              Update proxy configuration
                                     All bahmini server instances would be added in Haproxy configuration.
 
-    -bs, --provision-buildserver    Provision CI Server
-    -ea, --provision-erpagent       Provision ERP Agent
-    -ba, --provision-buildagent     Provision Build Agent
-    -br, --provision-bastionserver  Provision Bastion Server
-    -a,  --provision-controller     Provision Ansible controller
+    -d, --provision-buildserver     Provision CI Server
+    -e, --provision-erpagent        Provision ERP Agent
+    -g, --provision-buildagent      Provision Build Agent
+    -b, --provision-bastionserver   Provision Bastion Server
+    -a, --provision-controller      Provision Ansible controller
     -n,                             Instance name
-    -st, --start-instance           start instance
-    -si, --stop-instance            stop instance
+    -t, --start-instance            Start instance
+    -r, --stop-instance             Stop instance
 EOF
 echo -e "\033[3;91m\nNote:- Readme : \n"
 echo -e "\033[1;30m"
@@ -172,13 +172,13 @@ cat<<'EOF'
         To update haproxy run the following command,  "aws.sh -p".
         As a result of the above command, all Bahmini server instances would be added in ha proxy configuration.
 
-   Provision Build Server (-bs, --provision-buildserver) : To install and configure new GoServer, "aws.sh -bs".
+   Provision Build Server (-d, --provision-buildserver) : To install and configure new GoServer, "aws.sh -d".
 
-   Provision Erpagent (-ea, --provision-erpagent) : To install and configure ERP build agent, "aws.sh -ea".
+   Provision Erpagent (-e, --provision-erpagent) : To install and configure ERP build agent, "aws.sh -e".
 
-   Provision Build agent (-ba, --provision-buildagent) : To install and configure build agent, "aws.sh -ba".
+   Provision Build agent (-g, --provision-buildagent) : To install and configure build agent, "aws.sh -g".
 
-   Provision Bastion Server ( -br, --provision-bastionserver) : To install and configure Bastion Server, "aws.sh -ba".
+   Provision Bastion Server ( -b, --provision-bastionserver) : To install and configure Bastion Server, "aws.sh -b".
 
    Provision Controller (-a, --provision-controller ) : To provision ansible controller box, "aws.sh -a".
    =====================================================================================================================
@@ -187,7 +187,7 @@ EOF
 
 }
 
-if [[ "$1" != "-si" && "$1" != "-st" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-bs" && "$1" != "--provision-buildserver" && "$1" != "-ea" && "$1" != "--provision-erpagent" && "$1" != "-ba" && "$1" != "--provision-buildagent" && "$1" != "-br" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" ]]; then
+if [[ "$1" != "-t" && "$1" != "-r" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-d" && "$1" != "--provision-buildserver" && "$1" != "-e" && "$1" != "--provision-erpagent" && "$1" != "-g" && "$1" != "--provision-buildagent" && "$1" != "-b" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" ]]; then
     printf "\e[31;1m syntax error \e[0m\n"
     exit
 fi
@@ -200,7 +200,7 @@ while getopts ":n:" opt; do
  esac
 done
 
-if [[ "$1" == "-si" || "$1" == "-st" ]]; then
+if [[ "$1" == "-t" || "$1" == "-r" ]]; then
     if [[ -z "$input_instance_name" || "$input_instance_name" == "" ]]; then
     printf "\e[31;1m Instance name is empty \e[0m\n"
         exit
@@ -215,10 +215,10 @@ elif [ "$input_instance_name" = "$INSTANCE_NAME" ]; then
     exit
 elif [ "$input_instance_name" != "$INSTANCE_NAME" ];
     then
-  if [ "$1" = "-si" ]; then
+  if [ "$1" = "-t" ]; then
     res1=$(start-instance)
     printf "$res1"
-  elif [ "$1" = "-st" ];
+  elif [ "$1" = "-r" ];
     then
     res2=$(stop-instance)
     printf "$res2"
@@ -241,16 +241,16 @@ case "$1" in
 -p |--update-proxy)
     update-proxy
     ;;
--bs |--provision-buildserver)
+-d |--provision-buildserver)
     provision-build-server
     ;;
--ea |--provision-erpagent)
+-e |--provision-erpagent)
     provision-erpagent
     ;;
--ba |--provision-buildagent)
+-g |--provision-buildagent)
     provision-buildagent
     ;;
--br |--provision-bastionserver)
+-b |--provision-bastionserver)
     bastion-server
     ;;
 
