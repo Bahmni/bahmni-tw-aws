@@ -92,6 +92,7 @@ function stop-instance
     ansible-playbook -i $INVENTORY $INSTANCE -e "instance_name=$input_instance_name" -t stop_instance
 }
 
+
 function display_help() {
 echo -e "\n \033[3;0m Options: \n"
 cat<<'EOF'
@@ -117,9 +118,9 @@ cat<<'EOF'
     -g, --provision-buildagent      Provision Build Agent
     -b, --provision-bastionserver   Provision Bastion Server
     -a, --provision-controller      Provision Ansible controller
-    -n,                             Instance name
-    -t, --start-instance            Start instance
-    -r, --stop-instance             Stop instance
+    -n                              Instance name
+    -t, -start                      Start instance
+    -r, -stop                       Stop instance
 EOF
 echo -e "\033[3;91m\nNote:- Readme : \n"
 echo -e "\033[1;30m"
@@ -181,13 +182,20 @@ cat<<'EOF'
    Provision Bastion Server ( -b, --provision-bastionserver) : To install and configure Bastion Server, "aws.sh -b".
 
    Provision Controller (-a, --provision-controller ) : To provision ansible controller box, "aws.sh -a".
+
+   Instance name (-n )  : -n is used to start "aws.sh -t -n <instance name>" or stop "aws.sh -r -n <instance name>" specific instance.
+
+   Start instance : To start instance "aws.sh -t -n <instance name>" or "aws.sh -start -n <instance name>"
+
+   Stop instance : To stop instance "aws.sh -r -n <instance name>" or "aws.sh -stop -n <instance name>"
+
    =====================================================================================================================
 
 EOF
 
 }
 
-if [[ "$1" != "-t" && "$1" != "-r" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-d" && "$1" != "--provision-buildserver" && "$1" != "-e" && "$1" != "--provision-erpagent" && "$1" != "-g" && "$1" != "--provision-buildagent" && "$1" != "-b" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" ]]; then
+if [[ "$1" != "-t" && "$1" != "-start" && "$1" != "-r" && "$1" != "-stop" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-d" && "$1" != "--provision-buildserver" && "$1" != "-e" && "$1" != "--provision-erpagent" && "$1" != "-g" && "$1" != "--provision-buildagent" && "$1" != "-b" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" && "$1" != "-u" && "$1" != "--refresh-users" ]]; then
     printf "\e[31;1m syntax error \e[0m\n"
     exit
 fi
@@ -200,7 +208,7 @@ while getopts ":n:" opt; do
  esac
 done
 
-if [[ "$1" == "-t" || "$1" == "-r" ]]; then
+if [[ "$1" == "-t" || "$1" == "-start" || "$1" == "-r" || "$1" == "-stop" ]]; then
     if [[ -z "$input_instance_name" || "$input_instance_name" == "" ]]; then
     printf "\e[31;1m Instance name is empty \e[0m\n"
         exit
@@ -211,22 +219,24 @@ if [[ -z "$input_instance_name" && -z "$1" ]]; then
     echo "Syntax error"
     exit
 elif [ "$input_instance_name" = "$INSTANCE_NAME" ]; then
-    echo "Not allowed to shutdown controller"
+     printf "\e[31;1m Not allowed to shutdown controller \e[0m\n"
     exit
 elif [ "$input_instance_name" != "$INSTANCE_NAME" ];
     then
-  if [ "$1" = "-t" ]; then
-    res1=$(start-instance)
-    printf "$res1"
-  elif [ "$1" = "-r" ];
+  if [[ "$1" = "-t" || "$1" = "-start" ]]; then
+    printf "\e[1;32m Start '"$input_instance_name"' instance \e[0m"
+    result=$(start-instance)
+    printf "$result"
+  elif [[ "$1" = "-r" || "$1" = "-stop" ]];
     then
-    res2=$(stop-instance)
-    printf "$res2"
+    printf "\e[1;32m Stop '"$input_instance_name"' instance \e[0m"
+    result=$(stop-instance)
+    printf "$result"
   fi
 fi
 
 case "$1" in
--u | --refresh-user)
+-u | --refresh-users)
     refresh-user
     ;;
 -v |--create-vpc)
@@ -263,6 +273,5 @@ case "$1" in
     exit 0
     ;;
 *)
-    echo $"Usage: $0 {start-instance|stop-instance|refresh-user|provision-controller|bastion-server|create-vpc|renew-certs|spinup-instance|update-proxy|provison-buildserver|provision-erpagent|provision-buildagent|help}"
     exit 1
 esac

@@ -2,7 +2,7 @@ showcase_env_spec:
    Tags: {"role": "bahmni-server", "server_type": "public"}
    StartIndex: 1
    ExactCount: 1
-   InstanceType: m4.large
+   InstanceType: t2.micro
    SecurityGroups:
      - "{{ SecurityGroupIds.bahmni }}"
    AmiId: "{{ available_amis.bahmni_ami }}"

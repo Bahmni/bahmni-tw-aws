@@ -18,4 +18,5 @@ ec2_instances:
   - { hostname: product-qa10, spec: "{{ qa_env_spec }}" }
   - { hostname: controller, spec: "{{ assets_env_spec }}" }
   - { hostname: test, spec: "{{ assets_env_spec }}" }
+  - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
 
