@@ -80,3 +80,17 @@
     - "group_vars/cidr_blocks.yml"
   tags:
     - renew_certs
+
+- hosts: tag_role_bahmni_server
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - epel-repo
+   - oracle-java
+   - go-agent
+  vars_files:
+    - "group_vars/vars.yml"
+  tags:
+    - provision_bahmni_server

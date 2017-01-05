@@ -5,6 +5,7 @@
    ansible_user: centos
   roles:
    - hostname
+   - ssh-key
   vars_files:
    - "group_vars/users.yml"
 
