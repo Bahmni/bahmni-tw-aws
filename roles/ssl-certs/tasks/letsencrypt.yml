@@ -2,8 +2,15 @@
   yum: name=openssl state=present
   become: yes
 
+- name: Install Apache
+  yum: pkg=httpd state=installed
+
 - name: create certs directory
   file: path={{ certs_dir }} state=directory
+  become: yes
+
+- name: create certs directory
+  file: path=/etc/bahmni-certs state=directory
   become: yes
 
 - name: check if letsencrypt account key is present

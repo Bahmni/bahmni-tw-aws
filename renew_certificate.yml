@@ -1,6 +1,5 @@
 ---
-
-- hosts:
+- hosts: tag_role_bahmni_server
   roles:
     - ssl-certs
   vars_files:

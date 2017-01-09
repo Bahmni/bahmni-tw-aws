@@ -5,7 +5,7 @@ cd $SCRIPT_DIR/..
 INVENTORY="inventory/"
 PROVISION="provision.yml"
 VPC="vpc.yml"
-INFRA="infra.yml"
+CREATE_INSTANCE="create_instance.yml"
 ALL_HOSTS="all.yml"
 BASTION="bastion.yml"
 CONTROLLER="controller.yml"
@@ -36,7 +36,7 @@ function renew-certs
 function spinup-instance
 {
    echo -e "\033[01;35m---------- Spinup Instance ----------"
-   ansible-playbook -i $INVENTORY $INFRA -vvv
+   ansible-playbook -i $INVENTORY $CREATE_INSTANCE -vvv
 
 }
 

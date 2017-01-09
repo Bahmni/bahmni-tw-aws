@@ -56,13 +56,13 @@
   tags:
     - provision_build_server
 
-- hosts: tag_role_bahmni_server
+- hosts: tag_role_proxy_server
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
-   - haproxy
+    - haproxy
   vars_files:
     - "group_vars/aws_credentials.yml"
   tags:
