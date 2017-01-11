@@ -16,14 +16,12 @@ function refresh-user
 {
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
    ansible-playbook -i ${INVENTORY}/ec2.py $ALL_HOSTS -t manage_user -vvv
-
 }
 
 function create-vpc
 {
    echo -e "\033[01;35m---------- Creating Virtual Private Cloud in AWS ----------"
    ansible-playbook -i $INVENTORY $VPC -vvv
-
 }
 
 function renew-certs

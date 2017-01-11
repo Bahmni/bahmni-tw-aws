@@ -15,9 +15,10 @@ ec2_instances:
   - { hostname: product-qa07, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa08, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
-  - { hostname: ftagent-01, spec: "{{ build_agent_spec }}" }
-  - { hostname: ftagent-02, spec: "{{ build_agent_spec }}" }
-  - { hostname: ftagent-03, spec: "{{ build_agent_spec }}" }
+  - { hostname: product-ftagent01, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
+  - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }
   - { hostname: controller, spec: "{{ assets_env_spec }}" }
   - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
   - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
+
