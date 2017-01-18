@@ -30,6 +30,9 @@
 - name: Create Folder to copy the pem file
   file: path=/var/go/.keys/ owner=go group=go mode=0755 state=directory
 
+- name: create folder /var/www/rpm/bahmni/ for rpms
+  file: path=/var/www/rpm/bahmni/ owner=go group=go mode=0755 state=directory
+
 - name: Drop in Ansible vault pem file
   template:
     src=secret.pem.j2
@@ -47,3 +50,59 @@
     src=ansible_vault_secret.pem.j2
     dest=/var/go/.keys/bahmni-tw-aws.pem owner=go group=go mode=0644
   when: ec2_tag_Name == "controller"
+
+- name: Install postgresql yum repository
+  yum: name={{postgres_repo_rpm_location}} state=present
+
+- name: Reload postgresql
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=reloaded
+
+- name: Install gcc-c++ make
+  yum: name={{item}} state=present
+  with_items:
+     - gcc-c++
+     - make
+
+- name: Add nodejs repository
+  shell: curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+
+- name: install ruby-1.9.3-p551
+  shell: rvm install ruby-1.9.3-p551
+
+- name: install i18n
+  shell: gem install i18n -v '0.7.0'
+
+- name: Install compass
+  shell: gem install compass
+
+- name: Install nodejs
+  yum: name=nodejs-6.6.0 state=present
+
+- name: Install npm
+  npm: name=npm@3.10.7 global=yes state=present
+
+- name: make sure bower is installed
+  npm: name=bower@1.7.9 global=yes state=present
+
+- name: make sure grunt-cli is installed
+  npm: name=grunt-cli global=yes state=present
+
+- name: Install ant-apache-regexp
+  yum: name=ant-apache-regexp state=present
+
+- name: Install ant-junit
+  yum: name=ant-junit state=present
+
+- name: Install ant-trax
+  yum: name=ant-trax state=present
+
+- name: Install createrepo
+  yum: name=createrepo state=present
+
+- name: Install pip
+  yum: name=python-pip state=present
+
+- name: Install aws-cli
+  pip: name=awscli state=present
