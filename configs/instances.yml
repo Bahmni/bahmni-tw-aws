@@ -15,6 +15,7 @@ ec2_instances:
   - { hostname: product-qa07, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa08, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
+  - { hostname: connect-emu01, spec: "{{ connect_genymotion_spec }}" }
   - { hostname: product-ftagent01, spec: "{{ qa_env_spec }}" }
   - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
   - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }

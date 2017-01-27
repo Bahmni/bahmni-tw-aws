@@ -16,5 +16,6 @@
     - "configs/instances.yml"
     - "configs/bahmni_assets.yml"
     - "configs/bahmni_showcase.yml"
+    - "configs/connect_genymotion.yml"
   tags:
     - create_instance

@@ -1,0 +1,19 @@
+connect_genymotion_spec:
+   Tags: {"role": "bahmni-server", "server_type": "private"}
+   StartIndex: 1
+   ExactCount: 1
+   InstanceType: t2.medium
+   SecurityGroups:
+     - "{{ SecurityGroupIds.bahmni }}"
+   AmiId: "{{ available_amis.genymotion_ami }}"
+   SubnetId: "{{ SubnetIds.qa }}"
+   AssignPublicIp: no
+   InstanceVolumes:
+     - VolumeSpecifications:
+         - volume_size: 40
+           volume_type: gp2
+           device_name: /dev/sda1
+           delete_on_termination: yes
+           FilesystemSpecifications:
+             volume_label: "root"
+           mountpoint: /
