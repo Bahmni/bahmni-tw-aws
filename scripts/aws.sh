@@ -6,7 +6,8 @@ INVENTORY="inventory/"
 PROVISION="provision.yml"
 VPC="vpc.yml"
 CREATE_INSTANCE="create_instance.yml"
-ALL_HOSTS="all.yml"
+CERTS="renew_certificate.yml"
+MANAGE_USER="manage_users.yml"
 BASTION="bastion.yml"
 CONTROLLER="controller.yml"
 INSTANCE="manage_instance.yml"
@@ -15,7 +16,7 @@ INSTANCE_NAME='controller'
 function refresh-user
 {
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
-   ansible-playbook -i ${INVENTORY}/ec2.py $ALL_HOSTS -t manage_user -vvv
+   ansible-playbook -i $INVENTORY $MANAGE_USER -e "host=$input_instance_name" -vvv
 }
 
 function create-vpc
@@ -27,7 +28,7 @@ function create-vpc
 function renew-certs
 {
    echo -e "\033[01;35m---------- Create/Renew Certficate ----------"
-   ansible-playbook -i $INVENTORY $PROVISION -t renew_certs -vvv
+   ansible-playbook -i $INVENTORY $CERTS -e "host=$input_instance_name" -t renew_certs -vvv
 
 }
 
@@ -101,29 +102,29 @@ function stop-instance
 function display_help() {
 echo -e "\n \033[3;0m Options: \n"
 cat<<'EOF'
-    -u, --refresh-users             Refresh user list in all machines
+    -u, -refresh-users             Refresh user list in all machines
                                     Make sure correct user details are present in "users.yml".
 
-    -v, --create-vpc                Create new VPC in AWS
+    -v, -create-vpc                Create new VPC in AWS
                                     Further to create the new VPC in a different Amazon region change the AWS region in playbook.
 
-    -c, --renew-certs               Install or Renew Lets encrypt certificate
+    -c, -renew-certs               Install or Renew Lets encrypt certificate
                                     It will renew the "Lets encrypt" certificate in all the machines.
 
-    -s, --spinup                    Spinup new instance
+    -s, -spinup                    Spinup new instance
                                     Make sure include the name and specs of the new instance in the "Instance.yml".
 
-    -h, --help                      Display this help message
+    -h, -help                      Display this help message
 
-    -p, --update-proxy              Update proxy configuration
+    -p, -update-proxy              Update proxy configuration
                                     All bahmini server instances would be added in Haproxy configuration.
 
-    -d, --provision-buildserver     Provision CI Server
-    -e, --provision-erpagent        Provision ERP Agent
-    -g, --provision-buildagent      Provision Build Agent
-    -b, --provision-bastionserver   Provision Bastion Server
-    -a, --provision-controller      Provision Ansible controller
-    -m, --provision-bahmniserver   Provision bahmni-server
+    -d, -provision-buildserver     Provision CI Server
+    -e, -provision-erpagent        Provision ERP Agent
+    -g, -provision-buildagent      Provision Build Agent
+    -b, -provision-bastionserver   Provision Bastion Server
+    -a, -provision-controller      Provision Ansible controller
+    -m, -provision-bahmniserver   Provision bahmni-server
     -n                              Instance name
     -t, -start                      Start instance
     -r, -stop                       Stop instance
@@ -214,14 +215,14 @@ while getopts ":n:" opt; do
  esac
 done
 
-if [[ "$1" == "-t" || "$1" == "-start" || "$1" == "-r" || "$1" == "-stop" ]]; then
+if [[ "$1" == "-t" || "$1" == "-start" || "$1" == "-r" || "$1" == "-stop" || "$1" == "-u" || "$1" == "-refresh-users" || "$1" == "-c" || "$1" == "-renew-certs" ]]; then
     if [[ -z "$input_instance_name" || "$input_instance_name" == "" ]]; then
     printf "\e[31;1m Instance name is empty \e[0m\n"
         exit
     fi
 fi
 
-if [[ -z "$input_instance_name" && -z "$1" ]]; then
+if [[ -z "$input_instance_name " && -z "$1" ]]; then
     echo "Syntax error"
     exit
 elif [ "$input_instance_name" = "$INSTANCE_NAME" ]; then
@@ -235,7 +236,7 @@ elif [ "$input_instance_name" != "$INSTANCE_NAME" ];
     printf "$result"
   elif [[ "$1" = "-r" || "$1" = "-stop" ]];
     then
-    printf "\e[1;32m Stop '"$input_instance_name"' instance \e[0m"
+    printf "\e[1;32m Stop '"$input_instance_name" ' instance \e[0m"
     result=$(stop-instance)
     printf "$result"
   fi

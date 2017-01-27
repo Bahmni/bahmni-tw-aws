@@ -1,0 +1,22 @@
+- hosts: '{{ host }}'
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+   - ssh-key
+  tags:
+   - manage_user
+  vars_files:
+    - "group_vars/aws_credentials.yml"
+    - "group_vars/vars.yml"
+    - "group_vars/users.yml"
+    - "group_vars/cidr_blocks.yml"
+    - "configs/bastion.yml"
+    - "configs/build_server.yml"
+    - "configs/build_agent.yml"
+    - "configs/tw_proxy.yml"
+    - "configs/public_proxy.yml"
+    - "configs/bahmni_qa.yml"
+    - "configs/instances.yml"
+    - "configs/bahmni_assets.yml"

@@ -1,8 +1,15 @@
+- name: Get list of all user accounts
+  shell: getent passwd | cut -f1 -d":"
+  register: ssh_users
+  changed_when: False
+
 - name: Create developers_groups
   become: yes
-  group: name={{developer_groups}} state=present
+  group:
+    name: "{{developer_groups}}"
+    state: present
 
-- name: Create Users
+- name: Add user account
   become: yes
   user:
     name: "{{item.name}}"
@@ -10,20 +17,30 @@
     append: no
     shell: "{{shell}}"
   with_items: "{{developers}}"
+  when: (not item.name in ssh_users.stdout_lines and item.state == 'present')
 
 - name: Add keys to account
   become: yes
   authorized_key:
     user: "{{item.name}}"
+    state: "{{item.state}}"
     key: "{{item.key}}"
     exclusive: yes
   with_items: "{{developers}}"
+  when: (not item.name in ssh_users.stdout_lines and item.state == 'present')
 
-- name: remove unauthorized user accounts
+- name: remove user account
   user:
     name: "{{item.name}}"
+    remove: yes
+    force: yes
     state: "{{item.state}}"
+    groups: "{{developer_groups}}"
+    append: no
+    shell: "{{shell}}"
+    ssh_key_file: "/home/{{item.name}}/.ssh/authorized_keys"
   with_items: "{{developers}}"
+  when: (item.name in ssh_users.stdout_lines and item.state == 'absent')
 
 - name: Add developers_groups group to sudo
   become: yes
