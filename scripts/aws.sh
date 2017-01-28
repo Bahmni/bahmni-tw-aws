@@ -103,31 +103,32 @@ function display_help() {
 echo -e "\n \033[3;0m Options: \n"
 cat<<'EOF'
     -u, -refresh-users             Refresh user list in all machines
-                                    Make sure correct user details are present in "users.yml".
+                                   Make sure correct user details are present in "users.yml".
 
     -v, -create-vpc                Create new VPC in AWS
-                                    Further to create the new VPC in a different Amazon region change the AWS region in playbook.
+                                   Further to create the new VPC in a different Amazon region change the AWS region in playbook.
 
     -c, -renew-certs               Install or Renew Lets encrypt certificate
-                                    It will renew the "Lets encrypt" certificate in all the machines.
+                                   It will renew the "Lets encrypt" certificate in all the machines.
 
     -s, -spinup                    Spinup new instance
-                                    Make sure include the name and specs of the new instance in the "Instance.yml".
+                                   Make sure include the name and specs of the new instance in the "Instance.yml".
 
     -h, -help                      Display this help message
 
     -p, -update-proxy              Update proxy configuration
-                                    All bahmini server instances would be added in Haproxy configuration.
+                                   All bahmini server instances would be added in Haproxy configuration.
 
     -d, -provision-buildserver     Provision CI Server
     -e, -provision-erpagent        Provision ERP Agent
     -g, -provision-buildagent      Provision Build Agent
     -b, -provision-bastionserver   Provision Bastion Server
     -a, -provision-controller      Provision Ansible controller
-    -m, -provision-bahmniserver   Provision bahmni-server
-    -n                              Instance name
-    -t, -start                      Start instance
-    -r, -stop                       Stop instance
+    -m, -provision-bahmniserver    Provision bahmni-server
+    -n                             Instance name
+    -k                             Username
+    -t, -start                     Start instance
+    -r, -stop                      Stop instance
 EOF
 echo -e "\033[3;91m\nNote:- Readme : \n"
 echo -e "\033[1;30m"
@@ -167,14 +168,17 @@ cat<<'EOF'
 
    Add new user (-u, --refresh-users) :
         To add a new ssh user, the user.yml script under group_vars directory has to decrypted using ansible vault and the name and public key details
-        of the new user has to be added and then the following command has to be executed, "aws.sh -u".
+        of the new user has to be added and then the following command has to be executed,
+        "aws.sh -u -k <username> -n <instance name> "eg: -k "senthilr" or "all" all to create all the users" "eg: -n product-qa01.mybahmni.local".
 
    Delete existing user (-u, --refresh-users) :
         To remove a particular user, the user.yml script under group_vars directory has to decrypted using ansible vault and the “state” of that
-        particular user has to be change to “absent” and then the following command has to be executed, "aws.sh -u". 
+        particular user has to be change to “absent” and then the following command has to be executed,
+        "aws.sh -u -k <username> -n <instance name> "eg: -k "senthilr" or "all" all to delete all the users "eg: -n product-qa01.mybahmni.local". 
 
    Renew lets encrypt certificate (-c, --renew-certs) :
-        To renew the "Lets encrypt" certificate in all instances the following command has to be executed, "aws.sh -c".
+        To renew the "Lets encrypt" certificate in all instances the following command has to be executed,
+        "aws.sh -c -n <instance name> "eg: -n product-qa01.mybahmni.local" or "all" all to renew all the servers".
 
    Update proxy configuration (-p, --update-proxy) :
         To update haproxy run the following command,  "aws.sh -p".
@@ -190,11 +194,13 @@ cat<<'EOF'
 
    Provision Controller (-a, --provision-controller ) : To provision ansible controller box, "aws.sh -a".
 
-   Instance name (-n )  : -n is used to start "aws.sh -t -n <instance name>" or stop "aws.sh -r -n <instance name>" specific instance.
+   Instance name (-n )  : -n is used for start "aws.sh -t -n <instance name>" or stop "aws.sh -r -n <instance name>" specific instance or renew lets encrypt certificate or update and delete user.
 
-   Start instance : To start instance "aws.sh -t -n <instance name>" or "aws.sh -start -n <instance name>"
+   Username (-k) : -k is used for updating or deleting user a particular user or all users "eg: aws.sh -u -k <username> -n <instance name> "".
 
-   Stop instance : To stop instance "aws.sh -r -n <instance name>" or "aws.sh -stop -n <instance name>"
+   Start instance : To start instance "aws.sh -t -n <instance name>"  "eg: -n product-qa01.mybahmni.local" or "aws.sh -start -n <instance name>"
+
+   Stop instance : To stop instance "aws.sh -r -n <instance name>"  "eg: -n product-qa01.mybahmni.local" or "aws.sh -stop -n <instance name>"
 
    =====================================================================================================================
 
