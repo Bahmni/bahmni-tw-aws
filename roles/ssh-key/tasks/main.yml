@@ -1,23 +1,32 @@
-- name: Get list of all user accounts
-  shell: getent passwd | cut -f1 -d":"
-  register: ssh_users
-  changed_when: False
+- set_fact:
+    username: "{{username}}"
+
+- fail:
+    msg: "################---provide valid user---################"
+  with_items: "{{developers}}"
+  when: "item.name in username and item.name != username"
+
+- name: Check if group exists
+  shell: /usr/bin/getent group | awk -F":" '{print $1}' | grep "{{developer_groups}}"
+  register: group_status
 
 - name: Create developers_groups
   become: yes
   group:
     name: "{{developer_groups}}"
     state: present
+  when: "not developer_groups in group_status.stdout_lines"
+  register: developer_groups_status
 
 - name: Add user account
   become: yes
   user:
     name: "{{item.name}}"
     groups: "{{developer_groups}}"
-    append: no
+    append: yes
     shell: "{{shell}}"
   with_items: "{{developers}}"
-  when: (not item.name in ssh_users.stdout_lines and item.state == 'present')
+  when: "item.name in username and item.name == username or username == 'all'"
 
 - name: Add keys to account
   become: yes
@@ -25,13 +34,13 @@
     user: "{{item.name}}"
     state: "{{item.state}}"
     key: "{{item.key}}"
-    exclusive: yes
+    exclusive: True
   with_items: "{{developers}}"
-  when: (not item.name in ssh_users.stdout_lines and item.state == 'present')
+  when: "item.name in username and item.name == username or username == 'all'"
 
 - name: remove user account
   user:
-    name: "{{item.name}}"
+    name: "{{item.name}"
     remove: yes
     force: yes
     state: "{{item.state}}"
@@ -40,13 +49,15 @@
     shell: "{{shell}}"
     ssh_key_file: "/home/{{item.name}}/.ssh/authorized_keys"
   with_items: "{{developers}}"
-  when: (item.name in ssh_users.stdout_lines and item.state == 'absent')
+  when: (item.state == 'absent' and item.name in username and item.name == username or username == 'all')
 
 - name: Add developers_groups group to sudo
   become: yes
   lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^%{{developer_groups}}' insertafter='^# %wheel' line='%{{developer_groups}} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+  when: developer_groups_status.changed
 
 - name: reload sshd
   become: yes
   service: name=sshd state=reloaded
+
 

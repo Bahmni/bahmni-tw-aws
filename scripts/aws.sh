@@ -16,7 +16,7 @@ INSTANCE_NAME='controller'
 function refresh-user
 {
    echo -e "\033[01;35m---------- Update/Delete ssh user ----------"
-   ansible-playbook -i $INVENTORY $MANAGE_USER -e "host=$input_instance_name" -vvv
+   ansible-playbook -i $INVENTORY $MANAGE_USER -e "host=$input_instance_name" -e "username=$user_name" -vvv
 }
 
 function create-vpc
@@ -208,14 +208,16 @@ if [[ "$1" != "-m" && "$1" != "--provision-bahmniserver" && "$1" != "-t" && "$1"
 fi
 
 
-while getopts ":n:" opt; do
+while getopts ":n:k:" opt; do
  case $opt in
    n) input_instance_name="$OPTARG"
+   ;;
+   k) user_name="$OPTARG"
    ;;
  esac
 done
 
-if [[ "$1" == "-t" || "$1" == "-start" || "$1" == "-r" || "$1" == "-stop" || "$1" == "-u" || "$1" == "-refresh-users" || "$1" == "-c" || "$1" == "-renew-certs" ]]; then
+if [[ "$1" == "-t" || "$1" == "-start" || "$1" == "-r" || "$1" == "-stop" || "$1" == "-c" || "$1" == "-renew-certs" ]]; then
     if [[ -z "$input_instance_name" || "$input_instance_name" == "" ]]; then
     printf "\e[31;1m Instance name is empty \e[0m\n"
         exit
@@ -241,6 +243,15 @@ elif [ "$input_instance_name" != "$INSTANCE_NAME" ];
     printf "$result"
   fi
 fi
+
+if [[ "$1" == "-u" || "$1" == "-refresh-users" || "$1" == "-k"  ]]; then
+    if [[ -z "$user_name" || "$user_name" == "" || -z "$input_instance_name" || "$input_instance_name" == "" ]]; then
+    printf "\e[31;1m Syntax error \e[0m\n"
+     exit
+    fi
+fi
+
+
 
 case "$1" in
 -u | --refresh-users)
