@@ -1,25 +1,25 @@
 ec2_instances:
-  - { hostname: bastion, spec: "{{ bastion_spec }}" }
-  - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}" }
-  - { hostname: public_proxy, spec: "{{ public_proxy_spec }}" }
-  - { hostname: ci, spec: "{{ build_server_spec }}" }
-  - { hostname: ci-agent01, spec: "{{ build_agent_spec }}" }
-  - { hostname: ci-agent02, spec: "{{ build_agent_spec }}" }
-  - { hostname: ci-agent03, spec: "{{ build_agent_spec }}" }
-  - { hostname: product-qa01, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa02, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa03, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa04, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa05, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa06, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa07, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa08, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
+#  - { hostname: bastion, spec: "{{ bastion_spec }}" }
+#  - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}" }
+#  - { hostname: public_proxy, spec: "{{ public_proxy_spec }}" }
+#  - { hostname: ci, spec: "{{ build_server_spec }}" }
+#  - { hostname: ci-agent01, spec: "{{ build_agent_spec }}" }
+#  - { hostname: ci-agent02, spec: "{{ build_agent_spec }}" }
+#  - { hostname: ci-agent03, spec: "{{ build_agent_spec }}" }
+#  - { hostname: product-qa01, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa02, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa03, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa04, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa05, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa06, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa07, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa08, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
   - { hostname: connect-emu01, spec: "{{ connect_genymotion_spec }}" }
-  - { hostname: product-ftagent01, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }
-  - { hostname: controller, spec: "{{ assets_env_spec }}" }
-  - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
-  - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
+#  - { hostname: product-ftagent01, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
+#  - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }
+#  - { hostname: controller, spec: "{{ assets_env_spec }}" }
+#  - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
+#  - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
 

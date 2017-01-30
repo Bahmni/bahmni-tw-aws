@@ -1,8 +1,8 @@
-- hosts: all
+- hosts: tag_Name_connect_emu01
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-   ansible_user: centos
+   ansible_user: root
   roles:
    - hostname
    - ssh-key

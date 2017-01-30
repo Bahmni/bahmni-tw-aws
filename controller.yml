@@ -8,10 +8,10 @@
       AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
   roles:
     - controller
-    - hostname
-    - ssh-key
-    - oracle-java
-    - go-agent
+#    - hostname
+#    - ssh-key
+#    - oracle-java
+#    - go-agent
   vars_files:
     - "group_vars/vars.yml"
     - "group_vars/users.yml"

@@ -1,74 +1,84 @@
-- name: Adding the path in the bashrc files
-  lineinfile: dest=~/.bashrc line='export AWS_ACCESS_KEY_ID={{aws_access_key}}' insertafter='EOF' state=present
-
-- name: Adding the path in the bashrc files
-  lineinfile: dest=~/.bashrc line='export AWS_SECRET_ACCESS_KEY={{aws_secret_key}}' insertafter='EOF' state=present
-
-- name: Source the bashrc file
-  shell: source ~/.bashrc
-
-- name: Drop in common yum repo files
-  copy: src={{item}} dest=/etc/yum.repos.d/
-  with_items:
-    - epel.repo
-
-- name: Fetch EPEL GPG key
-  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
-
-- name: setup centos releas-scl
-  command: /usr/bin/yum install -y centos-release-SCL
-
-- name: cleaning task for yum
-  command: /usr/bin/yum clean all
-
-- name: Install Common Libraries
-  yum: state=present name={{ item }}
-  with_items:
-   - "gcc-c++"
-   - "python27"
-   - "git"
-   - "ansible"
-
-- name: Install PIP
-  easy_install: name=pip state=latest
-
-- name: Install awscli and boto
-  become: yes
-  pip: name={{ item }}
-  with_items:
-    - "boto"
-    - "boto3"
-    - "awscli"
-
-- name: Create directory for checking out source
-  file: path="{{bahmni_aws_codebase_directory}}" state=directory owner="{{ owner }}" group="{{ group }}"
-
-- name: Check if Bahmni AWS Codebase is already cloned
-  stat: path='{{bahmni_aws_codebase_directory}}/bahmni-tw-aws'
-  register: repo_dir
-
-- name: Checkout Bahmni AWS Codebase
-  command: 'git clone {{repo_url}} chdir={{bahmni_aws_codebase_directory}}'
-  when: repo_dir.stat.exists == false
-
-- name: Create Folder to copy the pem file
-  file: path=~/.keys/ owner="{{ owner }}" group="{{ group }}" mode=0755 state=directory
-
-- name: Change ownership to '{{ owner }}'
-  file: path="{{bahmni_aws_codebase_directory}}/bahmni-tw-aws" state=directory recurse=yes owner="{{ owner }}" group="{{ group }}"
-
-- name: Drop in Ansible vault pem file
-  become: yes
-  become_user: "{{ owner }}"
-  template:
-    src=ansible_vault_secret.pem.j2
-    dest=~/.keys/bahmni-tw-aws.pem owner="{{ owner }}" group="{{ group }}" mode=0644
+#- name: Adding the path in the bashrc files
+#  lineinfile: dest=~/.bashrc line='export AWS_ACCESS_KEY_ID={{aws_access_key}}' insertafter='EOF' state=present
+#
+#- name: Adding the path in the bashrc files
+#  lineinfile: dest=~/.bashrc line='export AWS_SECRET_ACCESS_KEY={{aws_secret_key}}' insertafter='EOF' state=present
+#
+#- name: Source the bashrc file
+#  shell: source ~/.bashrc
+#
+#- name: Drop in common yum repo files
+#  copy: src={{item}} dest=/etc/yum.repos.d/
+#  with_items:
+#    - epel.repo
+#
+#- name: Fetch EPEL GPG key
+#  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+#
+#- name: setup centos releas-scl
+#  command: /usr/bin/yum install -y centos-release-SCL
+#
+#- name: cleaning task for yum
+#  command: /usr/bin/yum clean all
+#
+#- name: Install Common Libraries
+#  yum: state=present name={{ item }}
+#  with_items:
+#   - "gcc-c++"
+#   - "python27"
+#   - "git"
+#   - "ansible"
+#
+#- name: Install PIP
+#  easy_install: name=pip state=latest
+#
+#- name: Install awscli and boto
+#  become: yes
+#  pip: name={{ item }}
+#  with_items:
+#    - "boto"
+#    - "boto3"
+#    - "awscli"
+#    - "croniter"
+#
+#- name: Create directory for checking out source
+#  file: path="{{bahmni_aws_codebase_directory}}" state=directory owner="{{ owner }}" group="{{ group }}"
+#
+#- name: Check if Bahmni AWS Codebase is already cloned
+#  stat: path='{{bahmni_aws_codebase_directory}}/bahmni-tw-aws'
+#  register: repo_dir
+#
+#- name: Checkout Bahmni AWS Codebase
+#  command: 'git clone {{repo_url}} chdir={{bahmni_aws_codebase_directory}}'
+#  when: repo_dir.stat.exists == false
+#
+#- name: Create Folder to copy the pem file
+#  file: path=~/.keys/ owner="{{ owner }}" group="{{ group }}" mode=0755 state=directory
+#
+#- name: Change ownership to '{{ owner }}'
+#  file: path="{{bahmni_aws_codebase_directory}}/bahmni-tw-aws" state=directory recurse=yes owner="{{ owner }}" group="{{ group }}"
+#
+#- name: Drop in Ansible vault pem file
+#  become: yes
+#  become_user: "{{ owner }}"
+#  template:
+#    src=ansible_vault_secret.pem.j2
+#    dest=~/.keys/bahmni-tw-aws.pem owner="{{ owner }}" group="{{ group }}" mode=0644
+#
+#- cron:
+#    name: Lets encypt Renewal
+#    minute: 00
+#    hour: 01
+#    day: 1
+#    month: 3
+#    user: root
+#    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c"
 
 - cron:
-    name: Lets encypt Renewal
-    minute: 00
-    hour: 01
-    day: 1
-    month: 3
+    name: Ec2 scheduler - start/stop ec2 instances automatically
+    minute: "*/5"
+    hour: "*"
+    day: "*"
+    month: "*"
     user: root
-    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c"
+    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/ec2_scheduler.sh -c"
