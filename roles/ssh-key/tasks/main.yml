@@ -1,14 +1,10 @@
 - set_fact:
     username: "{{username}}"
 
-- fail:
-    msg: "################---provide valid user---################"
-  with_items: "{{developers}}"
-  when: "item.name in username and item.name != username"
-
 - name: Check if group exists
   shell: /usr/bin/getent group | awk -F":" '{print $1}' | grep "{{developer_groups}}"
   register: group_status
+  ignore_errors: yes
 
 - name: Create developers_groups
   become: yes
@@ -40,7 +36,7 @@
 
 - name: remove user account
   user:
-    name: "{{item.name}"
+    name: "{{item.name}}"
     remove: yes
     force: yes
     state: "{{item.state}}"
@@ -49,7 +45,7 @@
     shell: "{{shell}}"
     ssh_key_file: "/home/{{item.name}}/.ssh/authorized_keys"
   with_items: "{{developers}}"
-  when: (item.state == 'absent' and item.name in username and item.name == username or username == 'all')
+  when: (item.state == 'absent' and item.name in username and item.name == username and username == 'all')
 
 - name: Add developers_groups group to sudo
   become: yes
@@ -59,5 +55,6 @@
 - name: reload sshd
   become: yes
   service: name=sshd state=reloaded
+  when: developer_groups_status.changed
 
 
