@@ -68,7 +68,7 @@
   with_items: "{{spacewalk_repo}}"
 
 - name: Schedule repo sync
-  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 00 2 ? * *
   with_items: "{{spacewalk_repo}}"
 
 - name: Create Group
