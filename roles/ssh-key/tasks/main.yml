@@ -45,7 +45,7 @@
     shell: "{{shell}}"
     ssh_key_file: "/home/{{item.name}}/.ssh/authorized_keys"
   with_items: "{{developers}}"
-  when: (item.state == 'absent' and item.name in username and item.name == username and username == 'all')
+  when: "item.state == 'absent' and item.name in username and item.name == username or username == 'all'"
 
 - name: Add developers_groups group to sudo
   become: yes

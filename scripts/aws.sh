@@ -12,6 +12,7 @@ BASTION="bastion.yml"
 CONTROLLER="controller.yml"
 INSTANCE="manage_instance.yml"
 INSTANCE_NAME='controller'
+ALL="all.yml"
 
 function refresh-user
 {
@@ -32,11 +33,18 @@ function renew-certs
 
 }
 
+function setup-hostname
+{
+   echo -e "\033[01;35m---------- Spinup Instance ----------"
+   ansible-playbook -i $INVENTORY $ALL -vvv
+
+}
+
 function spinup-instance
 {
    echo -e "\033[01;35m---------- Spinup Instance ----------"
    ansible-playbook -i $INVENTORY $CREATE_INSTANCE -vvv
-
+   setup-hostname
 }
 
 function update-proxy

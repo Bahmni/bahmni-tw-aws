@@ -1,0 +1,78 @@
+- name: Set hostname for aws host
+  hostname: name="{{ ec2_tag_Name }}"
+
+- name: Add jpackage repo
+  template: src=jpackage.j2 dest=/etc/yum.repos.d/jpackage-generic.repo
+
+- name: Install epel
+  yum: name=epel-release state=present
+
+- name: Install spacewalk repo
+  yum: name="http://yum.spacewalkproject.org/2.6/RHEL/6/x86_64/spacewalk-repo-2.6-0.el6.noarch.rpm" state=present
+
+- name: Install spacewalk-setup-postgresql
+  yum: name=spacewalk-setup-postgresql state=present
+
+- name: Install spacecmd
+  yum: name=spacecmd state=present
+
+- name: Install spacewalk-postgresql
+  yum: name=spacewalk-postgresql state=present
+
+- name: Copy answer file
+  template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
+
+- name: Configure spacewalk by using answers file
+  command: spacewalk-setup --answer-file=/var/tmp/answers
+           creates=/var/satellite
+
+- name: Configure spacewalk credential
+  pause: prompt='Configure spacewalk credentials username:{{spacewalk_administartor_user}} and Password:(is located in vars) from weburl! Press return to continue. Press Ctrl+c and then "a" to abort'
+
+- name: Allow Ansible accelerated port through firewall
+  command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 5099 -m comment --comment "Ansible accelerated" -j ACCEPT
+  when: iptablesrules.stdout.find("Ansible accelerated") == -1
+
+- name: Allow Spacewalk push to clients port through firewall
+  command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 5222 -m comment --comment "Spacewalk push to clients" -j ACCEPT
+  when: iptablesrules.stdout.find("Spacewalk push to clients") == -1
+
+- name: Allow Spacewalk push to clients port through firewall
+  command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -m comment --comment "http" -j ACCEPT
+  when: iptablesrules.stdout.find("http") == -1
+
+- name: Allow Spacewalk push to clients port through firewall
+  command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -m comment --comment "https" -j ACCEPT
+  when: iptablesrules.stdout.find("https") == -1
+
+- name: Save the changes
+  command: service iptables save
+
+- name: Configure base channels
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- softwarechannel_create -n {{item.name}} -l {{item.label}} -a x86_64 -c sha512
+  with_items: "{{spacewalk_repo}}"
+  ignore_errors: true
+
+- name: Configure Repositories
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- repo_create -n {{item.name}} -u {{item.repo_url}}
+  with_items: "{{spacewalk_repo}}"
+  ignore_errors: true
+
+- name: Add activation keys
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- activationkey_create -n {{item.label}} -b {{item.label}} -d {{item.name}}
+  with_items: "{{spacewalk_repo}}"
+  ignore_errors: true
+
+- name: Attach repos to channels
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- softwarechannel_addrepo {{item.label}} {{item.repo}}
+  with_items: "{{spacewalk_repo}}"
+
+- name: Schedule repo sync
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
+  with_items: "{{spacewalk_repo}}"
+
+- name: Create Group
+  command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- group_create {{item.name}} {{item.description}}
+  with_items: "{{spacewalk_group}}"
+  ignore_errors: true
+
