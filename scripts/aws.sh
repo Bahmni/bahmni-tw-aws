@@ -12,6 +12,7 @@ BASTION="bastion.yml"
 CONTROLLER="controller.yml"
 INSTANCE="manage_instance.yml"
 INSTANCE_NAME='controller'
+SPACKEWALK_CLIENT="spacewalk_client.yml"
 ALL="all.yml"
 
 function refresh-user
@@ -106,6 +107,12 @@ function stop-instance
     ansible-playbook -i $INVENTORY $INSTANCE -e "instance_name=$input_instance_name" -t stop_instance
 }
 
+function spacewalk-client
+{
+   echo -e "\033[01;35m---------- Setup Spacewalk Client ----------"
+   ansible-playbook -i $INVENTORY $SPACKEWALK_CLIENT -e "host=$input_instance_name" -vvv
+
+}
 
 function display_help() {
 echo -e "\n \033[3;0m Options: \n"
@@ -137,6 +144,7 @@ cat<<'EOF'
     -k                             Username
     -t, -start                     Start instance
     -r, -stop                      Stop instance
+    -w,                            Setup Spacewalk-client
 EOF
 echo -e "\033[3;91m\nNote:- Readme : \n"
 echo -e "\033[1;30m"
@@ -216,7 +224,7 @@ EOF
 
 }
 
-if [[ "$1" != "-m" && "$1" != "--provision-bahmniserver" && "$1" != "-t" && "$1" != "-start" && "$1" != "-r" && "$1" != "-stop" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-d" && "$1" != "--provision-buildserver" && "$1" != "-e" && "$1" != "--provision-erpagent" && "$1" != "-g" && "$1" != "--provision-buildagent" && "$1" != "-b" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" && "$1" != "-u" && "$1" != "--refresh-users" ]]; then
+if [[ "$1" != "-m" && "$1" != "--provision-bahmniserver" && "$1" != "-t" && "$1" != "-start" && "$1" != "-r" && "$1" != "-stop" && "$1" != "-h" && "$1" != "-help" && "$1" != "-v" && "$1" != "--create-vpc" && "$1" != "-c" && "$1" != "--renew-certs" && "$1" != "-s" && "$1" != "--spinup" && "$1" != "-p" && "$1" != "--update-proxy" && "$1" != "-d" && "$1" != "--provision-buildserver" && "$1" != "-e" && "$1" != "--provision-erpagent" && "$1" != "-g" && "$1" != "--provision-buildagent" && "$1" != "-b" && "$1" != "--provision-bastionserver" && "$1" != "-a" && "$1" != "--provision-controller" && "$1" != "-u" && "$1" != "--refresh-users" && "$1" != "-w" && "$1" != "--spacewalk-client" ]]; then
     printf "\e[31;1m syntax error \e[0m\n"
     exit
 fi
@@ -301,6 +309,9 @@ case "$1" in
     ;;
 -m |--provision-bahmniserver)
     provision-bahmniserver
+    ;;
+-w |--spacewalk-client)
+    spacewalk-client
     ;;
 
 -h | --help)

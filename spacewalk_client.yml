@@ -1,11 +1,10 @@
-- hosts: all
+- hosts: '{{ host }}'
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
    ansible_user: centos
   roles:
-   - hostname
-  tags:
-   - manage_user
+   - spacewalk-client
   vars_files:
    - "group_vars/users.yml"
+   - "group_vars/vars.yml"

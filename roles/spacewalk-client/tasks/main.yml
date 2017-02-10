@@ -1,10 +1,10 @@
 - name: Install Spacewask Repository
   yum: name=http://yum.spacewalkproject.org/2.6-client/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-client-repo-2.6-0.el{{ansible_distribution_major_version}}.noarch.rpm state=present
-  when: ansible_distribution == "CentOS"
+  when: (ansible_distribution == "CentOS" and host != spacewalk_server)
 
 - name: Install Centos 6 epel
   yum: name=http://dl.fedoraproject.org/pub/epel/6/{{ ansible_machine }}/epel-release-6-8.noarch.rpm state=present
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6" and host != spacewalk_server)
 
 - name: Install depedencies
   yum: name="{{item}}" state=present
@@ -15,25 +15,28 @@
      - rhnsd
      - m2crypto
      - rhn-client-tools
+  when: (host != spacewalk_server)
 
 - name: Install Centos 7 epel
   yum: name=epel-release state=present
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7" and host != spacewalk_server)
 
 - name: Install CA cert from spacewalk server
   yum: name=http://{{spacewalk_server}}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm state=present
-  when: ansible_distribution == "CentOS"
-  notify: register with spacewalk server
+  when: (ansible_distribution == "CentOS" and host != spacewalk_server)
 
 - name: register with spacewalk server
-  command: rhnreg_ks --serverUrl=https://{{spacewalk_server}}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}
+  command: rhnreg_ks --force --serverUrl=http://{{spacewalk_server}}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}
   ignore_errors: true
-  when: ansible_distribution == "CentOS"
+  when: (ansible_distribution == "CentOS" and host != spacewalk_server)
+
+- pause:
+    seconds: 10
 
 - name: Mapping {{ ec2_tag_Name }} to repective group
   command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- group_addsystems {{item.name}} {{ ec2_tag_Name }}
   with_items: "{{spacewalk_group}}"
-  when: (ec2_tag_role == item.name) or (ec2_tag_role != item.name and ec2_tag_role == "asset-server" and item.name == "infra") or (ec2_tag_role != item.name and ec2_tag_role == "bahmni-server" and item.name == "qa-environment")
+  when: (ec2_tag_role == item.name) or (ec2_tag_role != item.name and ec2_tag_role == "asset-server" and item.name=='infra') or (ec2_tag_role != item.name and ec2_tag_role == "bahmni-server" and item.name=='qa-environment') or (ec2_tag_role != item.name and ec2_tag_role == "bastion-server" and item.name=='infra') or (ec2_tag_role != item.name and ec2_tag_role == "proxy-server" and item.name=='infra') or (ec2_tag_role != item.name and ec2_tag_role == "build-agent" and item.name=='buildagent') or (ec2_tag_role != item.name and ec2_tag_role == "build-server" and item.name=='buildserver')
   delegate_to: "{{spacewalk_server}}"
   ignore_errors: true
-  tags: group
+  when: (host != spacewalk_server)

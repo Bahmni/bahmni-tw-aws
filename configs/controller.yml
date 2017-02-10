@@ -2,7 +2,7 @@ controller_env_spec:
    Tags: {"role": "asset-server", "server_type": "private"}
    StartIndex: 1
    ExactCount: 1
-   InstanceType: t2.medium
+   InstanceType: t2.large
    SecurityGroups:
      - "{{ SecurityGroupIds.bahmni }}"
    AmiId: "{{ available_amis.bahmni_ami }}"

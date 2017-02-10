@@ -26,27 +26,37 @@
   command: spacewalk-setup --answer-file=/var/tmp/answers
            creates=/var/satellite
 
-- name: Configure spacewalk credential
-  pause: prompt='Configure spacewalk credentials username:{{spacewalk_administartor_user}} and Password:(is located in vars) from weburl! Press return to continue. Press Ctrl+c and then "a" to abort'
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  always_run: yes
 
 - name: Allow Ansible accelerated port through firewall
+  become: yes
   command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 5099 -m comment --comment "Ansible accelerated" -j ACCEPT
   when: iptablesrules.stdout.find("Ansible accelerated") == -1
 
 - name: Allow Spacewalk push to clients port through firewall
+  become: yes
   command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 5222 -m comment --comment "Spacewalk push to clients" -j ACCEPT
   when: iptablesrules.stdout.find("Spacewalk push to clients") == -1
 
 - name: Allow Spacewalk push to clients port through firewall
+  become: yes
   command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -m comment --comment "http" -j ACCEPT
   when: iptablesrules.stdout.find("http") == -1
 
 - name: Allow Spacewalk push to clients port through firewall
+  become: yes
   command: /sbin/iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -m comment --comment "https" -j ACCEPT
   when: iptablesrules.stdout.find("https") == -1
 
 - name: Save the changes
   command: service iptables save
+
+- name: Configure spacewalk credential
+  pause: prompt='Configure spacewalk credentials username:{{spacewalk_administartor_user}} and Password:(predefined password is located in vars) from weburl! Press return to continue. Press Ctrl+c and then "a" to abort'
+
 
 - name: Configure base channels
   command: spacecmd --user={{spacewalk_administartor_user}} --password={{spacewalk_administartor_password}} -- softwarechannel_create -n {{item.name}} -l {{item.label}} -a x86_64 -c sha512
