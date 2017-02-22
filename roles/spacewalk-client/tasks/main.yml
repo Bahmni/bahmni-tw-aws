@@ -40,3 +40,4 @@
   delegate_to: "{{spacewalk_server}}"
   ignore_errors: true
   when: (host != spacewalk_server)
+

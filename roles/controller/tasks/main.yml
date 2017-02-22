@@ -67,8 +67,17 @@
 - cron:
     name: Lets encypt Renewal
     minute: 00
+    hour: 00
+    day: 1
+    month: 2
+    user: root
+    job: "cd {{bahmni_aws_codebase_directory}}/bahmni-tw-aws && /usr/bin/git pull"
+
+- cron:
+    name: Lets encypt Renewal
+    minute: 30
     hour: 01
     day: 1
-    month: 3
+    month: 2
     user: root
-    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c"
+    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c -n all"

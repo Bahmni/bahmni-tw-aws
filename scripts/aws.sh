@@ -36,8 +36,9 @@ function renew-certs
 
 function setup-hostname
 {
-   echo -e "\033[01;35m---------- Spinup Instance ----------"
+   echo -e "\033[01;35m----------- Updating Hostname ----------"
    ansible-playbook -i $INVENTORY $ALL -vvv
+   spacewalk-client
 
 }
 
