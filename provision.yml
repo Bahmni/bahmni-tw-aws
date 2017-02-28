@@ -7,8 +7,8 @@
    - epel-repo
    - oracle-java
    - build-utils
-   - postgres
    - go-agent
+   - postgres
    - maven
   vars_files:
    - "group_vars/vars.yml"
