@@ -12,9 +12,9 @@
 
 - name: Add nodejs repository
   shell: curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
-
-- name: install i18n
-  shell: gem install i18n -v '0.7.0'
+#
+#- name: install i18n
+#  shell: gem install i18n -v '0.7.0'
 
 - name: Install nodejs
   yum: name=nodejs-6.6.0 state=present

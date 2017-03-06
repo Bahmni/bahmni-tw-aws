@@ -38,7 +38,6 @@ function setup-hostname
 {
    echo -e "\033[01;35m----------- Updating Hostname ----------"
    ansible-playbook -i $INVENTORY $ALL -vvv
-   spacewalk-client
 
 }
 

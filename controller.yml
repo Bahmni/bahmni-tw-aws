@@ -16,3 +16,20 @@
     - "group_vars/vars.yml"
     - "group_vars/users.yml"
     - "group_vars/aws_credentials.yml"
+
+- hosts: tag_Name_controller
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+   environment:
+      AWS_ACCESS_KEY_ID: "{{aws_access_key}}"
+      AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
+  roles:
+    - crontab-schedule
+  vars_files:
+    - "group_vars/vars.yml"
+    - "group_vars/users.yml"
+    - "group_vars/aws_credentials.yml"
+    - "configs/instances.yml"
+  tags: crontab_schedule

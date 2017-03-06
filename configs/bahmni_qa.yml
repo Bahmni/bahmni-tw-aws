@@ -1,5 +1,5 @@
 qa_env_spec:
-   Tags: {"role": "bahmni-server", "server_type": "private"}
+   Tags: {"role": "bahmni-server", "server_type": "private", "auto:start": "05 30 * * 1-5", "auto:stop": "20 00 * * 1-5"}
    StartIndex: 1
    ExactCount: 1
    InstanceType: t2.large
