@@ -7,15 +7,28 @@
       AWS_ACCESS_KEY_ID: "{{aws_access_key}}"
       AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
   roles:
-    - controller
-    - hostname
-    - oracle-java
-    - go-agent
-    - spacewalk-server
+    - { role: controller }
+    - { role: hostname }
+    - { role: oracle-java }
+    - { role: go-agent }
+    - { role: fetch-facts }
+    - { role: crontab-schedule, tags: crontab_schedule }
   vars_files:
+    - "group_vars/aws_credentials.yml"
     - "group_vars/vars.yml"
     - "group_vars/users.yml"
-    - "group_vars/aws_credentials.yml"
+    - "group_vars/cidr_blocks.yml"
+    - "configs/bastion.yml"
+    - "configs/build_server.yml"
+    - "configs/build_agent.yml"
+    - "configs/tw_proxy.yml"
+    - "configs/public_proxy.yml"
+    - "configs/bahmni_qa.yml"
+    - "configs/instances.yml"
+    - "configs/bahmni_assets.yml"
+    - "configs/bahmni_showcase.yml"
+    - "configs/connect_genymotion.yml"
+    - "configs/controller.yml"
 
 - hosts: tag_Name_controller
   become: yes
@@ -26,10 +39,21 @@
       AWS_ACCESS_KEY_ID: "{{aws_access_key}}"
       AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
   roles:
-    - crontab-schedule
+    - { role: spacewalk-server, tags: spacewalk_server }
   vars_files:
+    - "group_vars/aws_credentials.yml"
     - "group_vars/vars.yml"
     - "group_vars/users.yml"
-    - "group_vars/aws_credentials.yml"
+    - "group_vars/cidr_blocks.yml"
+    - "configs/bastion.yml"
+    - "configs/build_server.yml"
+    - "configs/build_agent.yml"
+    - "configs/tw_proxy.yml"
+    - "configs/public_proxy.yml"
+    - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
-  tags: crontab_schedule
+    - "configs/bahmni_assets.yml"
+    - "configs/bahmni_showcase.yml"
+    - "configs/connect_genymotion.yml"
+    - "configs/controller.yml"
+  tags: spacewalk_server

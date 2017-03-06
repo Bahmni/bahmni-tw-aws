@@ -64,36 +64,3 @@
     src=ansible_vault_secret.pem.j2
     dest=~/.keys/bahmni-tw-aws.pem owner="{{ owner }}" group="{{ group }}" mode=0644
 
-- name: Fetch git repo
-  cron:
-    name: Update git repo
-    minute: 00
-    hour: 00
-    day: 1
-    month: 2
-    user: root
-    job: "cd {{bahmni_aws_codebase_directory}}/bahmni-tw-aws && /usr/bin/git pull"
-
-- name: Certificate renewal
-  cron:
-    name: Lets encypt Renewal
-    minute: 30
-    hour: 01
-    day: 1
-    month: 2
-    user: root
-    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c -n all"
-
-- name: Ec2 scheduler - start/stop ec2 instances automatically
-  cron:
-    name: Ec2 scheduler - start/stop ec2 instances automatically
-    minute: "*/5"
-    hour: "*"
-    day: "*"
-    month: "*"
-    user: root
-    job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/ec2_scheduler.sh -c"
-
-
-
-
