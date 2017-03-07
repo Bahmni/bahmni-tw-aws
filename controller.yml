@@ -29,6 +29,8 @@
     - "configs/bahmni_showcase.yml"
     - "configs/connect_genymotion.yml"
     - "configs/controller.yml"
+  tags:
+    - crontab_schedule
 
 - hosts: tag_Name_controller
   become: yes
