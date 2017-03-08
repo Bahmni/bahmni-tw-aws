@@ -16,32 +16,3 @@
     month: 2
     user: root
     job: "{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -c -n all /var/log/renew_certs.log 2>&1"
-
-- name: Add Ec2 scheduler start ec2 instances automatically
-  cron:
-    name: "Ec2 scheduler start ec2 instances automatically {{item.hostname}}"
-    minute: "{{startInstance.minute | random (1,2) | int + 10 }}"
-    hour: "{{startInstance.hour}}"
-    weekday: "{{startInstance.weekday}}"
-    user: root
-    job: '{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -t -n {{item.hostname}}.mybahmni.local >> /var/log/cron_schedule.log 2>&1'
-  with_items: "{{ec2_instances}}"
-  ignore_errors: yes
-  when: item.autoStart|default("") != "disabled"
-
-- name: Add Ec2 scheduler - stop ec2 instances automatically
-  cron:
-    name: "Ec2 scheduler - stop ec2 instances automatically {{item.hostname}}"
-    minute: "{{ stopInstance.minute | random (1,2) | int + 10 }}"
-    hour: "{{stopInstance.hour}}"
-    weekday: "{{stopInstance.weekday}}"
-    user: root
-    job: '{{bahmni_aws_codebase_directory}}/bahmni-tw-aws/scripts/aws.sh -r -n {{item.hostname}}.mybahmni.local >> /var/log/cron_schedule.log 2>&1'
-  with_items: "{{ec2_instances}}"
-  ignore_errors: yes
-  when: item.autoStop|default("") != "disabled"
-
-- name: Restart crond service
-  service: name="crond" state=restarted enabled=yes
-
-

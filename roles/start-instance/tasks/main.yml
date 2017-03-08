@@ -1,4 +1,24 @@
-- name: Start the instances {{instance_name}}
+- name: set fact
+  set_fact: tag_name="{{ item.tags.Name }}"
+  with_items: "{{ec2_facts.instances}}"
+  register: ec2_name
+
+- name: make a list
+  set_fact: host_name="{{ ec2_name.results | map(attribute='ansible_facts.tag_name') | list }}"
+
+- name: Start the instances
+  ec2:
+   region: "{{aws_region}}"
+   aws_access_key:   "{{ aws_access_key }}"
+   aws_secret_key:   "{{ aws_secret_key }}"
+   instance_tags: '{"Name": "{{item | replace (".mybahmni.local", "") }}"}'
+   state: running
+   wait: True
+  with_items: "{{host_name}}"
+  when: instance_name == "all"
+
+
+- name: "Start the instances {{instance_name}} "
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"
@@ -6,3 +26,4 @@
    instance_tags: '{"Name": "{{instance_name | replace (".mybahmni.local", "") }}"}'
    state: running
    wait: True
+  when: instance_name != "all"

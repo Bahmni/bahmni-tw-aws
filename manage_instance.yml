@@ -18,6 +18,9 @@
     - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
     - "configs/bahmni_assets.yml"
+    - "configs/bahmni_showcase.yml"
+    - "configs/connect_genymotion.yml"
+    - "configs/controller.yml"
   tags:
     - start_instance
 
@@ -41,5 +44,8 @@
     - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
     - "configs/bahmni_assets.yml"
+    - "configs/bahmni_showcase.yml"
+    - "configs/connect_genymotion.yml"
+    - "configs/controller.yml"
   tags:
     - stop_instance

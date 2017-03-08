@@ -19,5 +19,3 @@ ec2_instances:
   - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
   - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
 
-startInstance: { minute: 30, hour: 05, weekday: "1-5" }
-stopInstance: { minute: 10, hour: 20, weekday: "1-5" }
