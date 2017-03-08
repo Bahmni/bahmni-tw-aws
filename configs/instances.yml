@@ -1,21 +1,20 @@
 ec2_instances:
-  - { hostname: bastion, spec: "{{ bastion_spec }}", autoStop: disabled}
-  - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}", autoStop: disabled}
-  - { hostname: public_proxy, spec: "{{ public_proxy_spec}}", autoStop: disabled }
-  - { hostname: ci, spec: "{{ build_server_spec }}", autoStop: disabled}
+  - { hostname: bastion, spec: "{{ bastion_spec }}", autostop: disabled}
+  - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}", autostop: disabled}
+  - { hostname: public_proxy, spec: "{{ public_proxy_spec}}", autostop: disabled }
+  - { hostname: ci, spec: "{{ build_server_spec }}", autostop: disabled}
   - { hostname: ci-agent01, spec: "{{ build_agent_spec }}" }
   - { hostname: ci-agent02, spec: "{{ build_agent_spec }}" }
   - { hostname: ci-agent03, spec: "{{ build_agent_spec }}" }
-  - { hostname: product-qa02, spec: "{{ qa_env_spec }}", autoStart: disabled }
+  - { hostname: product-qa02, spec: "{{ qa_env_spec }}", autostart: disabled }
   - { hostname: product-qa03, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa04, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-qa08, spec: "{{ qa_env_spec }}", autoStart: disabled }
+  - { hostname: product-qa08, spec: "{{ qa_env_spec }}", autostart: disabled }
   - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
   - { hostname: product-perf, spec: "{{ qa_env_spec }}" }
   - { hostname: connect-emu01, spec: "{{ connect_genymotion_spec }}" }
   - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
   - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }
-  - { hostname: controller, spec: "{{ assets_env_spec }}", autoStop: disabled }
+  - { hostname: controller, spec: "{{ assets_env_spec }}", autostop: disabled }
   - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
   - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
-

@@ -1,24 +1,13 @@
-#- fail: msg="------------Not allowed to shutdown the CONTROLLER------------"
-#  failed_when: instance_name =="controller"
-
-- name: set fact
-  set_fact: tag_name="{{ item.tags.Name }}"
-  with_items: "{{ec2_facts.instances}}"
-  register: ec2_name
-
-- name: make a list
-  set_fact: host_name="{{ ec2_name.results | map(attribute='ansible_facts.tag_name') | list }}"
-
 - name: Stop the instances
   ec2:
    region: "{{aws_region}}"
    aws_access_key:   "{{ aws_access_key }}"
    aws_secret_key:   "{{ aws_secret_key }}"
-   instance_tags: '{"Name": "{{item | replace (".mybahmni.local", "") }}"}'
+   instance_tags: '{"Name": "{{item.hostname | replace (".mybahmni.local", "") }}"}'
    state: stopped
    wait: True
-  with_items: "{{host_name}}"
-  when: (instance_name == "all" and 'ec2_instances.hostname == item' and ec2_instances.autoStop|default("") != "disabled")
+  with_items: "{{ec2_instances}}"
+  when: instance_name == 'all' and item.autostop|default("") != 'disabled'
 
 - name: "Stop the instances {{instance_name}}"
   ec2:
@@ -28,4 +17,4 @@
    instance_tags: '{"Name": "{{instance_name | replace (".mybahmni.local", "") }}"}'
    state: stopped
    wait: True
-  when: instance_name != "all"
+  when: instance_name != 'all'
