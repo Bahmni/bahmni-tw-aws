@@ -15,7 +15,7 @@
    state: running
    wait: True
   with_items: "{{host_name}}"
-  when: instance_name == "all"
+  when: (instance_name == "all" and 'ec2_instances.hostname == item' and ec2_instances.autoStop|default("") != "disabled")
 
 
 - name: "Start the instances {{instance_name}} "

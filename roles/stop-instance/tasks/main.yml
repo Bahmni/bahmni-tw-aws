@@ -1,5 +1,5 @@
-- fail: msg="------------Not allowed to shutdown the CONTROLLER------------"
-  failed_when: instance_name =="controller"
+#- fail: msg="------------Not allowed to shutdown the CONTROLLER------------"
+#  failed_when: instance_name =="controller"
 
 - name: set fact
   set_fact: tag_name="{{ item.tags.Name }}"
@@ -18,7 +18,7 @@
    state: stopped
    wait: True
   with_items: "{{host_name}}"
-  when: instance_name == "all" and ec2_instances.hostname == item and ec2_instances.autoStop|default("") != "disabled"
+  when: (instance_name == "all" and 'ec2_instances.hostname == item' and ec2_instances.autoStop|default("") != "disabled")
 
 - name: "Stop the instances {{instance_name}}"
   ec2:
