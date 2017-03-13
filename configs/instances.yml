@@ -12,7 +12,7 @@ ec2_instances:
   - { hostname: product-qa08, spec: "{{ qa_env_spec }}", autostart: disabled }
   - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
   - { hostname: product-perf, spec: "{{ qa_env_spec }}" }
-  - { hostname: connect-emu01, spec: "{{ connect_genymotion_spec }}" }
+  - { hostname: connect-emu01, spec: "{{ connect_genymotion_spec }}", autostart: disabled }
   - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
   - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }
   - { hostname: controller, spec: "{{ assets_env_spec }}", autostop: disabled }
