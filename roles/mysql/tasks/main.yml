@@ -46,30 +46,3 @@
               login_password="{{ mysql_old_root_password }}"
               state=present
   ignore_errors: yes
-
-- name: Create /db-restore
-  file:
-    path=/db-restore
-    state=directory
-
-- name: Download openerp dbdump
-  get_url:
-    url: https://github.com/Bahmni/emr-functional-tests/blob/master/dbdump/openerp_backup.sql.gz?raw=true
-    dest: /db-restore
-    owner: go
-    group: go
-    mode: 0644
-
-- name: Drop openerp database
-  postgresql_db:
-    name=openerp
-    state=absent
-    login_user=postgres
-
-- name: Restore openerp db
-  shell: gunzip -c /db-restore/openerp_backup.sql.gz | psql -U postgres
-
-- name: Create postgres user
-  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION
-  sudo_user: postgres
-  when: postgres_user is defined and (inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee-db'])

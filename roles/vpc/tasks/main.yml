@@ -1,4 +1,6 @@
 ---
+- name: Setup VPC
+  pause: prompt='Run for new VPC setup / Update new changes in VPC .! Press Ctrl+c and then "a" to abort'
 
 - include: vpc.yml
 - include: subnet.yml
