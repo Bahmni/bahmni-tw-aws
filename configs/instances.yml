@@ -18,3 +18,4 @@ ec2_instances:
   - { hostname: controller, spec: "{{ assets_env_spec }}", autostop: disabled }
   - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
   - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
+
