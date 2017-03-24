@@ -1,5 +1,5 @@
 build_agent_spec:
-   Tags: {"role": "build-agent", "server_type": "public"}
+   Tags: {"role": "build-agent", "server_type": "private"}
    StartIndex: 1
    ExactCount: 1
    InstanceType: t2.large

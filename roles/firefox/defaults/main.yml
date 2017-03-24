@@ -1,0 +1,14 @@
+---
+
+epel_release:
+  "4": 10
+  "5": 4
+  "6": 8
+  "7": 5
+
+download_folder: /tmp
+firefox_download_url: "http://vault.centos.org/6.7/updates/x86_64/Packages/firefox-45.1.0-1.el6.centos.x86_64.rpm"
+epel_repo_url: "http://download.fedoraproject.org/pub/epel/{{ ansible_distribution_major_version }}/{{ ansible_userspace_architecture }}{{ '/' if ansible_distribution_major_version < '7' else '/e/' }}epel-release-{{ ansible_distribution_major_version }}-{{ epel_release[ansible_distribution_major_version] }}.noarch.rpm"
+epel_repo_gpg_key_url: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+firefox_rpm_location: "/tmp/firefox-45.1.0-1.el6.centos.x86_64.rpm"
+force_new_firefox_download: false

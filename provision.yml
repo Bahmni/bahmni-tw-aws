@@ -7,29 +7,16 @@
    - epel-repo
    - oracle-java
    - build-utils
+   - ruby2.2.2
    - go-agent
    - postgres
+   - mysql
    - maven
+   - firefox
   vars_files:
    - "group_vars/vars.yml"
   tags:
     - provision_build_agent
-
-- hosts: tag_build_agent_resource_openerp
-  become: yes
-  vars:
-   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
-   ansible_user: centos
-  roles:
-   - epel-repo
-   - build-utils
-   - go-agent
-   - mysql
-   - postgres
-  vars_files:
-   - "group_vars/vars.yml"
-  tags:
-    - provision_erp_build_agent
 
 - hosts: tag_role_bastion-server
   become: yes

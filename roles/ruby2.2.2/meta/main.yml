@@ -1,4 +1,0 @@
----
-
-dependencies:
-  - { role: native-build-tools }
