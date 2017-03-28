@@ -1,0 +1,6 @@
+---
+download_folder: /tmp
+chrome_download_url: "https://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip"
+chrome_driver_location: "/tmp/chromedriver_linux64.zip"
+chrome_baseurl: "http://dl.google.com/linux/rpm/stable/x86_64"
+chrome_gpgkey: "https://dl-ssl.google.com/linux/linux_signing_key.pub"

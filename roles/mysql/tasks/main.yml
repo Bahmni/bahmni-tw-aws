@@ -38,4 +38,5 @@
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true
 
-
+- name: update mysql root password for all root accounts
+  mysql_user: name=root host=localhost password={{ mysql_password }} state=present

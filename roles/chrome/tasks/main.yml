@@ -1,0 +1,45 @@
+- name: Add google-chrome repo
+  template: src=chrome.repo.j2 dest=/etc/yum.repos.d/chrome.repo
+
+- name: Install dependencies
+  yum: name={{ item }} state=present
+  with_items:
+    - Xvfb
+    - gtk2-engines
+    - xorg-x11-fonts-100dpi
+    - xorg-x11-apps
+    - ImageMagick
+    - xorg-x11-xauth
+    - xterm
+    - xdg-utils
+    - lsb
+    - libstdc++-devel
+    - libX11-devel
+    - libXau-devel
+    - libXext-devel
+    - libxcb-devel
+    - xorg-x11-proto-devel
+    - libXScrnSaver
+    - libXScrnSaver-devel
+    - libstdc++.so.6
+
+- name: check if chrome is already downloaded
+  stat: path={{chrome_driver_location}}
+  register: downloaded_chrome
+
+- name: download chrome from website
+  get_url: url="{{chrome_download_url}}" dest="{{chrome_driver_location}}"
+  when: "{{ downloaded_chrome.stat.exists == false  }}"
+
+- name: extract chrome to /tmp/
+  unarchive: copy=no src="{{chrome_driver_location}}" dest="/usr/bin/"
+  when: "{{ downloaded_chrome.stat.exists == false  }}"
+
+- name: Creates directory
+  file: path=/var/go/.m2/repository/webdriver/chromedriver/linux64/2.27 state=directory owner="{{go_user}}" group="{{go_user}}" mode=0775
+
+- stat: path=/var/go/.m2/repository/webdriver/chromedriver/linux64/2.27/chromedriver
+  register: chrome_driver_links
+
+- name: Create chrome symlink
+  file: src=/usr/bin/chromedriver dest=/var/go/.m2/repository/webdriver/chromedriver/linux64/2.27/chromedriver state=link owner="{{go_user}}" group="{{go_user}}" mode=0775

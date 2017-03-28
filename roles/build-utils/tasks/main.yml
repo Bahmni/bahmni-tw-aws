@@ -29,7 +29,7 @@
   npm: name=npm@3.10.7 global=yes state=present
 
 - name: Install cordova
-  npm: name=cordova@5.0.0 global=yes state=present
+  npm: name=cordova@6.4.0 global=yes state=present
 
 - name: make sure bower is installed
   npm: name=bower@1.7.9 global=yes state=present

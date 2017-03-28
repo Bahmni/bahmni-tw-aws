@@ -1,0 +1,5 @@
+---
+download_folder: /tmp
+gauge_download_url: "https://github.com/getgauge/gauge/releases/download/v0.8.1/gauge-0.8.1-linux.x86_64.zip"
+gauge_installer_location: "/tmp/gauge-0.8.1-linux.x86_64.zip"
+

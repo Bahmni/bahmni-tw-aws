@@ -51,7 +51,7 @@ function spinup-instance
 function update-proxy
 {
    echo -e "\033[01;35m---------- Update proxy configuration ----------"
-   ansible-playbook -i $INVENTORY $PROVISION -t update_proxy -vvv
+   ansible-playbook -i $INVENTORY $PROVISION -e "host=$input_instance_name" -t update_proxy -vvv
 
 }
 

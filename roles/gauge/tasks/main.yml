@@ -1,0 +1,23 @@
+- name: check if gauge is already downloaded
+  stat: path={{gauge_installer_location}}
+  register: downloaded_gauge
+
+- name: download gauge from website
+  get_url: url="{{gauge_download_url}}" dest="{{gauge_installer_location}}"
+  when: "{{ downloaded_gauge.stat.exists == false  }}"
+
+- name: extract gauge to /tmp/
+  unarchive: copy=no src="{{gauge_installer_location}}" dest="{{download_folder}}" mode=0777 owner=root
+  when: "{{ downloaded_gauge.stat.exists == false  }}"
+
+- name: Installing gauge
+  command: sh install.sh
+  args:
+    chdir: "{{download_folder}}"
+
+- name: Install gauge plugin
+  become_user: "{{go_user}}"
+  command: "/usr/local/bin/gauge --install {{item}}"
+  with_items:
+      - java
+      - html-report

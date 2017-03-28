@@ -1,5 +1,5 @@
 ec2_instances:
-  - { hostname: ci-agent04, spec: "{{ build_agent_spec }}" }
+  - { hostname: ci-agent06, spec: "{{ build_agent_spec }}" }
   - { hostname: bastion, spec: "{{ bastion_spec }}", autostop: disabled}
   - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}", autostop: disabled}
   - { hostname: public_proxy, spec: "{{ public_proxy_spec}}", autostop: disabled }

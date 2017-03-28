@@ -27,14 +27,6 @@
   stat: path={{firefox_rpm_location}}
   register: downloaded_firefox
 
-- set_fact:
-    force_new_firefox_download: "{{ downloaded_firefox.stat.md5 != md5_checksum_of_firefox }}"
-  when: downloaded_firefox.stat.exists
-
-- name: Delete firefox rpm if checksum does not match
-  file: path={{ firefox_rpm_location }} state=absent
-  when: "{{ force_new_firefox_download == true }}"
-
 - name: Download Firefox
   get_url:
     url: "{{firefox_download_url}}"
