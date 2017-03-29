@@ -1,4 +1,4 @@
-- hosts: '{{ host }}'
+- hosts: '{{ host}}'
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
@@ -15,6 +15,7 @@
     - firefox
     - chrome
     - gauge
+    - httpd
   vars_files:
     - "group_vars/vars.yml"
   tags:

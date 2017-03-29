@@ -1,5 +1,5 @@
 download_folder: /opt
-java_runtime: jdk
+java_runtime: jre
 java_version: 8u101
 java_build: b13
 java_rpm_name: "{{ java_runtime }}-{{ java_version }}-linux-x64.rpm"
