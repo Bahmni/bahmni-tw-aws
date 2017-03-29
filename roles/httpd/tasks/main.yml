@@ -54,7 +54,7 @@
 - name: remove ssl.conf
   file: path=/etc/httpd/conf.d/ssl.conf state=absent
 
-- name: set httpd_enable_cgi for SELinux
+- name: set policy for SeLinux
   seboolean: name={{ item }} state=yes persistent=yes
   with_items:
     - httpd_enable_cgi
