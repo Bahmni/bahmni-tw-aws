@@ -1,4 +1,4 @@
-- hosts: '{{ host}}'
+- hosts: "{{ host | default('tag_role_build-agent') }}"
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
