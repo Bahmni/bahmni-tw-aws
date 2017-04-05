@@ -1,5 +1,4 @@
 ec2_instances:
-  - { hostname: ci-agent06, spec: "{{ build_agent_spec }}" }
   - { hostname: bastion, spec: "{{ bastion_spec }}", autostop: disabled}
   - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}", autostop: disabled}
   - { hostname: public_proxy, spec: "{{ public_proxy_spec}}", autostop: disabled }
@@ -12,10 +11,7 @@ ec2_instances:
   - { hostname: product-qa04, spec: "{{ qa_env_spec }}" }
   - { hostname: product-qa08, spec: "{{ qa_env_spec }}", autostart: disabled }
   - { hostname: product-qa09, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-perf, spec: "{{ qa_env_spec }}" }
   - { hostname: connect-emu01, spec: "{{ connect_genymotion_spec }}", autostart: disabled }
-  - { hostname: product-ftagent02, spec: "{{ qa_env_spec }}" }
-  - { hostname: product-ftagent03, spec: "{{ qa_env_spec }}" }
   - { hostname: controller, spec: "{{ assets_env_spec }}", autostop: disabled }
   - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
   - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
