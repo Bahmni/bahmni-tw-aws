@@ -166,7 +166,7 @@ cat<<'EOF'
 
    Add launch key to connect to AWS
    eval "$(ssh-agent -s)"
-   ansible decrypt group_vars/bahmni_launch_key.pem
+   ansible-vault decrypt group_vars/bahmni_launch_key.pem
    ssh-add group_vars/bahmni_launch_key.pem
    =====================================================================================================================
    Description
