@@ -78,7 +78,7 @@ function provision-buildagent
 function provision-bahmniserver
 {
    echo -e "\033[01;35m---------- Provision-Bahmniserver ----------"
-   ansible-playbook -i $INVENTORY $PROVISION -t provision_bahmni_server -vvv
+   ansible-playbook -i $INVENTORY $PROVISION -e "host=$input_instance_name" -t provision_bahmni_server -vvv
 
 }
 

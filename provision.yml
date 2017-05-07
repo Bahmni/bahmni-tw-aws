@@ -33,7 +33,7 @@
   tags:
     - provision_bastion
 
-- hosts: tag_Name_ci
+- hosts: "{{ host | default('tag_Name_ci') }}"
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
@@ -59,7 +59,7 @@
   tags:
     - update_proxy
 
-- hosts: tag_role_bahmni_server
+- hosts: "{{ host | default('tag_role_bahmni_server') }}"
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
@@ -72,7 +72,7 @@
   tags:
     - renew_certs
 
-- hosts: tag_role_bahmni_server
+- hosts: "{{ host | default('tag_role_bahmni_server') }}"
   become: yes
   vars:
    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
