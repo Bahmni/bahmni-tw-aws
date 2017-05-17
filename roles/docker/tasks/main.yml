@@ -1,0 +1,18 @@
+---
+
+- name: Install docker dependecy
+  yum: state=present name={{ item }}
+  with_items:
+    - docker-io
+
+- name: Start docker service
+  service: name=docker state=started enabled=yes
+
+- include: docker_proxy.yml
+  with_items:
+    - "{'proxy_type': 'private', 'target_server_type': 'private'}"
+    - "{'proxy_type': 'public', 'target_server_type': 'public'}"
+  vars:
+    - config: "{{ item }}"
+    - docker_instance_IP: "{{ ansible_default_ipv4.address }}"
+

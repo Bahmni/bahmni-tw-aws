@@ -34,6 +34,7 @@ frontend https_443_frontend
      acl {{ h.tags.Name }}_erp req.ssl_sni -i erp-{{ h.tags.Name }}.mybahmni.org
      use_backend {{h.tags.Name}}_erp if {{ h.tags.Name }}_erp
    {% endfor %}
+   #docker container haproxy config frontend
 
 {% for h in target_proxy_instances.instances %}
 backend {{ h.tags.Name }}
@@ -44,4 +45,5 @@ backend {{ h.tags.Name }}_erp
   mode tcp
   server {{ h.tags.Name }} {{ h.private_ip_address }}
 {% endfor %}
+#docker container haproxy config backend
 

@@ -1,0 +1,11 @@
+- hosts: "{{ host }}"
+  become: yes
+  vars:
+   ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q centos@bastion.mybahmni.org"'
+   ansible_user: centos
+  roles:
+    - docker
+  vars_files:
+    - "group_vars/aws_credentials.yml"
+  tags:
+    - docker-proxy
