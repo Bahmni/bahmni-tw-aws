@@ -23,3 +23,7 @@ RUN sed -i "20,34 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/nagios/ta
 RUN sed -i "54,68 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/pacs-integration/tasks/main.yml
 RUN sed -i "15,29 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/atomfeed-console/tasks/main.yml
 RUN sed -i "31,46 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/nagios-agent/tasks/main.yml
+RUN bahmni -ilocal install
+RUN rm -rf /var/run/openerp/openerp-server.pid
+ENTRYPOINT service mysqld start && service postgresql-9.2 start && bahmni -ilocal start && service bahmni-lab restart && /bin/bash
+
