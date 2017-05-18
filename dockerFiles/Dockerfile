@@ -5,6 +5,8 @@ ARG aws_access_key
 ARG aws_secret_key
 ARG container_name
 RUN echo -e "[bahmni] \nname=Bahmni development repository for RHEL/CentOS 6\nbaseurl=http://repo.mybahmni.org.s3-website-ap-southeast-1.amazonaws.com/rpm/bahmni/\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/bahmni.repo
+RUN yum -y --enablerepo=extras install epel-release
+RUN yum -y install python-pip
 RUN yum install -y sudo openssh-server openssh-clients tar wget yum-plugin-ovl  ; yum clean all
 RUN pip install awscli
 RUN echo $rpm_version
@@ -17,4 +19,3 @@ RUN git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt
 WORKDIR "/opt/letsencrypt"
 RUN ansible-playbook -i infra_inventory letsencrypt.yml -e aws_access_key=$aws_access_key -e aws_secret_key=$aws_secret_key -e container_name=$container_name -vvv
 ENTRYPOINT service mysqld start && service postgresql-9.2 start && bahmni -ilocal start && service bahmni-lab restart && /bin/bash
-
