@@ -1,12 +1,9 @@
 FROM bahmni/bahmni_centos67
 ARG rpm_version
 ARG inventory_name
-# ARG aws_access_key=$aws_access_key
-# ARG aws_secret_key=$aws_secret_key
-# ARG container_name=$container_name
-ENV aws_access_key=${aws_access_key}		
-ENV aws_secret_key=${aws_secret_key}		
-ENV container_name=${container_name}
+ARG aws_access_key
+ARG aws_secret_key
+ARG container_name
 RUN echo -e "[bahmni] \nname=Bahmni development repository for RHEL/CentOS 6\nbaseurl=http://repo.mybahmni.org.s3-website-ap-southeast-1.amazonaws.com/rpm/bahmni/\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/bahmni.repo
 RUN yum -y --enablerepo=extras install epel-release
 RUN yum -y install python-pip git ansible*
