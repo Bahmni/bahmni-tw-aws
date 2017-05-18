@@ -1,6 +1,9 @@
 FROM bahmni/bahmni_centos67
 ARG rpm_version
 ARG inventory_name
+ARG aws_access_key
+ARG aws_secret_key
+ARG container_name
 ENV aws_access_key ${aws_access_key}
 ENV aws_secret_key ${aws_secret_key}
 ENV container_name ${container_name}
