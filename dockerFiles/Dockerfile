@@ -31,5 +31,5 @@ RUN sed -i "31,46 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/nagios-ag
 RUN bahmni -ilocal install
 RUN git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt
 WORKDIR "/opt/letsencrypt"
-RUN ansible-playbook -i infra_inventory letsencrypt.yml -e aws_access_key=${aws_access_key} -e aws_secret_key=${aws_secret_key} -e container_name=${container_name} -vvv
+RUN ansible-playbook -i infra_inventory letsencrypt.yml  --extra-vars="aws_access_key=${aws_access_key} aws_secret_key=${aws_secret_key} container_name=${container_name}" -vvv
 ENTRYPOINT service mysqld start && service postgresql-9.2 start && bahmni -ilocal start && service bahmni-lab restart && /bin/bash
