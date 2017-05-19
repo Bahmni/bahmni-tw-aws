@@ -9,6 +9,7 @@ RUN yum -y --enablerepo=extras install epel-release
 RUN yum -y install python-pip git ansible*
 RUN yum install -y sudo openssh-server openssh-clients tar wget yum-plugin-ovl  ; yum clean all
 RUN pip install awscli
+RUN pip install boto
 RUN echo $rpm_version
 # RUN yum install -y bahmni-installer-$rpm_version-* ; yum clean all
 # RUN yum install -y http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-7.noarch.rpm
