@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-container_name=$containechmor_name
+container_name=$container_name
 sudo yum install -y docker
 sudo chkconfig docker on
 sudo service docker start
