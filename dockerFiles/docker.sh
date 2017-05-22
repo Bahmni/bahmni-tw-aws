@@ -5,7 +5,7 @@ sudo yum install -y docker
 sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
-if docker ps | awk -v container_name="$container_name" 'NR>1{  ($(NF) ==container_name )  }'; then
+if docker ps | awk -v container_name="$container_name" 'NR>1{($(NF) ==container_name)}'; then
   docker stop "$container_name" && docker rm -f "$container_name"
 fi
 sudo docker build -t senthilrajar/bahmni_centos:${rpm_version} --build-arg rpm_version=${rpm_version} --build-arg aws_secret_key=${aws_secret_key} --build-arg container_name=${container_name} --build-arg aws_access_key=${aws_access_key} .
