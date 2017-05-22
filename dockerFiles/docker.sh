@@ -5,7 +5,11 @@ sudo yum install -y docker
 sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
-sudo docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi
+if [ "${imgs}" != "" ]; then
+   sudo docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi
+else
+   echo "No images to remove"
+fi
 if sudo docker ps | awk -v container_name="${container_name}" 'NR>1{($(NF) == container_name)}'; then
    sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
 fi
