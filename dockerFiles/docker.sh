@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 container_name=$container_name
-sed -i '1i '$ansible_vault_key'' /var/go/.keys/bahmni-tw-aws.pem
+sed -i '1i \'$ansible_vault_key'\' /var/go/.keys/bahmni-tw-aws.pem
 sed -i '2d' /var/go/.keys/bahmni-tw-aws.pem
 sudo yum install -y docker
 sudo chkconfig docker on
