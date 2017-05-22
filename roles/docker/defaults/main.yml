@@ -1,5 +1,0 @@
----
-
-containers:
-  - {name: "docker-qa01", https_port: "9090", erp_port: "8069"}
-  - {name: "docker-qa02", https_port: "9091", erp_port: "8070"}

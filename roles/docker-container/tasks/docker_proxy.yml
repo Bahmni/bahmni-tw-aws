@@ -1,0 +1,51 @@
+---
+
+- ec2_remote_facts:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region:           "{{ aws_region }}"
+    filters:
+      instance-state-name: running
+      'tag:type': "private"
+  register: private_proxy
+
+- name: Add proxy to dynamic host group
+  add_host:
+    name: "{{ private_proxy.instances.0.tags.Name }}"
+    groupname: gatewayed
+    ansible_ssh_host: "{{ private_proxy.instances.0.private_ip_address }}"
+    ansible_user: centos
+
+- name: insert frontend configuration in haproxy config
+  delegate_to: "{{ private_proxy.instances.0.tags.Name }}"
+  blockinfile:
+      dest: /etc/haproxy/haproxy.cfg
+      marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK docker items {{ container_name}} frontend proxy config -->"
+      insertafter: "#docker container haproxy config frontend"
+      state: present
+      block: |+1
+            acl {{ container_name }} req.ssl_sni -i {{ container_name }}.mybahmni.org
+            use_backend {{container_name}} if {{container_name }}
+            acl {{ container_name }}_erp req.ssl_sni -i erp-{{ container_name }}.mybahmni.org
+            use_backend {{container_name}}_erp if {{ container_name }}_erp
+
+- name: insert backend configuration in haproxy config
+  delegate_to: "{{ private_proxy.instances.0.tags.Name }}"
+  blockinfile:
+      dest: /etc/haproxy/haproxy.cfg
+      marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK docker items {{ container_name}}  backend proxy config -->"
+      insertafter: "#docker container haproxy config backend"
+      state: present
+      block: |+1
+       backend {{ container_name }}
+       mode tcp
+       option ssl-hello-chk
+       server {{ container_name }} {{ docker_instance_IP }}:{{ https_port }} check
+       backend {{ container_name }}_erp
+       mode tcp
+       server {{ container_name }} {{ docker_instance_IP }}:{{ erp_port}}
+
+- name: Restart haproxy
+  delegate_to: "{{ private_proxy.instances.0.tags.Name }}"
+  become: yes
+  service: name=haproxy state=reloaded

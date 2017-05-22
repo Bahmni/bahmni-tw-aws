@@ -1,0 +1,12 @@
+---
+
+- include: add-container-dns.yml
+  vars:
+    - container_name: "{{ container_name }}"
+
+- include: docker_proxy.yml
+  vars:
+    - docker_instance_IP: "{{ ansible_default_ipv4.address }}"
+    - container_name: "{{ container_name }}"
+    - https_port: "{{ https_port }}"
+    - erp_port: "{{ erp_port }}"
