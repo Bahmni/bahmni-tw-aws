@@ -6,6 +6,7 @@ sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
 echo "Validate Container Exists"
+echo $(whoami)
 docker ps -a --format "{{.Names}}" | awk "/${CONTAINER_NAME}/" | xargs docker stop 2> /dev/null
 docker ps -a --format "{{.Names}}" | awk "/${CONTAINER_NAME}/" | xargs docker rm 2> /dev/null
 sudo docker build -t senthilrajar/bahmni_centos:${rpm_version} --build-arg rpm_version=${rpm_version} --build-arg aws_secret_key=${aws_secret_key} --build-arg container_name=${container_name} --build-arg aws_access_key=${aws_access_key} .
