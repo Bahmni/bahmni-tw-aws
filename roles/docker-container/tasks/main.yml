@@ -1,5 +1,18 @@
 ---
 
+- name: Create docker group
+  group:
+    name=docker
+    state=present
+  sudo: yes
+
+- name: Create docker user
+  user: name=docker group=docker state=present
+  sudo: yes
+
+- name: add docker as ssh user
+  copy: src=../../group_vars/docker.pem dest=/var/go/.ssh
+
 - include: add-container-dns.yml
   vars:
     - container_name: "{{ container_name }}"

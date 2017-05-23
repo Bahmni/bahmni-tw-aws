@@ -14,7 +14,7 @@
     name: "{{ private_proxy.instances.0.tags.Name }}"
     groupname: gatewayed
     ansible_ssh_host: "{{ private_proxy.instances.0.private_ip_address }}"
-    ansible_user: centos
+    ansible_user: docker
 
 - name: insert frontend configuration in haproxy config
   delegate_to: "{{ private_proxy.instances.0.tags.Name }}"
