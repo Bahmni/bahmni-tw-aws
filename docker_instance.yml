@@ -8,5 +8,3 @@
   vars_files:
     - "group_vars/aws_credentials.yml"
     - "group_vars/cidr_blocks.yml"
-  tags:
-    - docker-proxy
