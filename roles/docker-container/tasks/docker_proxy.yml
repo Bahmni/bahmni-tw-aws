@@ -29,6 +29,5 @@
        server {{ container_name }} {{ docker_instance_IP }}:{{ erp_port}}
 
 - name: Restart haproxy
-  delegate_to: "{{ private_proxy.instances.0.tags.Name }}"
-  become: yes
+  sudo: yes
   service: name=haproxy state=reloaded
