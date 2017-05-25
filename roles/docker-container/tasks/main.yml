@@ -7,7 +7,7 @@
 
 - include: docker_proxy.yml
   vars:
-    - docker_instance_IP: "{{ ansible_default_ipv4.address }}"
+    - docker_instance_IP: "{{ docker_host }}"
     - container_name: "{{ container_name }}"
     - https_port: "{{ https_port }}"
     - erp_port: "{{ erp_port }}"
