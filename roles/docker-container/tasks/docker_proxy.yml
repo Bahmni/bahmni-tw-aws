@@ -10,7 +10,7 @@
             acl {{ container_name }} req.ssl_sni -i {{ container_name }}.mybahmni.org
             use_backend {{container_name}} if {{container_name }}
             acl {{ container_name }}_erp req.ssl_sni -i erp-{{ container_name }}.mybahmni.org
-            use_backend {{container_name}}_erp if {{ container_name }}_erp
+            use_backend {{container_name}} if {{ container_name }}_erp
 
 - name: insert backend configuration in haproxy config
   sudo: yes
@@ -24,9 +24,6 @@
        mode tcp
        option ssl-hello-chk
        server {{ container_name }} {{ docker_instance_IP }}:{{ https_port }} check
-       backend {{ container_name }}_erp
-       mode tcp
-       server {{ container_name }} {{ docker_instance_IP }}:{{ erp_port}}
 
 - name: Restart haproxy
   sudo: yes
