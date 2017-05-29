@@ -10,5 +10,4 @@
     - docker_instance_IP: "{{ docker_host }}"
     - container_name: "{{ container_name }}"
     - https_port: "{{ https_port }}"
-    - erp_port: "{{ erp_port }}"
   tags: add-proxy-config
