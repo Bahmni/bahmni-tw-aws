@@ -14,7 +14,7 @@ if sudo docker ps | awk -v container_name="${container_name}" 'NR>1{($(NF) == co
    sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
 fi
 if ! sudo docker volume ls -q --filter name="${container_name}"| grep -q "${container_name}" ; then
-        sudo docker volume create ${container_name}
+        sudo docker volume create --name ${container_name}
 else
         echo "Volume ${container_name} exists"
 fi
