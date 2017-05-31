@@ -23,4 +23,4 @@ RUN chmod +x /opt/db_service.sh
 # RUN git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt
 # WORKDIR "/opt/letsencrypt"
 # RUN ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv
-ENTRYPOINT ["./opt/db_service.sh"]
+ENTRYPOINT sudo ./opt/db_service.sh
