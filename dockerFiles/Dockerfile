@@ -18,9 +18,9 @@ RUN yum install -y http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-cento
 RUN yum install -y yum install -y ftp://195.220.108.108/linux/Mandriva/devel/cooker/x86_64/media/contrib/release/mx-1.4.5-1-mdv2012.0.x86_64.rpm
 RUN echo -e "selinux_state: disabled \npostgres_version: 9.2 \ntimezone: Asia/Kolkata \nimplementation_name: default \nbahmni_support_group: bahmni_support \nbahmni_support_user: bahmni_support \nbahmni_password_hash: $1$IW4OvlrH$Kui/55oif8W3VZIrnX6jL1 \nbahmni_repo_url: http://repo.mybahmni.org/rpm/bahmni/ \nopenerp_url: https://erp-$container_name.mybahmni.org \ndocker: yes " > /etc/bahmni-installer/setup.yml
 RUN bahmni -ilocal install
-COPY db_service.sh /tmp/db_service.sh
-RUN chmod +x /tmp/db_service.sh
+ADD db_service.sh /tmp/db_service.sh
+RUN chmod a+x /tmp/db_service.sh
 # RUN git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt
 # WORKDIR "/opt/letsencrypt"
 # RUN ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv
-ENTRYPOINT ["/tmp/db_service.sh"]
+ENTRYPOINT /tmp/db_service.sh ; bahmni -ilocal start ; service bahmni-lab restart ; /bin/bash
