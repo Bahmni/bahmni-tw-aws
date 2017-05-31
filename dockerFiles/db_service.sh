@@ -1,16 +1,14 @@
 #!/bin/bash
 set -e
 
-ps cax | grep mysqld > /dev/null
-if [ $? -eq 0 ]; then
-  echo "mysqld service exists"
-  sudo service mysqld start
+if (( $(ps -ef | grep -v grep | grep mysqld | wc -l) > 0 ))
+then
+echo "mysqld is running"
 else
-  echo "mysqld service not exists"
+sudo service mysqld start
 fi
 
 sudo service postgresql-9.2 status
-
 if [ "$?" -gt "0" ]; then
   echo "Not installed".
 else
