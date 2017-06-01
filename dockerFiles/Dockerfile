@@ -24,3 +24,4 @@ RUN chmod a+x /tmp/db_service.sh
 # WORKDIR "/opt/letsencrypt"
 # RUN ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv
 ENTRYPOINT /tmp/db_service.sh ; bahmni -ilocal start ; service bahmni-lab restart ; /bin/bash
+CMD ["export $container_name"]
