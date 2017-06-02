@@ -6,7 +6,7 @@ sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
 if [ "${imgs}" != "" ]; then
-   sudo docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi
+   sudo docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi -f
 else
    echo "No images to remove"
 fi
