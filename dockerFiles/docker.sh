@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
+imgs=$(docker images | awk '/<none>/ { print $3 }')
 container_name=$container_name
 sudo yum install -y docker
 sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
 if [ "${imgs}" != "" ]; then
-   sudo docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi -f
+   sudo docker rmi -f ${imgs}
 else
    echo "No images to remove"
 fi
