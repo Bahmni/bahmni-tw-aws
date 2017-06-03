@@ -9,13 +9,14 @@ sudo docker login -u $hub_username -p $hub_password
 
 if sudo docker ps | awk -v container_name="${container_name}" 'NR>1{($(NF) == container_name)}'; then
    sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
+   sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
 fi
 
-if [ "${image}" != "" ]; then
-   sudo docker rmi -f ${image}
-else
-   echo "No images to remove"
-fi
+#if [ "${image}" != "" ]; then
+#   sudo docker rmi -f ${image}
+#else
+#   echo "No images to remove"
+#fi
 
 if ! sudo docker volume ls -q --filter name="${container_name}"| grep -q "${container_name}" ; then
         sudo docker volume create --name ${container_name}
