@@ -4,8 +4,6 @@ ARG inventory_name
 ARG aws_access_key
 ARG aws_secret_key
 ARG container_name
-chain="/etc/bahmni-certs/chained.pem"
-target_path="/etc/bahmni-certs/localhost.crt"
 VOLUME ["/$container_name"]
 RUN echo -e "[bahmni] \nname=Bahmni development repository for RHEL/CentOS 6\nbaseurl=http://repo.mybahmni.org.s3-website-ap-southeast-1.amazonaws.com/rpm/bahmni/\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/bahmni.repo
 RUN yum -y --enablerepo=extras install epel-release
@@ -23,7 +21,7 @@ RUN yum install -y yum install -y ftp://195.220.108.108/linux/Mandriva/devel/coo
 RUN echo -e "selinux_state: disabled \npostgres_version: 9.2 \ntimezone: Asia/Kolkata \nimplementation_name: default \nbahmni_support_group: bahmni_support \nbahmni_support_user: bahmni_support \nbahmni_password_hash: $1$IW4OvlrH$Kui/55oif8W3VZIrnX6jL1 \nbahmni_repo_url: http://repo.mybahmni.org/rpm/bahmni/ \nopenerp_url: https://erp-$container_name.mybahmni.org \ndocker: yes " > /etc/bahmni-installer/setup.yml
 RUN sed -i "1,100 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/dcm4chee-oracle-java/tasks/main.yml
 RUN bahmni -ilocal install
-RUN if [ -f "$target_path" ] then
+RUN if [ -f "/etc/bahmni-certs/localhost.crt" ] then
     sudo rm -rf /etc/bahmni-certs/*
     sudo mkdir -p /opt/letsencrypt
     sudo git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt
