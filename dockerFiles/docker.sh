@@ -7,12 +7,12 @@ sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
 
-if sudo docker ps | awk -v container_name="${container_name}" 'NR>1{($(NF) == container_name)}'; then
-   sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
-   sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
-else
-  echo "Contianer not exists"
-fi
+#if sudo docker ps | awk -v container_name="${container_name}" 'NR>1{($(NF) == container_name)}'; then
+#   sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
+#   sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
+#else
+#  echo "Contianer not exists"
+#fi
 
 #if [ "${image}" != "" ]; then
 #   sudo docker rmi -f ${image}
