@@ -13,18 +13,10 @@ if sudo docker ps | grep -q ${container_name}; then
 else
   echo "Contianer not exists"
 fi
-
-#if [ "${image}" != "" ]; then
-#   sudo docker rmi -f ${image}
-#else
-#   echo "No images to remove"
-#fi
-
 if ! sudo docker volume ls -q --filter name="${container_name}"| grep -q "${container_name}" ; then
         sudo docker volume create --name ${container_name}
 else
         echo "Volume ${container_name} exists"
 fi
-
 sudo docker build --rm -t senthilrajar/bahmni_centos:${container_name} --build-arg rpm_version=${rpm_version} --build-arg inventory_name=${inventory_name} --build-arg aws_secret_key=${aws_secret_key} --build-arg container_name=${container_name} --build-arg aws_access_key=${aws_access_key} .
 sudo docker run -e container_name=${container_name} -it -d -p ${https_port}:443 --privileged --name $container_name -v $container_name:/$container_name senthilrajar/bahmni_centos:${container_name} /bin/bash
