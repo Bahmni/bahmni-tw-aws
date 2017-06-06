@@ -31,7 +31,7 @@ RUN if [[ -f "/${container_name}/letsencrypt/cert.crt" && -f "/${container_name}
     ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key; \
 else \
 	echo "inside else" ;\
-	unlink /etc/bahmni-certs/cert.cert  ;\
+	unlink /etc/bahmni-certs/cert.crt  ;\
 	unlink /etc/bahmni-certs/chained.pem  ;\
 	unlink /etc/bahmni-certs/domain.key ;\
 	sudo rm -rf /opt/letsencrypt ;\
@@ -41,7 +41,7 @@ else \
     ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv ;\
     mkdir -p /${container_name}/letsencrypt ;\
     sudo cp -R /etc/letsencrypt-certs/* /${container_name}/letsencrypt/ ;\
-    ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert ;\
+    ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert.crt ;\
     ln -s /${container_name}/letsencrypt/chained.pem /etc/bahmni-certs/chained.pem ;\
     ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key ;\
 fi 
