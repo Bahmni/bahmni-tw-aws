@@ -23,7 +23,7 @@ RUN sed -i "1,100 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/dcm4chee-
 RUN bahmni -ilocal install
 RUN if [[ -f "/${container_name}/letsencrypt/cert.crt" && -f "/${container_name}/letsencrypt/chained.pem" && -f "/${container_name}/letsencrypt/domain.key" ]] && openssl x509 -checkend 86400 -noout -in "/${container_name}/letsencrypt/chained.pem" ; then \
 	echo "inside if" ;\
-	rm -rf /etc/bahmni-certs/cert.crt ; \
+	rm -rf /etc/bahmni-certs/* ; \
 #	unlink /etc/bahmni-certs/cert.crt ; \
 #    	unlink /etc/bahmni-certs/chained.pem; \
 #    	unlink /etc/bahmni-certs/domain.key; \
@@ -32,7 +32,7 @@ RUN if [[ -f "/${container_name}/letsencrypt/cert.crt" && -f "/${container_name}
     ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key; \
 else \
 	echo "inside else" ;\
-	rm -rf /etc/bahmni-certs/cert.crt ; \
+	rm -rf /etc/bahmni-certs/* ; \
 # 	unlink /etc/bahmni-certs/cert.crt  ;\
 # 	unlink /etc/bahmni-certs/chained.pem  ;\
 # 	unlink /etc/bahmni-certs/domain.key ;\
