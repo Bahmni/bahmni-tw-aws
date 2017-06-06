@@ -8,7 +8,7 @@ sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
 
 if sudo docker ps | grep -q ${container_name}; then
-   sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
+   sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}" && docker rm $(docker ps -a -f status=exited -q)
    sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
 else
   echo "Contianer not exists"
