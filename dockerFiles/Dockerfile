@@ -23,7 +23,7 @@ RUN sed -i "1,100 s/^/#/" /opt/bahmni-installer/bahmni-playbooks/roles/dcm4chee-
 RUN bahmni -ilocal install
 RUN if [[ -f "/${container_name}/letsencrypt/cert.crt" && -f "/${container_name}/letsencrypt/chained.pem" && -f "/${container_name}/letsencrypt/domain.key" ]] && openssl x509 -checkend 86400 -noout -in "/${container_name}/letsencrypt/chained.pem" ; then \
 	echo "inside if" ;\
- 	unlink /etc/bahmni-certs/cert.cert ; \
+ 	unlink /etc/bahmni-certs/cert.crt ; \
    	unlink /etc/bahmni-certs/chained.pem; \
    	unlink /etc/bahmni-certs/domain.key; \
     ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert; \
@@ -47,7 +47,4 @@ else \
 fi 
 ADD db_service.sh /tmp/db_service.sh
 RUN chmod a+x /tmp/db_service.sh
-#RUN git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt
-#WORKDIR "/opt/letsencrypt"
-#RUN ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv
 ENTRYPOINT /tmp/db_service.sh ; bahmni -ilocal start ; service bahmni-lab restart ; /bin/bash
