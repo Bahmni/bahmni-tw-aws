@@ -36,7 +36,7 @@ else \
 	sudo mkdir -p /opt/letsencrypt \
     sudo git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt \
     cd "/opt/letsencrypt" \
- #   ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv \
+    ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv \
     mkdir -p /${container_name}/letsencrypt \
     sudo cp -R /etc/letsencrypt-certs/* /${container_name}/letsencrypt/ \
     ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert \
