@@ -41,7 +41,7 @@ else \
     sudo cp -R /etc/letsencrypt-certs/* /${container_name}/letsencrypt/ \
     ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert \
     ln -s /${container_name}/letsencrypt/chained.pem /etc/bahmni-certs/chained.pem \
-    ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key \
+    ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key; \
 fi 
 ADD db_service.sh /tmp/db_service.sh
 RUN chmod a+x /tmp/db_service.sh
