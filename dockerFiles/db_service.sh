@@ -31,3 +31,4 @@ if [ -d /home/bahmni ]; then
 else
    echo "Directory /home/bahmni does not exists."
 fi
+sudo mv /etc/letsencrypt-certs /${container_name}/ ;\
