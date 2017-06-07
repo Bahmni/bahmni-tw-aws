@@ -27,9 +27,9 @@ RUN if [[ -f "/${container_name}/letsencrypt/cert.crt" && -f "/${container_name}
 #    	unlink /etc/bahmni-certs/chained.pem;\
 #    	unlink /etc/bahmni-certs/domain.key;\
     rm -rf /etc/bahmni-certs/* ;\
-    ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert;\
-    ln -s /${container_name}/letsencrypt/chained.pem /etc/bahmni-certs/chained.pem;\
-    ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key;\
+    ln -s /${container_name}/letsencrypt-certs/cert.crt /etc/bahmni-certs/cert;\
+    ln -s /${container_name}/letsencrypt-certs/chained.pem /etc/bahmni-certs/chained.pem;\
+    ln -s /${container_name}/letsencrypt-certs/domain.key /etc/bahmni-certs/domain.key;\
 else \
 	echo "inside else" ;\
 # 	unlink /etc/bahmni-certs/cert.crt  ;\
@@ -37,16 +37,16 @@ else \
 # 	unlink /etc/bahmni-certs/domain.key ;\
 	sudo rm -rf /opt/letsencrypt ;\
 	sudo mkdir -p /opt/letsencrypt ;\
-	sudo mkdir -p /${container_name}/letsencrypt ;\
+#	sudo mkdir -p /${container_name}/letsencrypt ;\
     sudo git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt ;\
     cd "/opt/letsencrypt" ;\
     ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv ;\
 #    mkdir -p /${container_name}/letsencrypt ;\
-    sudo cp /etc/letsencrypt-certs/* /${container_name}/letsencrypt/ ;\
+    sudo cp -R /etc/letsencrypt-certs /${container_name}/ ;\
     rm -rf /etc/bahmni-certs/* ;\
-    sudo ln -s /${container_name}/letsencrypt/cert.crt /etc/bahmni-certs/cert.crt ;\
-    sudo ln -s /${container_name}/letsencrypt/chained.pem /etc/bahmni-certs/chained.pem ;\
-    sudo ln -s /${container_name}/letsencrypt/domain.key /etc/bahmni-certs/domain.key ;\
+    sudo ln -s /${container_name}/letsencrypt-certs/cert.crt /etc/bahmni-certs/cert.crt ;\
+    sudo ln -s /${container_name}/letsencrypt-certs/chained.pem /etc/bahmni-certs/chained.pem ;\
+    sudo ln -s /${container_name}/letsencrypt-certs/domain.key /etc/bahmni-certs/domain.key ;\
 fi 
 ADD db_service.sh /tmp/db_service.sh
 RUN chmod a+x /tmp/db_service.sh
