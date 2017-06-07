@@ -43,6 +43,8 @@ else \
     ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv ;\
 #    mkdir -p /${container_name}/letsencrypt ;\
     sudo cp -R /etc/letsencrypt-certs /${container_name}/ ;\
+    echo $? ; \
+    echo ${container_name} ; \
     rm -rf /etc/bahmni-certs/* ;\
     sudo ln -s /${container_name}/letsencrypt-certs/cert.crt /etc/bahmni-certs/cert.crt ;\
     sudo ln -s /${container_name}/letsencrypt-certs/chained.pem /etc/bahmni-certs/chained.pem ;\
