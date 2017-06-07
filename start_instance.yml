@@ -15,3 +15,4 @@
     - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
     - "configs/bahmni_assets.yml"
+   - "configs/docker_host.yml"

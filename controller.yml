@@ -29,6 +29,7 @@
     - "configs/bahmni_showcase.yml"
     - "configs/connect_genymotion.yml"
     - "configs/controller.yml"
+    - "configs/docker_host.yml"
   tags:
     - crontab_schedule
 
@@ -58,4 +59,5 @@
     - "configs/bahmni_showcase.yml"
     - "configs/connect_genymotion.yml"
     - "configs/controller.yml"
+   - "configs/docker_host.yml"
   tags: spacewalk_server
