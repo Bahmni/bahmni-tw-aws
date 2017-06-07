@@ -37,7 +37,7 @@ else \
 # 	unlink /etc/bahmni-certs/chained.pem  ;\
 # 	unlink /etc/bahmni-certs/domain.key ;\
 	sudo rm -rf /opt/letsencrypt ;\
-	sudo mkdir -p /opt/letsencrypt
+	sudo mkdir -p /opt/letsencrypt ;\
     sudo git clone https://github.com/Bahmni/letsencrypt.git /opt/letsencrypt ;\
     cd "/opt/letsencrypt" ;\
     ansible-playbook -i infra_inventory letsencrypt.yml --extra-vars="aws_access_key=$aws_access_key" --extra-vars="aws_secret_key=$aws_secret_key" --extra-vars="container_name=$container_name" -vvv ;\
