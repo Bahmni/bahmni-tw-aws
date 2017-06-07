@@ -13,4 +13,5 @@
     - "configs/public_proxy.yml"
     - "configs/bahmni_qa.yml"
     - "configs/instances.yml"
+    - "configs/docker_host.yml"
 

@@ -21,6 +21,8 @@
     - "configs/bahmni_showcase.yml"
     - "configs/connect_genymotion.yml"
     - "configs/controller.yml"
+    - "configs/docker_host.yml"
+
   tags:
     - start_instance
 
@@ -47,5 +49,6 @@
     - "configs/bahmni_showcase.yml"
     - "configs/connect_genymotion.yml"
     - "configs/controller.yml"
+    - "configs/docker_host.yml"
   tags:
     - stop_instance

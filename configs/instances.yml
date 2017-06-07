@@ -1,4 +1,5 @@
 ec2_instances:
+  - { hostname: docker-agent01, spec: "{{ docker_host_env_spec }}" }
   - { hostname: bastion, spec: "{{ bastion_spec }}", autostop: disabled}
   - { hostname: tw_proxy, spec: "{{ tw_proxy_spec }}", autostop: disabled}
   - { hostname: public_proxy, spec: "{{ public_proxy_spec}}", autostop: disabled }
@@ -15,4 +16,3 @@ ec2_instances:
   - { hostname: controller, spec: "{{ assets_env_spec }}", autostop: disabled }
   - { hostname: banyan01, spec: "{{ showcase_env_spec }}" }
   - { hostname: jss-showcase01, spec: "{{ showcase_env_spec }}" }
-  - { hostname: docker-agent01, spec: "{{ docker_host_env_spec }}" }
