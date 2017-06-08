@@ -6,6 +6,7 @@ sudo yum install -y docker
 sudo chkconfig docker on
 sudo service docker start
 sudo docker login -u $hub_username -p $hub_password
+sudo semanage port --add --type http_port_t --proto tcp $https_port
 
 if sudo docker ps | grep -q ${container_name}; then
    sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}" && docker rm $(docker ps -a -f status=exited -q)
