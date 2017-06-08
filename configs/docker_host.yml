@@ -5,7 +5,7 @@ docker_host_env_spec:
    InstanceType: t2.xlarge
    SecurityGroups:
      - "{{ SecurityGroupIds.bahmni }}"
-   AmiId: "{{ available_amis.hardened_ami }}"
+   AmiId: "{{ available_amis.docker_host_ami }}"
    SubnetId: "{{ SubnetIds.qa }}"
    AssignPublicIp: no
    InstanceVolumes:
