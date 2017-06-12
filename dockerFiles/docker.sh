@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-image=$(docker images | awk '/<none>/ { print $3 }')
 container_name=$container_name
 sudo yum install -y docker
 sudo chkconfig docker on
@@ -16,11 +15,17 @@ fi
 if sudo docker ps | grep -q ${container_name}; then
    sudo docker stop "${container_name}"
    sudo docker rm -f "${container_name}"
-   sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
    sudo docker rm $(docker ps -a -f status=exited -q)
 else
   echo "Container not exists"
 fi
+
+if sudo docker images | grep -q ${container_name}; then
+   sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
+else
+  echo "Image doesn't exists"
+fi
+
 if ! sudo docker volume ls -q --filter name="${container_name}"| grep -q "${container_name}" ; then
         sudo docker volume create --name ${container_name}
 else
