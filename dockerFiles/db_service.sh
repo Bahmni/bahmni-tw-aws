@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 container_name=$container_name
-sudo mv /etc/letsencrypt-certs /${container_name}/
+sudo mv rsync -abv --remove-source-files  /etc/letsencrypt-certs /${container_name}/
 if [ -f /etc/my.cnf ]; then
     sudo mkdir -p /${container_name}/mysql && sudo chown -R mysql:mysql /${container_name}/mysql
     sudo sed -i "s|datadir=/var/lib/mysql|datadir=/${container_name}/mysql|g" /etc/my.cnf
