@@ -14,9 +14,12 @@ if sudo semanage port -l |grep ${https_port}; then
 fi
 
 if sudo docker ps | grep -q ${container_name}; then
-   sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}" && sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}') && sudo docker rm $(docker ps -a -f status=exited -q)
+   sudo docker stop "${container_name}"
+   sudo docker rm -f "${container_name}"
+   sudo docker rmi $(docker images | grep ${container_name} | awk '{print $3}')
+   sudo docker rm $(docker ps -a -f status=exited -q)
 else
-  echo "Contianer not exists"
+  echo "Container not exists"
 fi
 if ! sudo docker volume ls -q --filter name="${container_name}"| grep -q "${container_name}" ; then
         sudo docker volume create --name ${container_name}
