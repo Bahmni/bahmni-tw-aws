@@ -9,7 +9,7 @@ sudo docker login -u $hub_username -p $hub_password
 if sudo semanage port -l |grep ${https_port}; then
    echo "Port already defined"
   else
-	semanage port --add --type http_port_t --proto tcp ${https_port}
+  sudo semanage port --add --type http_port_t --proto tcp ${https_port}
 fi
 
 if sudo docker ps | grep -q ${container_name}; then
