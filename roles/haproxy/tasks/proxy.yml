@@ -59,6 +59,12 @@
   delegate_to: "{{ item.tags.Name }}"
   with_items: "{{ proxy_instances.instances }}"
 
+- name: Set Selinux to allow outbound access
+  seport: ports=9050-9099 proto=tcp setype=http_port_t state=present
+  become: yes
+  delegate_to: "{{ item.tags.Name }}"
+  with_items: "{{ proxy_instances.instances }}"
+
 - ec2_remote_facts:
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
