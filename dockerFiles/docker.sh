@@ -19,7 +19,7 @@ else
 fi
 
 if sudo docker images | grep ${container_name}; then
-   sudo docker images | grep ${container_name} | sudo xargs docker rmi -f
+   sudo docker images | grep ${container_name} | sudo xargs docker rmi
 else
   echo "Image doesn't exists"
 fi
