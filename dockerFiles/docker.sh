@@ -13,14 +13,15 @@ if sudo semanage port -l |grep ${https_port}; then
 fi
 
 if sudo docker ps | grep ${container_name}; then
-   sudo docker stop "${container_name}" && sudo docker rm -f "${container_name}"
+   sudo docker stop "${container_name}"
+   sudo docker rm -f "${container_name}"
 else
   echo "Container not exists"
 fi
 
 if sudo docker images | grep ${container_name}; then
-   sudo docker images | grep ${container_name} | awk '{print $1}' | xargs docker rm
-#   sudo docker rmi (docker images | grep ${container_name} | awk '{print $3}')
+   sudo docker images | grep -w ${container_name} | xargs docker rmi
+
 else
   echo "Image doesn't exists"
 fi
