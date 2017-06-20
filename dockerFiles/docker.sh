@@ -19,7 +19,8 @@ else
 fi
 
 if sudo docker images | grep ${container_name}; then
-   sudo docker rmi (docker images | grep ${container_name} | awk '{print $3}')
+   sudo docker images | grep ${container_name} | awk '{print $1}' | xargs docker rm
+#   sudo docker rmi (docker images | grep ${container_name} | awk '{print $3}')
 else
   echo "Image doesn't exists"
 fi
