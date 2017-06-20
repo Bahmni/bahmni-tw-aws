@@ -13,7 +13,7 @@ if sudo semanage port -l |grep ${https_port}; then
 fi
 
 if sudo docker ps | grep ${container_name}; then
-   sudo docker stop "${container_name}" | xargs docker rm
+   sudo docker stop "${container_name}" | sudo xargs docker rm
 else
   echo "Container not exists"
 fi
