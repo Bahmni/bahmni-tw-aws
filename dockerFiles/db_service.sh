@@ -30,3 +30,10 @@ if [ -d /home/bahmni ]; then
 else
    echo "Directory /home/bahmni does not exists."
 fi
+
+if [ -f /etc/openerp/openerp-server.conf ]; then
+    sudo rm -rf /var/run/openerp/openerp-server.pid
+    sudo service openerp restart
+else
+   echo "Openerp not installed."
+fi
