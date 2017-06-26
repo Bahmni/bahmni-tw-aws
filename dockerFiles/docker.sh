@@ -26,7 +26,7 @@ fi
 
 if sudo docker images | grep ${container_name}; then
 #   sudo docker images | grep ${container_name} | sudo xargs docker rmi
-docker rmi $(docker images | grep ${container_name} | tr -s ' ' | cut -d ' ' -f 3)
+    sudo docker rmi $(docker images | grep ${container_name} | tr -s ' ' | cut -d ' ' -f 3)
 else
   echo "Image doesn't exists"
 fi
