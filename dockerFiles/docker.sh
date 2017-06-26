@@ -18,6 +18,12 @@ else
   echo "Container not exists"
 fi
 
+if sudo docker ps | grep ${container_name}; then
+   sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
+else
+  echo "Exit container not present"
+fi
+
 if sudo docker images | grep ${container_name}; then
    sudo docker images | grep ${container_name} | sudo xargs docker rmi
 else
