@@ -89,7 +89,7 @@
   with_items: "{{ letsencrypt_data['challenge_data'] }}"
 
 - name: Wait for 10 seconds for the configuration to take effect
-  pause: seconds=10
+  pause: seconds=30
 
 - name: receive signed certificate from LetsEncrypt
   letsencrypt:
