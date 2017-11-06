@@ -6,8 +6,8 @@
     region:           "{{ aws_region }}"
     filters:
       instance-state-name: running
-      'tag:type': "private"
-  register: private_proxy
+      'tag:type': "public"
+  register: public_proxy
 
 - name: Retrieve public hosted zone details
   environment:
@@ -18,7 +18,7 @@
 
 - set_fact: public_hosted_zone_fact={{public_hosted_zone.stdout |from_json }}
 
-- name: A record alias for tw proxy
+- name: A record alias for public proxy
   route53:
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"
@@ -27,12 +27,12 @@
     record: "{{ container_name }}.{{ PublicHostedZone }}"
     type: A
     ttl: 300
-    value: "{{ private_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    value: "{{ public_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
     alias: True
     alias_hosted_zone_id: "{{ public_hosted_zone_fact.HostedZones.0.Id |replace('/hostedzone/', '')}}"
     overwrite: true
 
-- name: A record alias for erp app private proxy
+- name: A record alias for erp app public proxy
   route53:
     aws_access_key:   "{{ aws_access_key }}"
     aws_secret_key:   "{{ aws_secret_key }}"
@@ -41,7 +41,7 @@
     record: "erp-{{ container_name }}.{{ PublicHostedZone }}"
     type: A
     ttl: 300
-    value: "{{ private_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
+    value: "{{ public_proxy.instances.0.tags.Name }}.{{ PublicHostedZone }}"
     alias: True
     alias_hosted_zone_id: "{{ public_hosted_zone_fact.HostedZones.0.Id | replace('/hostedzone/', '')}}"
     overwrite: true
