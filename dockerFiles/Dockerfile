@@ -13,7 +13,7 @@ RUN yum install -y sudo openssh-server openssh-clients tar wget yum-plugin-ovl  
 RUN pip install awscli
 RUN pip install boto
 RUN echo $rpm_version
-RUN pip install docutils==0.6
+RUN pip uninstall docutils
 RUN yum install -y bahmni-installer-$rpm_version-* ; yum clean all
 RUN wget -O /etc/bahmni-installer/local https://raw.githubusercontent.com/Bahmni/bahmni-tw-playbooks/master/inventories/$inventory_name
 RUN wget https://mirror.its.sfu.ca/mirror/CentOS-Third-Party/NSG/common/x86_64/jre-7u79-linux-x64.rpm -O /opt/jre-7u79-linux-x64.rpm 
