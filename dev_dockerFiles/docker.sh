@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export container_name=container01
-export rpm_version=0.90*
+export rpm_version=0.90-275
 export inventory_name=aws_qa03
 export https_port=443
 export http_port=80
