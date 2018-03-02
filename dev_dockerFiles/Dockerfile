@@ -9,7 +9,8 @@ RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-
 # RUN yum -y install epel-release
 RUN yum install -y python-pip
 RUN pip install --upgrade pip
-RUN pip install --upgrade setuptools
+# RUN pip install --upgrade setuptools
+RUN yum upgrade python-setuptools
 RUN yum install -y sudo git openssh-server openssh-clients tar wget yum-plugin-ovl  ; yum clean all
 RUN yum install -y bahmni-installer-$rpm_version ; yum clean all
 RUN wget -O /etc/bahmni-installer/local https://raw.githubusercontent.com/Bahmni/bahmni-tw-playbooks/master/inventories/$inventory_name
