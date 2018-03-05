@@ -12,8 +12,7 @@ RUN yum -y install python-pip git
 RUN yum install -y sudo openssh-server openssh-clients tar wget yum-plugin-ovl  ; yum clean all
 RUN pip install awscli
 RUN pip install boto
-RUN wget https://bitbucket.org/pypa/setuptools/raw/0.7.2/ez_setup.py
-RUN python ez_setup.py
+RUN yum upgrade python-setuptools
 RUN echo $rpm_version
 RUN yum install -y bahmni-installer-$rpm_version-* ; yum clean all
 RUN wget -O /etc/bahmni-installer/local https://raw.githubusercontent.com/Bahmni/bahmni-tw-playbooks/master/inventories/$inventory_name
