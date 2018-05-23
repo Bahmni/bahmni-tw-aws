@@ -1,4 +1,4 @@
-FROM bahmni/bahmni-centos69
+FROM bahmni/bahmni_centos67
 ARG rpm_version
 ARG inventory_name
 ARG aws_access_key
