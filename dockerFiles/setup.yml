@@ -1,0 +1,10 @@
+selinux_state: disabled
+postgres_version: 9.2
+timezone: Asia/Kolkata
+implementation_name: default
+bahmni_support_group: bahmni_support
+bahmni_support_user: bahmni_support
+bahmni_password_hash: $1$IW4OvlrH$Kui/55oif8W3VZIrnX6jL1
+bahmni_repo_url: http://repo.mybahmni.org/rpm/bahmni/
+openerp_url: https://erp-$container_name.mybahmni.org
+docker: yes
