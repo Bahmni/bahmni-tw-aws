@@ -13,7 +13,7 @@ RUN echo -e "[bahmni] \nname=Bahmni development repository for RHEL/CentOS 6\nba
     && pip install boto \
     && yum upgrade python-setuptools \
     && yum install -y bahmni-installer-$rpm_version-* \
-    && wget -O /etc/bahmni-installer/local https://raw.githubusercontent.com/Bahmni/bahmni-tw-playbooks/master/inventories/$inventory_name \
+    && wget -O /etc/bahmni-installer/local https://raw.githubusercontent.com/Bahmni/bahmni-tw-playbooks/master/inventory/$inventory_name \
     && wget https://mirror.its.sfu.ca/mirror/CentOS-Third-Party/NSG/common/x86_64/jre-7u79-linux-x64.rpm -O /opt/jre-7u79-linux-x64.rpm \
     && rpm -ivh /opt/jre-7u79-linux-x64.rpm \
     && yum install -y http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-7.noarch.rpm \
