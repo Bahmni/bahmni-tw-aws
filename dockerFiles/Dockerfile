@@ -5,7 +5,7 @@ ARG aws_access_key
 ARG aws_secret_key
 ARG container_name
 VOLUME ["/$container_name"]
-RUN echo -e "[bahmni] \nname=Bahmni development repository for RHEL/CentOS 6\nbaseurl=http://repo.mybahmni.org.s3-website-ap-southeast-1.amazonaws.com/rpm/bahmni/\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/bahmni.repo \
+RUN echo -e "[bahmni] \nname=Bahmni development repository for RHEL/CentOS 6\nbaseurl=http://repo.mybahmni.org/rpm/bahmni/\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/bahmni.repo \
     && rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm \
     && yum -y install epel-release python-pip git \
     && yum install -y sudo openssh-server openssh-clients tar wget yum-plugin-ovl  ; yum clean all \
